@@ -1,8 +1,28 @@
 # BentoBox
 
-BentoBoxはPaperサーバーをアイランドアドベンチャーの遊び場に変えるプラグインです。**SkyBlock**、**AcidIsland**、**OneBlock**、**CaveBlock**、**SkyGrid**、**Boxed**、**Poseidon**、**Stranger Realms**など、複数のゲームモードを同じサーバーで同時に運用でき、それぞれが独自のワールド・ルール・進行を持ちます。プレイヤーは自分だけのアイランドを築き、仲間と協力して建築し、チャレンジをこなし、レベルを上げ、ワープサインで自慢の島を公開できます。
+**スカイブロック・ワンブロック・アシッドアイランド——人気のアイランドゲームが、ひとつに。**
 
-管理者にとっても導入は簡単です。インストール直後から使えるデフォルト設定が用意されており、Bank・Biomes・Border・Challenges・Greenhouses・Level・Limits・Warpsなど豊富なアドオンを組み合わせるだけで、理想のサーバーを構築できます。コーディングは一切不要です。シンプルなSkyBlockサーバーから複数のゲームモードを揃えた大型ハブまで、BentoBoxは柔軟で実績のある基盤として、すでに数千のサーバーで採用されています。
+BentoBoxはPaper向けのアイランド系ゲームモード基盤プラグインです。使いたいゲームモードを選んで`addons`フォルダに入れるだけ——あとはすぐ動きます。フォーク不要、古いコードも不要。Minecraftの新バージョンにも常に追従する、ひとつのプラットフォームで完結します。
+
+## ゲームモード
+
+- **[BSkyBlock](gamemodes/BSkyBlock/)** — 定番スカイブロック。ASkyBlockの正統後継
+- **[AOneBlock](gamemodes/AOneBlock/)** — 1ブロックから始まる、無限の冒険
+- **[AcidIsland](gamemodes/AcidIsland/)** — 酸の海を生き抜け
+- **[Boxed](gamemodes/Boxed/)** — 実績を達成してワールドを切り開く
+- **[CaveBlock](gamemodes/CaveBlock/)** — 岩盤の闇から這い上がるサバイバル
+- **[SkyGrid](gamemodes/SkyGrid/)** — 点在するブロックで繰り広げる、究極の冒険
+- **[Poseidon](gamemodes/Poseidon/)** — 海の底から築くアイランドライフ
+- **[StrangerRealms](gamemodes/StrangerRealms/)** — 逆さまの次元を制せよ
+- その他、コミュニティ製ゲームモードも多数
+
+## 管理者に選ばれる理由
+
+- 🎮 **複数ゲームモードを1サーバーで同時運用** — チャレンジ・ワープ・レベル・リーダーボードはすべてのゲームモードで共有
+- 🔧 **20以上のアドオン** — Bank・Biomes・Challenges・Levelなど、サーバーを思い通りにカスタマイズ
+- 🚀 **常に最新対応** — Minecraftの新バージョンにも素早く追従
+- 💚 **無料・オープンソース** — 世界1,100以上のサーバーで稼働中
+- 👨‍💻 **充実したAPI** — カスタムアドオンを作りたい開発者にも最適
 
 ## BentoBoxを支援する
 
