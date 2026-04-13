@@ -1,0 +1,405 @@
+import csv
+import json
+import logging
+import os
+
+import requests
+import yaml
+
+log = logging.getLogger("mkdocs.macros.translations")
+
+# Friendly names for the locale codes we expect to encounter. Anything not
+# listed here will fall back to its bare locale code as the display name.
+LANGUAGE_NAMES = {
+    "zh-CN": "中国語（中国）",
+    "zh-HK": "中国語（香港）",
+    "zh-TW": "中国語（台湾）",
+    "hr": "クロアチア語",
+    "cs": "チェコ語",
+    "nl": "オランダ語",
+    "fr": "フランス語",
+    "de": "ドイツ語",
+    "hu": "ハンガリー語",
+    "id": "インドネシア語",
+    "it": "イタリア語",
+    "ja": "日本語",
+    "ko": "韓国語",
+    "lv": "ラトビア語",
+    "pl": "ポーランド語",
+    "pt": "ポルトガル語",
+    "pt-BR": "ポルトガル語（ブラジル）",
+    "en-GB": "英語（イギリス）",
+    "es-ES": "スペイン語（スペイン）",
+    "fr-FR": "フランス語（フランス）",
+    "ro": "ルーマニア語",
+    "ru": "ロシア語",
+    "es": "スペイン語",
+    "tr": "トルコ語",
+    "uk": "ウクライナ語",
+    "vi": "ベトナム語",
+}
+
+# Module-level cache so each (repo, branch) is fetched at most once per build,
+# even though several pages may reference the same repo.
+_translations_cache: dict = {}
+
+GITHUB_ORG = "BentoBoxWorld"
+LOCALES_PATH = "src/main/resources/locales"
+ENGLISH_FILE = "en-US.yml"
+
+
+def _gh_session():
+    s = requests.Session()
+    s.headers.update({"Accept": "application/vnd.github+json"})
+    token = os.environ.get("GITHUB_TOKEN")
+    if token:
+        s.headers["Authorization"] = f"token {token}"
+    return s
+
+
+def _flatten_yaml(data, prefix=""):
+    """Flatten a nested YAML mapping into {dotted.key: leaf_value}."""
+    out = {}
+    if isinstance(data, dict):
+        for k, v in data.items():
+            key = f"{prefix}.{k}" if prefix else str(k)
+            out.update(_flatten_yaml(v, key))
+    elif isinstance(data, list):
+        # Treat the whole list as a single leaf — translators usually
+        # translate the list as a unit.
+        out[prefix] = "\n".join(str(x) for x in data)
+    else:
+        out[prefix] = data
+    return out
+
+
+def _is_translated(value, english_value) -> bool:
+    """A key counts as translated if it has a non-empty value."""
+    if value is None:
+        return False
+    if isinstance(value, str) and not value.strip():
+        return False
+    return True
+
+
+def _fetch_translation_status(repo: str, branch: str):
+    """Return a list of dicts: {code, name, url, percent} for every locale
+    file in the repo (excluding en-US.yml). On failure returns None."""
+    cache_key = (repo, branch)
+    if cache_key in _translations_cache:
+        return _translations_cache[cache_key]
+
+    session = _gh_session()
+    api_url = (
+        f"https://api.github.com/repos/{GITHUB_ORG}/{repo}/contents/"
+        f"{LOCALES_PATH}?ref={branch}"
+    )
+    try:
+        r = session.get(api_url, timeout=15)
+        if r.status_code == 404:
+            # The repo has no locales/ directory at all — distinct from a
+            # transient failure so callers can render an accurate message.
+            _translations_cache[cache_key] = "missing"
+            return "missing"
+        if r.status_code != 200:
+            log.warning(
+                "translations(%s): GitHub listing returned %s", repo, r.status_code
+            )
+            _translations_cache[cache_key] = None
+            return None
+        listing = r.json()
+    except Exception as e:  # network errors, JSON errors, etc.
+        log.warning("translations(%s): listing failed: %s", repo, e)
+        _translations_cache[cache_key] = None
+        return None
+
+    yml_files = [
+        item for item in listing
+        if isinstance(item, dict)
+        and item.get("type") == "file"
+        and item.get("name", "").endswith(".yml")
+    ]
+    en_entry = next((f for f in yml_files if f["name"] == ENGLISH_FILE), None)
+    if en_entry is None:
+        log.warning("translations(%s): no %s in repo", repo, ENGLISH_FILE)
+        _translations_cache[cache_key] = None
+        return None
+
+    def _raw(file_entry):
+        url = file_entry.get("download_url")
+        if not url:
+            return None
+        try:
+            rr = session.get(url, timeout=15)
+            if rr.status_code != 200:
+                return None
+            return rr.text
+        except Exception:
+            return None
+
+    en_text = _raw(en_entry)
+    if en_text is None:
+        log.warning("translations(%s): could not fetch %s", repo, ENGLISH_FILE)
+        _translations_cache[cache_key] = None
+        return None
+
+    try:
+        en_flat = _flatten_yaml(yaml.safe_load(en_text) or {})
+    except yaml.YAMLError as e:
+        log.warning("translations(%s): could not parse %s: %s", repo, ENGLISH_FILE, e)
+        _translations_cache[cache_key] = None
+        return None
+
+    total = len([k for k, v in en_flat.items() if v not in (None, "")])
+    if total == 0:
+        total = len(en_flat) or 1
+
+    results = []
+    for entry in yml_files:
+        name = entry["name"]
+        if name == ENGLISH_FILE:
+            continue
+        code = name[:-4]  # strip .yml
+        text = _raw(entry)
+        percent = None
+        if text is not None:
+            try:
+                flat = _flatten_yaml(yaml.safe_load(text) or {})
+                translated = sum(
+                    1 for k, en_v in en_flat.items()
+                    if _is_translated(flat.get(k), en_v)
+                )
+                percent = round(translated * 100 / total)
+            except yaml.YAMLError as e:
+                log.warning("translations(%s): could not parse %s: %s", repo, name, e)
+        results.append({
+            "code": code,
+            "name": LANGUAGE_NAMES.get(code, code),
+            "url": (
+                f"https://github.com/{GITHUB_ORG}/{repo}/blob/{branch}/"
+                f"{LOCALES_PATH}/{name}"
+            ),
+            "percent": percent,
+        })
+
+    # Sort by display name for stable, readable output.
+    results.sort(key=lambda x: x["name"].lower())
+    _translations_cache[cache_key] = results
+    return results
+
+
+def define_env(env):
+
+    @env.macro
+    def translations(repo: str, branch: str = "develop"):
+        intro = (
+            '!!! note "翻訳の改善にご協力ください"\n'
+            "    BentoBoxとその拡張機能のほとんどの翻訳はAIの助けを借りて\n"
+            "    生成されているため、作業の大部分はすでに完了しています —\n"
+            "    ただし**AIは完璧ではありません**。コミュニティに本当に必要なのは、\n"
+            "    **エラーの報告と修正**です。\n"
+            "\n"
+            "    * 誤りや不自然な表現を見つけた場合は、\n"
+            "    [bentobox.world](https://bentobox.world)（GitHubオーガニゼーションへの\n"
+            "    ショートリンク）からissueまたはPRを開くか、\n"
+            "    [Discord](https://discord.bentobox.world)でご連絡ください。\n"
+            "    * 新しい言語を追加したい場合は、該当リポジトリの\n"
+            "    `src/main/resources/locales/`に新しいロケールファイルを追加する\n"
+            "    PRを開くか、Discordでご相談ください。\n"
+            "\n"
+        )
+
+        en_url = (
+            f"https://github.com/{GITHUB_ORG}/{repo}/blob/{branch}/"
+            f"{LOCALES_PATH}/{ENGLISH_FILE}"
+        )
+        header = (
+            "| 言語 | 言語コード | 進捗 |\n"
+            "| ---------- | --- | ----------- |\n"
+            f"| [英語（アメリカ）]({en_url}) | `en-US` | 100%（デフォルト） |\n"
+        )
+
+        rows = _fetch_translation_status(repo, branch)
+        if rows == "missing":
+            note = (
+                f"\n_このプロジェクトにはまだ翻訳可能なロケールファイルがありません。"
+                f"現在は英語のみ提供されています。_\n"
+            )
+            return intro + header + note
+        if rows is None:
+            locales_url = (
+                f"https://github.com/{GITHUB_ORG}/{repo}/tree/{branch}/"
+                f"{LOCALES_PATH}"
+            )
+            fallback = (
+                f"\n_翻訳の状況は現在利用できません。"
+                f"ロケールファイルは"
+                f"[GitHub]({locales_url})で直接参照できます。_\n"
+            )
+            return intro + header + fallback
+
+        body = ""
+        for row in rows:
+            pct = f"{row['percent']}%" if row["percent"] is not None else "?"
+            body += (
+                f"| [{row['name']}]({row['url']}) | `{row['code']}` | {pct} |\n"
+            )
+        return intro + header + body
+
+    @env.macro
+    def addon_description(addon_name:str, beta:bool=False):
+        result = ""
+
+        if beta:
+            result += f"""!!! warning
+    **{addon_name}** is currently in **Beta**.\n
+    Keep in mind that **you are more likely to encounter bugs** and **some features might not be stable**.\n\n"""
+
+        result += f"""!!! info "Useful links"
+    - [GitHub repository](https://github.com/BentoBoxWorld/{addon_name})
+    ([Releases](https://github.com/BentoBoxWorld/{addon_name}/releases))
+    - [Issue tracker](https://github.com/BentoBoxWorld/{addon_name}/issues)
+    - [Development builds](https://ci.codemc.io/job/BentoBoxWorld/job/{addon_name})
+    ([Latest stable build](https://ci.codemc.io/job/BentoBoxWorld/job/{addon_name}/lastStableBuild/))"""
+
+        return result
+
+    @env.macro
+    def placeholders_bundle(gamemode_name:str):
+        result = ""
+        source = ""
+
+        # Let's read the csv file
+        with open('data/placeholders.csv', newline='') as csvfile:
+            reader = csv.DictReader(csvfile)
+            for row in reader:
+                # Analyze the source
+                if (row['source'] != source):
+                    if ("[gamemode]" in row['placeholder'] or gamemode_name in row['placeholder']):
+                        # We are in a new "source" so we have to put the header
+                        source = row['source']
+                        result += f"""\n## {source} placeholders
+
+| Placeholder | Description | {source} version
+| ---------- | ---------- | ---------- |
+"""
+
+                if ("[gamemode]" in row['placeholder'] or gamemode_name in row['placeholder']):
+                    result += f"| `%{row['placeholder'].replace('[gamemode]',gamemode_name)}%` | {row['desc']} | {row['version']} |\n"
+
+        return result
+
+    # Adds placeholder table to the addon pages.
+    @env.macro
+    def placeholders_source(source:str):
+        result = f"""!!! tip "Tip"\n
+    `[gamemode]` is a prefix that differs depending on the gamemode you are running.\n
+    The prefix is the lowercased name of the gamemode, i.e. if you are using BSkyBlock, the prefix is `bskyblock`.\n\n
+    Properly translated placeholders for each gamemode can be found:\n
+    - [AcidIsland](/en/latest/gamemodes/AcidIsland/Placeholders)
+    - [AOneBlock](/en/latest/gamemodes/AOneBlock/Placeholders)
+    - [Boxed](/en/latest/gamemodes/Boxed/Placeholders)
+    - [BSkyBlock](/en/latest/gamemodes/BSkyBlock/Placeholders)
+    - [CaveBlock](/en/latest/gamemodes/CaveBlock/Placeholders)
+    - [SkyGrid](/en/latest/gamemodes/SkyGrid/Placeholders).\n
+    Please read the main [Placeholders page](/en/latest/BentoBox/Placeholders).\n\n"""
+
+        result += f"""\n
+
+| Placeholder | Description | {source} version
+| ---------- | ---------- | ---------- |
+"""
+
+        # Let's read the csv file
+        with open('data/placeholders.csv', newline='') as csvfile:
+            reader = csv.DictReader(csvfile)
+            for row in reader:
+                # Analyze the source
+                if (row['source'] == source):
+                    # We are in our plugin, populate rows
+                    result += f"| `%{row['placeholder']}%` | {row['desc']} | {row['version']} |\n"
+
+        return result
+
+
+    # Creates a table of requested flags type.
+    @env.macro
+    def flags_bundle(type:str):
+        result = ""
+        source = ""
+
+        # Let's read the csv file
+        with open('data/flags.csv', newline='') as csvfile:
+            reader = csv.DictReader(csvfile)
+            for row in reader:
+                # Analyze the source
+                if (row['source'] != source):
+                    # We are in a new "source" so we have to put the header
+                    source = row['source']
+
+                    if (row['type'] == type) or (type == "WORLD_DEFAULT_PROTECTION" and row['type'] == "PROTECTION"):
+                        if (type == "PROTECTION"):
+                            result += f"""\n## {source} {type.replace("_", " ").capitalize()} flags
+
+| | Flag ID | Flag | Description | Default | Min Rank | Max Rank |
+| - | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- |
+"""
+                        else:
+                            result += f"""\n## {source} {type.replace("_", " ").capitalize()} flags
+
+| | Flag ID | Flag | Description | Default |
+| - | ---------- | ---------- | ---------- | ---------- |
+"""
+
+                if (row['type'] == type) or (type == "WORLD_DEFAULT_PROTECTION" and row['type'] == "PROTECTION"):
+                    if (type == "PROTECTION"):
+                        result += f"| <span class='icon-minecraft {icon_css(row['icon'])}'></span> | {row['flag']} | {row['name']} | {row['description']} | {row['default']} | {row['min']} | {row['max']} |\n"
+                    else:
+                        result += f"| <span class='icon-minecraft {icon_css(row['icon'])}'></span> | {row['flag']} | {row['name']} | {row['description']} | {row['default']} |\n"
+
+        return result
+
+
+    # Creates a table of requested flags type.
+    @env.macro
+    def flags_source(source:str, type:str):
+        result = ""
+
+        # Let's read the csv file
+        with open('data/flags.csv', newline='') as csvfile:
+            reader = csv.DictReader(csvfile)
+            for row in reader:
+                # Analyze the source
+                if (row['source'] == source):
+                    # We are in a new "source" so we have to put the header
+
+                    if (row['type'] == type) or (type == "WORLD_DEFAULT_PROTECTION" and row['type'] == "PROTECTION"):
+                        if (type == "PROTECTION"):
+                            result += f"""\n## {source} {type.replace("_", " ").capitalize()} flags
+
+| | Flag ID | Flag | Description | Default | Min Rank | Max Rank |
+| - | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- |
+"""
+
+                            result += f"| <span class='icon-minecraft {icon_css(row['icon'])}'></span> | {row['flag']} | {row['name']} | {row['description']} | {row['default']} | {row['min']} | {row['max']} |\n"
+                        else:
+                            result += f"""\n## {source} {type.replace("_", " ").capitalize()} flags
+
+| | Flag ID | Flag | Description | Default |
+| - | ---------- | ---------- | ---------- | ---------- |
+"""
+                            result += f"| <span class='icon-minecraft {icon_css(row['icon'])}'></span> | {row['flag']} | {row['name']} | {row['description']} | {row['default']} |\n"
+
+        return result
+
+    # Creates a table of requested flags type.
+    @env.macro
+    def icon_css(icon:str):
+        with open("data/minecraft-block-and-entity.json", 'r') as j:
+            contents = json.loads(j.read())
+
+            for entry in contents:
+                if icon.lower() == entry['name']:
+                    return entry['css']
+
+        return ""

@@ -1,0 +1,61 @@
+# TwerkingForTrees
+
+**TwerkingForTrees** はプレイヤーがトワークすることで木を速く育てることができます。
+
+作成・メンテナンス: [tastybento](https://github.com/tastybento)
+
+{{ addon_description("TwerkingForTrees") }}
+
+## インストール
+
+1. アドオンの jar を BentoBox プラグインの addons フォルダに配置します
+2. サーバーを再起動します
+3. アイランドに木を植えます
+4. トワーク、トワーク、トワーク...
+5. 木が育ちます！
+
+## 設定ファイル
+
+```
+# TwerkingForTrees configuration file.
+#
+# How many times the player must twerk before the tree start growing faster.
+# If the player has not twerked enough, then the tree will not grow faster.
+minimum-twerks: 4
+sounds:
+  # Toggle on/off the sounds.
+  enabled: true
+  twerk:
+    # Sound that plays when the player twerked enough for the sapling to start growing faster.
+    # Available sounds are the following:
+    #    https://hub.spigotmc.org/javadocs/spigot/org/bukkit/Sound.html
+    sound: BLOCK_NOTE_BLOCK_BASS
+    volume: 1.0
+    pitch: 2.0
+  growing-small-tree:
+    # Sound that plays when a small tree (1x1) grows.
+    # Available sounds are the following:
+    #    https://hub.spigotmc.org/javadocs/spigot/org/bukkit/Sound.html
+    sound: BLOCK_BUBBLE_COLUMN_UPWARDS_AMBIENT
+    volume: 1.0
+    pitch: 1.0
+  growing-big-tree:
+    # Sound that plays when a big tree (2x2) grows.
+    # Available sounds are the following:
+    #    https://hub.spigotmc.org/javadocs/spigot/org/bukkit/Sound.html
+    sound: BLOCK_BUBBLE_COLUMN_UPWARDS_AMBIENT
+    volume: 1.0
+    pitch: 1.0
+effects:
+  # Toggle on/off the particle effects.
+  enabled: true
+  # Effect that plays each time the player twerks.
+  # Available effects are the following:
+  #    https://hub.spigotmc.org/javadocs/spigot/org/bukkit/Effect.html
+  twerk: MOBSPAWNER_FLAMES
+
+```
+
+## 翻訳
+
+{{ translations("TwerkingForTrees") }}
