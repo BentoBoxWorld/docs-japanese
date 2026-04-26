@@ -181,6 +181,14 @@ Level アドオンには 3 つの一般的な設定があります:
 
     形式: `MATERIAL: NUMBER`
 
+    CraftEngine のカスタムブロックもサポートされています（BentoBox 3.15.0+ が必要）。ネームスペース ID をキーとして使用してください：
+
+    ```yaml
+    blocks:
+      mynamespace:my_block: 50
+      mynamespace:custom_ore: 3
+    ```
+
 ??? note "worlds"
     特定のワールドで異なる価値を持つブロックを記載します。
     ブロックが記載されていない場合は、ブロックセクションのデフォルト値が使用されます。
@@ -424,6 +432,18 @@ BentoBox カスタム GUI の詳細はこちらを参照してください: [カ
     🔡 カスタマイズがある場合は**ロケールファイルを再生成してください** — 古い `&` カラーコードはもはや有効ではありません。
 
     [Release v2.24.0](https://github.com/BentoBoxWorld/Level/releases/tag/2.24.0)
+
+??? note "v2.25.0 の新機能"
+    **リリース日：** 2026-04-26
+
+    - **CraftEngine カスタムブロックサポート。** CraftEngine のブロックがアイランドレベル計算でカウントされるようになりました。ネームスペース ID を使って `blockconfig.yml` に追加してください（例：`mynamespace:my_block: 50`）。BentoBox 3.15.0+ が必要です。`config.yml` の `disabled-plugin-hooks: [CraftEngine]` で無効化できます。
+    - **`hand` キーワードのローカライズ対応。** `/island donate` と `/island value` の `hand` 引数が新しいロケールキー `island.donate.hand.keyword` で翻訳可能になりました。英語の `hand` は常にフォールバックとして受け付けられます。
+    - 🔡 英語以外の 16 のロケールファイルを更新し、不足しているキーを追加しました。
+    - 🔡 ウクライナ語ロケールが完全に翻訳されました。
+
+    🔡 新しい `island.donate.hand.keyword` キーを取得するために**ロケールファイルを再生成**してください。
+
+    [Release v2.25.0](https://github.com/BentoBoxWorld/Level/releases/tag/2.25.0)
 
 ## 翻訳
 

@@ -122,6 +122,7 @@ BentoBox カスタム GUI の詳細はこちらをご覧ください: [Custom GU
 
 === "プレイヤー権限"
     - `aoneblock.island.topblock` - (デフォルト: `true`) - プレイヤーが `/[player_command] top` コマンドを使用できます。
+    - `aoneblock.intopten` - (デフォルト: `true`) - プレイヤーのアイランドがトップテンに表示されるかどうかを制御します。管理者やテスターからこの権限を削除するとランキングから除外されます。
 
 ??? question "何か不足していますか？"
     このアドオンの [addon.yml](https://github.com/BentoBoxWorld/TopBlock/blob/develop/src/main/resources/addon.yml) ファイルで権限の完全なリストを確認できます。  
@@ -136,6 +137,22 @@ BentoBox カスタム GUI の詳細はこちらをご覧ください: [Custom GU
 
 ??? question "機能 X を追加してもらえますか？"
     [こちら](https://github.com/BentoBoxWorld/TopBlock/issues)のリストに追加してください。
+
+## 変更履歴
+
+??? warning "v2.0.0 の新機能 — プラットフォームアップグレードが必要"
+    **リリース日：** 2026-04-26
+
+    - 🐛 **トップテンパネルが修正されました。** 長年のバグにより、トップテンパネルに空の緑色のプレースホルダーしか表示されていませんでした。イベントハンドラーが `private` だったため Bukkit に無視されていましたが、修正済み — プレイヤーのスキンと統計が正しく表示されます。
+    - ✨ **`aoneblock.intopten` 権限。** この権限（デフォルトで全プレイヤーに付与）を削除することで、管理者やテスターをトップテンから除外できます。
+    - 🔡 **22 の新しいロケール** — cs, de, es, fr, hr, hu, id, it, ja, ko, lv, nl, pl, pt, pt-BR, ro, ru, tr, uk, vi, zh-CN, zh-HK。
+    - 🔺 **Paper 1.21.x**、**Java 21**、**BentoBox 3.14.0+**、**AOneBlock 1.18.0+** が必要になりました。Spigot はサポートされなくなりました。
+
+    🔺 再起動前に **`addons/TopBlock/panels/top_panel.yml` を削除**して、更新されたパネルテンプレートが展開されるようにしてください。その後、カスタムレイアウトを再適用してください。
+
+    🔡 更新後に `/bentobox reload` を実行して、BentoBox が新しいロケールキーを既存のファイルにマージできるようにしてください。
+
+    [Release v2.0.0](https://github.com/BentoBoxWorld/TopBlock/releases/tag/2.0.0)
 
 ## 翻訳
 
