@@ -1,97 +1,181 @@
-# BentoBox
+---
+title: BentoBox World — ドキュメント
+hide:
+  - navigation
+  - toc
+---
 
-**スカイブロック・ワンブロック・アシッドアイランド——人気のアイランドゲームが、ひとつに。**
+<div class="bb-homepage">
 
-BentoBoxはPaper向けのアイランド系ゲームモード基盤プラグインです。使いたいゲームモードを選んで`addons`フォルダに入れるだけ——あとはすぐ動きます。フォーク不要、古いコードも不要。Minecraftの新バージョンにも常に追従する、ひとつのプラットフォームで完結します。
+<!-- ── HERO ───────────────────────────────────────────────────── -->
+<div class="bb-hero">
+  <p class="bb-hero__eyebrow">docs.bentobox.world</p>
+  <h1>プレイヤーが最高の時間を過ごせます。</h1>
+  <p>BSkyBlock、AOneBlock、AcidIsland、CaveBlock、SkyGrid、Boxed、Poseidon、StrangerRealms — すべて同じ Paper サーバーで並行稼働し、それぞれ独自のワールド・ルール・進行システムを持ちます。プラグイン一つ。使いたいゲームモードを追加するだけ。</p>
 
-## ゲームモード
+  <div class="bb-cta-row">
+    <a href="BentoBox/First-Steps" class="bb-btn bb-btn-primary">最初の 30 分 &rarr;</a>
+    <a href="gamemodes/Comparison" class="bb-btn bb-btn-ghost">ゲームモードを選ぶ</a>
+    <a href="https://download.bentobox.world" class="bb-btn bb-btn-ghost">ビルドをダウンロード</a>
+  </div>
 
-- **[BSkyBlock](gamemodes/BSkyBlock/)** — 定番スカイブロック。ASkyBlockの正統後継
-- **[AOneBlock](gamemodes/AOneBlock/)** — 1ブロックから始まる、無限の冒険
-- **[AcidIsland](gamemodes/AcidIsland/)** — 酸の海を生き抜け
-- **[Boxed](gamemodes/Boxed/)** — 実績を達成してワールドを切り開く
-- **[CaveBlock](gamemodes/CaveBlock/)** — 岩盤の闇から這い上がるサバイバル
-- **[SkyGrid](gamemodes/SkyGrid/)** — 点在するブロックで繰り広げる、究極の冒険
-- **[Poseidon](gamemodes/Poseidon/)** — 海の底から築くアイランドライフ
-- **[StrangerRealms](gamemodes/StrangerRealms/)** — 逆さまの次元を制せよ
-- その他、コミュニティ製ゲームモードも多数
+  <div class="bb-stats">
+    <div class="bb-stat">
+      <div class="bb-stat__n">1,100+</div>
+      <div class="bb-stat__l">サーバー</div>
+    </div>
+    <div class="bb-stat">
+      <div class="bb-stat__n">20+</div>
+      <div class="bb-stat__l">アドオン</div>
+    </div>
+    <div class="bb-stat">
+      <div class="bb-stat__n">8</div>
+      <div class="bb-stat__l">ゲームモード</div>
+    </div>
+    <div class="bb-stat">
+      <div class="bb-stat__n">MC 1.15 &rarr; 1.21</div>
+      <div class="bb-stat__l">対応済み</div>
+    </div>
+  </div>
+</div>
 
-## 管理者に選ばれる理由
+<!-- ── GETTING STARTED ────────────────────────────────────────── -->
+<div class="bb-section">
+  <div class="bb-section-header">
+    <h2>はじめに</h2>
+    <span class="bb-section-meta">3 ステップ &middot; 30 分</span>
+  </div>
+  <div class="bb-steps">
+    <div class="bb-step-card">
+      <div class="bb-step-header">
+        <span class="bb-step-num">ステップ 01</span>
+        <span class="bb-step-time">5 分</span>
+      </div>
+      <p class="bb-step-title">BentoBox をインストール</p>
+      <p class="bb-step-body">プラグインを <code>/plugins</code> に入れて Paper を再起動するだけ。</p>
+      <a href="BentoBox/Install-Bentobox" class="bb-step-link">ガイドを読む &rarr;</a>
+    </div>
+    <div class="bb-step-card">
+      <div class="bb-step-header">
+        <span class="bb-step-num">ステップ 02</span>
+        <span class="bb-step-time">5 分</span>
+      </div>
+      <p class="bb-step-title">ゲームモードを選ぶ</p>
+      <p class="bb-step-body">BSkyBlock、AOneBlock、AcidIsland、CaveBlock、Boxed、Poseidon &mdash; まず 1 つ選んでみましょう。</p>
+      <a href="gamemodes/Comparison" class="bb-step-link">ゲームモードを比較する &rarr;</a>
+    </div>
+    <div class="bb-step-card">
+      <div class="bb-step-header">
+        <span class="bb-step-num">ステップ 03</span>
+        <span class="bb-step-time">20 分</span>
+      </div>
+      <p class="bb-step-title">最初の 30 分</p>
+      <p class="bb-step-body">インストール直後からプレイヤーが楽しめるまで：設定・アドオン・デフォルト値。</p>
+      <a href="BentoBox/First-Steps" class="bb-step-link">ガイドを読む &rarr;</a>
+    </div>
+  </div>
+</div>
 
-- 🎮 **複数ゲームモードを1サーバーで同時運用** — チャレンジ・ワープ・レベル・リーダーボードはすべてのゲームモードで共有
-- 🔧 **20以上のアドオン** — Bank・Biomes・Challenges・Levelなど、サーバーを思い通りにカスタマイズ
-- 🚀 **常に最新対応** — Minecraftの新バージョンにも素早く追従
-- 💚 **無料・オープンソース** — 世界1,100以上のサーバーで稼働中
-- 👨‍💻 **充実したAPI** — カスタムアドオンを作りたい開発者にも最適
+<!-- ── GAME MODES ─────────────────────────────────────────────── -->
+<div class="bb-section">
+  <div class="bb-section-header">
+    <h2>ゲームモード</h2>
+    <a href="gamemodes/Comparison" class="bb-section-link">ゲームモードを選ぶ &rarr;</a>
+  </div>
+  <div class="bb-modes">
+    <a href="gamemodes/BSkyBlock/" class="bb-mode-card">
+      <span class="bb-mode-swatch" style="background:#cfe7d4"></span>
+      <span><span class="bb-mode-name">BSkyBlock</span><span class="bb-mode-sub">空 &middot; 島</span></span>
+    </a>
+    <a href="gamemodes/AcidIsland/" class="bb-mode-card">
+      <span class="bb-mode-swatch" style="background:#a8d6ee"></span>
+      <span><span class="bb-mode-name">AcidIsland</span><span class="bb-mode-sub">酸の海</span></span>
+    </a>
+    <a href="gamemodes/AOneBlock/" class="bb-mode-card">
+      <span class="bb-mode-swatch" style="background:#e8d49e"></span>
+      <span><span class="bb-mode-name">AOneBlock</span><span class="bb-mode-sub">1 ブロック</span></span>
+    </a>
+    <a href="gamemodes/CaveBlock/" class="bb-mode-card">
+      <span class="bb-mode-swatch" style="background:#a09689"></span>
+      <span><span class="bb-mode-name">CaveBlock</span><span class="bb-mode-sub">地下</span></span>
+    </a>
+    <a href="gamemodes/Boxed/" class="bb-mode-card">
+      <span class="bb-mode-swatch" style="background:#bfa6c9"></span>
+      <span><span class="bb-mode-name">Boxed</span><span class="bb-mode-sub">ボーダーボックス</span></span>
+    </a>
+    <a href="gamemodes/Poseidon/" class="bb-mode-card">
+      <span class="bb-mode-swatch" style="background:#7fb3cc"></span>
+      <span><span class="bb-mode-name">Poseidon</span><span class="bb-mode-sub">水中</span></span>
+    </a>
+    <a href="gamemodes/SkyGrid/" class="bb-mode-card">
+      <span class="bb-mode-swatch" style="background:#c4d68f"></span>
+      <span><span class="bb-mode-name">SkyGrid</span><span class="bb-mode-sub">ブロックグリッド</span></span>
+    </a>
+    <a href="gamemodes/StrangerRealms/" class="bb-mode-card">
+      <span class="bb-mode-swatch" style="background:#cf6e72"></span>
+      <span><span class="bb-mode-name">StrangerRealms</span><span class="bb-mode-sub">ミステリー</span></span>
+    </a>
+  </div>
+</div>
 
-## BentoBoxを支援する
+<!-- ── ADDONS ─────────────────────────────────────────────────── -->
+<div class="bb-section">
+  <div class="bb-section-header">
+    <h2>アドオン</h2>
+    <span class="bb-section-meta">20 種類以上</span>
+  </div>
+  <div class="bb-addons">
+    <a href="addons/Bank/" class="bb-chip">Bank</a>
+    <a href="addons/Biomes/" class="bb-chip">Biomes</a>
+    <a href="addons/Border/" class="bb-chip">Border</a>
+    <a href="addons/CauldronWitchery/" class="bb-chip">CauldronWitchery</a>
+    <a href="addons/Challenges/" class="bb-chip">Challenges</a>
+    <a href="addons/Chat/" class="bb-chip">Chat</a>
+    <a href="addons/CheckMeOut/" class="bb-chip">CheckMeOut</a>
+    <a href="addons/ControlPanel/" class="bb-chip">ControlPanel</a>
+    <a href="addons/DimensionalTrees/" class="bb-chip">DimensionalTrees</a>
+    <a href="addons/ExtraMobs/" class="bb-chip">ExtraMobs</a>
+    <a href="addons/FarmersDance/" class="bb-chip">FarmersDance</a>
+    <a href="addons/Greenhouses/" class="bb-chip">Greenhouses</a>
+    <a href="addons/InvSwitcher/" class="bb-chip">InvSwitcher</a>
+    <a href="addons/IslandFly/" class="bb-chip">IslandFly</a>
+    <a href="addons/Level/" class="bb-chip">Level</a>
+    <a href="addons/Likes/" class="bb-chip">Likes</a>
+    <a href="addons/Limits/" class="bb-chip">Limits</a>
+    <a href="addons/MagicCobblestoneGenerator/" class="bb-chip">MagicCobblestoneGenerator</a>
+    <a href="addons/TopBlock/" class="bb-chip">TopBlock</a>
+    <a href="addons/TwerkingForTrees/" class="bb-chip">TwerkingForTrees</a>
+    <a href="addons/Upgrades/" class="bb-chip">Upgrades</a>
+    <a href="addons/Visit/" class="bb-chip">Visit</a>
+    <a href="addons/VoidPortals/" class="bb-chip">VoidPortals</a>
+    <a href="addons/Warps/" class="bb-chip">Warps</a>
+  </div>
+</div>
 
-[GitHubスポンサー](https://github.com/sponsors/tastybento)または[PayPal](https://www.paypal.me/BentoBoxWorld)での寄付をお願いします。ゲームを楽しんでいただき、開発資金のご支援をいただければ幸いです！
+<!-- ── DEVELOPER / SPONSOR ────────────────────────────────────── -->
+<div class="bb-section bb-section-last">
+  <div class="bb-twin">
+    <div class="bb-dev-card">
+      <p class="bb-card-eyebrow" style="color:#7fb3cc">開発者向け</p>
+      <p class="bb-card-title">アドオンを作る</p>
+      <ul class="bb-dev-links">
+        <li><a href="BentoBox/Developer-Documentation">API の概要</a></li>
+        <li><a href="Tutorials/api/Create-an-addon">アドオンの作成</a></li>
+        <li><a href="BentoBox/Config-API">設定・データベース API</a></li>
+        <li><a href="Tutorials/api/Templated-Panel">テンプレートパネル API</a></li>
+        <li><a href="https://bentoboxworld.github.io/BentoBox">Javadocs &#8599;</a></li>
+      </ul>
+    </div>
+    <div class="bb-sponsor-card">
+      <p class="bb-card-eyebrow" style="color:oklch(0.78 0.13 220)">オープンソース</p>
+      <p class="bb-card-title">BentoBox をスポンサーする</p>
+      <p class="bb-card-body">ご支援がゲームの継続と更新を支えています。無料・オープンソースで世界 1,100 以上のサーバーで使用中。</p>
+      <div class="bb-btn-row">
+        <a href="https://github.com/sponsors/tastybento" class="bb-btn bb-btn-sm bb-btn-ink">&#9829; GitHub スポンサー</a>
+        <a href="https://www.paypal.me/BentoBoxWorld" class="bb-btn bb-btn-sm bb-btn-ghost">PayPal</a>
+      </div>
+    </div>
+  </div>
+</div>
 
-## ダウンロード
-
-すぐに使えるパックを[https://download.bentobox.world](https://download.bentobox.world)からダウンロードできます。
-
-## はじめに
-- [最初の30分](BentoBox/First-Steps) — インストール直後に行うこと
-- [BentoBoxのインストール](BentoBox/Install-Bentobox)
-- [ゲームモードを選ぶ](gamemodes/Comparison)
-- [用語集](Glossary) — 主要な用語の説明
-- [FAQ](FAQ)
-- [ASkyBlockからの移行](Converter/index.md)
-- [BentoBoxワールドをサーバーのデフォルトワールドに設定する](BentoBox/Set-a-BentoBox-world-as-the-server-default-world)
-- [データベース移行](BentoBox/Database-transition)
-
-## BentoBoxについて
-- [コマンド](BentoBox/Commands)
-- パーミッション
-    - [BentoBoxパーミッション](BentoBox/Permissions)
-    - [AcidIslandパーミッション](gamemodes/AcidIsland/Permissions)
-    - [AOneBlockパーミッション](gamemodes/AOneBlock/#permissions)
-    - [Bankパーミッション](addons/Bank/#permissions)
-    - [Biomesパーミッション](addons/Biomes/#permissions)
-    - [Borderパーミッション](addons/Border/#permissions)
-    - [BSkyBlockパーミッション](gamemodes/BSkyBlock/Permissions)
-    - [CaveBlockパーミッション](gamemodes/CaveBlock/Permissions)
-    - [CauldronWitcheryパーミッション](addons/CauldronWitchery/#permissions)
-    - [Challengesパーミッション](addons/Challenges/#permissions)
-    - [Chatパーミッション](addons/Chat/#permissions)
-    - [Check Me Outパーミッション](addons/CheckMeOut/#permissions)
-    - [Control Panelパーミッション](addons/ControlPanel/#permissions)
-    - [Dimensional Treesパーミッション](addons/DimensionalTrees/#permissions)
-    - [Extra Mobsパーミッション](addons/ExtraMobs/#permissions)
-    - [Farmers Danceパーミッション](addons/FarmersDance/#permissions)
-    - [Greenhousesパーミッション](addons/Greenhouses/Permissions)
-    - [InvSwitcherパーミッション](addons/InvSwitcher/#permissions)
-    - [Island Flyパーミッション](addons/IslandFly/#permissions)
-    - [Levelパーミッション](addons/Level/#permissions)
-    - [Likesパーミッション](addons/Likes/Permissions)
-    - [Limitsパーミッション](addons/Limits/Permissions)
-    - [Magic Cobblestone Generatorパーミッション](addons/MagicCobblestoneGenerator/#permissions)
-    - [Poseidonパーミッション](gamemodes/Poseidon/Permissions)
-    - [SkyGridパーミッション](gamemodes/SkyGrid/Permissions)
-    - [Stranger Realms](gamemodes/StrangerRealms/Permissions)
-    - [TopBlockパーミッション](addons/TopBlock/#permissions)
-    - [Twerking For Treesパーミッション](addons/TwerkingForTrees/#permissions)
-    - [TopBlockパーミッション](addons/TopBlock/#permissions)
-    - [Upgradesパーミッション](addons/Upgrades/#permissions)
-    - [Visitパーミッション](addons/Visit/#permissions)
-    - [VoidPortalsパーミッション](addons/VoidPortals/#permissions)
-    - [Warpsパーミッション](addons/Warps/Permissions)
-- [アイランド保護、フラグ & ランク](BentoBox/Island-Protection,-Flags-&-Ranks)
-    - [フラグ](BentoBox/Flags)
-    - [ランク](BentoBox/Island-Protection,-Flags-&-Ranks#ranks)
-- [プレースホルダー](BentoBox/Placeholders)
-- [ブループリント](BentoBox/Blueprints)
-
-## BentoBox APIを使う
-- [APIの紹介](BentoBox/Developer-Documentation)
-- [アドオンからプラグインへのデータ取得方法](BentoBox/Request-Handler-API---How-plugins-can-get-data-from-addons)
-- [アドオン](Tutorials/api/Create-an-addon)
-    - [addon.yml](BentoBox/How-to-fill-in-the-addon_yml-file)
-    - [Config API](BentoBox/Config-API)
-    - [データベース](BentoBox/Database-API)
-- [ゲームモードアドオンの作成](BentoBox/Creating-a-Game-Mode)
-- [組み込みコマンド](BentoBox/Commands)
-- [Metadata API](BentoBox/MetadataAPI)
-- [Javadocs](https://bentoboxworld.github.io/BentoBox)
+</div>

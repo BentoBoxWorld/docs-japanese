@@ -23,7 +23,14 @@ Read the Docs uses Python 3.9 and `mkdocs.yml` as the entry point (see `.readthe
 - **`mkdocs.yml`** — site definition: navigation tree (in Japanese), Material theme config (`theme.language: ja`), enabled markdown extensions, and the `macros` plugin that loads `main.py`. The `nav:` section is the source of truth for site structure; new pages must be added there to appear.
 - **`main.py`** — `mkdocs-macros-plugin` entry point. Defines `define_env(env)` and registers Jinja macros that pages call inline (e.g. `{{ translations(...) }}`, `{{ addon_description(...) }}`, `{{ placeholders_bundle(...) }}`, `{{ placeholders_source(...) }}`, `{{ flags_bundle(...) }}`, `{{ flags_source(...) }}`). These macros generate Markdown tables at build time by reading the CSVs in `data/`. The intro text and table headers inside the `translations()` macro are Japanese-translated in `main.py` itself — keep them intact when syncing from English.
 - **`data/`** — source data for the macros: `flags.csv`, `placeholders.csv`, `permissions.csv`, and `minecraft-block-and-entity.json` (used by `icon_css()` to map a block/entity name to a CSS class for the Minecraft icon sprite sheet referenced in `docs/stylesheets/icons-minecraft-0.5.css`).
+- **`docs/stylesheets/`** — Custom CSS loaded via `extra_css` in `mkdocs.yml`
+  - `bentobox-theme.css` — Blueprint palette override for the Material slate scheme (navy/cyan; Space Grotesk + Inter Tight + JetBrains Mono). Also defines all `.bb-*` layout classes used exclusively by `docs/index.md`.
+  - `icons-minecraft-0.5.css` — Minecraft block/entity icon sprites
 - **`docs/`** — Japanese Markdown content, organised by section: `BentoBox/` (core docs), `gamemodes/`, `addons/`, `Tutorials/`, plus top-level `index.md`, `FAQ.md`, `Glossary.md`.
+
+## Homepage (docs/index.md)
+
+`index.md` is structurally different from all other pages. It uses `hide: [navigation, toc]` frontmatter and its body is a single raw HTML block (no Markdown) built from `.bb-*` CSS classes defined in `bentobox-theme.css`. Do not add Markdown content or macros directly inside the `.bb-homepage` wrapper — use plain HTML.
 
 ## Translation notes
 
