@@ -92,10 +92,9 @@
 | poseidon.admin.setspawnpoint | '/padmin setspawnpoint'コマンドの使用を許可する — このレルムのスポーンポイントとして現在地を設定する | OP |
 | poseidon.admin.resetflags | '/padmin resetflags'コマンドの使用を許可する — すべてのレルムをconfig.ymlのデフォルトフラグ設定にリセットする | OP |
 | poseidon.mod.switch | '/padmin switch'コマンドの使用を許可する — 保護バイパスのオン/オフを切り替える | OP |
-| poseidon.admin.purge | '/padmin purge'コマンドの使用を許可する — [日数]以上放置されたレルムをパージする | OP |
-| poseidon.admin.purge.status | '/padmin purge status'コマンドの使用を許可する — パージの状況を表示する | OP |
-| poseidon.admin.purge.stop | '/padmin purge stop'コマンドの使用を許可する — 実行中のパージを停止する | OP |
-| poseidon.admin.purge.unowned | '/padmin purge unowned'コマンドの使用を許可する — 未所有のレルムをパージする | OP |
+| poseidon.admin.purge | '/padmin purge &lt;days&gt;'コマンドの使用を許可する — [日数]以上放置されたレルムのリージョンファイルを特定・削除する | OP |
+| poseidon.admin.purge.deleted | '/padmin purge deleted'コマンドの使用を許可する — 削除可能としてフラグが立てられたレルムのリージョンファイルを回収する | OP |
+| poseidon.admin.purge.unowned | '/padmin purge unowned'コマンドの使用を許可する — 未所有のレルムを削除可能としてフラグ付けする | OP |
 | poseidon.admin.purge.protect | '/padmin purge protect'コマンドの使用を許可する — レルムのパージ保護をトグルする | OP |
 | poseidon.admin.settings | '/padmin settings'コマンドの使用を許可する — 設定GUIを開くか設定を行う | OP |
 | poseidon.admin.setprotectionlocation | '/padmin setprotectionlocation'コマンドの使用を許可する — 現在地または[x y z]をレルムの保護エリアの中心として設定する | OP |

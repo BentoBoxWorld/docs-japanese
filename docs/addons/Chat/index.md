@@ -74,6 +74,15 @@ permissions:
 ## このアドオンが気に入りましたか？
 [スポンサー](https://github.com/sponsors/tastybento)になることで、このようなアドオンをさらに増やし、改善することができます！
 
+## 変更履歴
+
+??? note "v1.4.1 の新機能"
+    **リリース日：** 2026-04-26
+
+    - 🔡 **チェコ語ロケール修正** — `cs.yml` の `island-chat-spy` エントリに不正な YAML があり、サーバー起動時に `ScannerException` が発生していました。修正済みバージョンから再生成されるよう、再起動前に `plugins/BentoBox/addons/Chat/locales/cs.yml` を削除してください。
+
+    [Release v1.4.1](https://github.com/BentoBoxWorld/Chat/releases/tag/1.4.1)
+
 ## 翻訳
 
 {{ translations("Chat") }}

@@ -155,6 +155,18 @@ show-warps-on-map: true
 
     [Release v4.7.0](https://github.com/BentoBoxWorld/Border/releases/tag/4.7.0) · [v4.8.0](https://github.com/BentoBoxWorld/Border/releases/tag/4.8.0) · [v4.8.1](https://github.com/BentoBoxWorld/Border/releases/tag/4.8.1) · [v4.8.2](https://github.com/BentoBoxWorld/Border/releases/tag/4.8.2)
 
+??? note "v4.8.3 の新機能"
+    **リリース日：** 2026-04-26
+
+    - 🔡 すべてのロケールファイルをレガシー `&` カラーコードから MiniMessage 形式に変換しました。
+    - 🔡 英語以外のすべてのロケールに不足していた `set-color` キーを追加しました。
+    - 🔡 ポーランド語、ウクライナ語、中国語ロケールファイルのバグを修正しました。
+    - 🔺 最低 BentoBox API バージョンを **3.12.0** に引き上げました。
+
+    🔺 **`plugins/BentoBox/addons/Border/locales/` にカスタムロケールオーバーライドがある場合**、再起動前に `&a` スタイルのカラーコードを MiniMessage タグ（例：`<green>`）に移行してください。
+
+    [Release v4.8.3](https://github.com/BentoBoxWorld/Border/releases/tag/4.8.3)
+
 ## 翻訳
 
 {{ translations("Border") }}

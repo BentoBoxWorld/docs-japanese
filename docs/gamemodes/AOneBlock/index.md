@@ -67,6 +67,9 @@
             50: SPONGE
         ```
 
+    !!! tip "CHEST_WITH_X 記法"
+        fixedBlocks のエントリに `CHEST_WITH_X` 記法を使用して、特定のアイテムがあらかじめ入ったチェストを設置できます。例：`CHEST_WITH_WATER_BUCKET`。アイテムは有効な Bukkit マテリアル名である必要があります。
+
 === "holograms"
     !!! summary "説明"
         AOneBlockはこれらの行を表示するためにネイティブホログラムを使用します。フェーズが開始される前に表示される最初の行はaoneblockロケールファイルにあります。
@@ -220,6 +223,7 @@
           - `mob`: Spawn Entity APIを使用して要求されたエンティティを作成します。`mob`フィールドが必要で、オプションで`underlying-block`フィールドも使用できます（デフォルト: STONE）
           - `itemsadder`: [ItemsAdder](https://itemsadder.devs.beer/) APIを使用してブロックを作成します。`id`フィールドが必要です。ItemsAdderプラグインがインストールされている必要があります。
           - `nexo`: [Nexo](https://polymart.org/resource/nexo.6901) APIを使用してブロックを作成します。`id`フィールドが必要です。Nexoプラグインがインストールされている必要があります。
+          - `craftengine`: [CraftEngine](https://github.com/Xiao-MoMi/craft-core) APIを使用してブロックを作成します。`id`フィールドが必要です。CraftEngineプラグインがインストールされている必要があります。BentoBox 3.15.0+が必要です。
 
     !!! example "例"
         ```yaml
@@ -246,13 +250,16 @@
               - type: nexo
                 id: mypack:custom_block
                 probability: 10
+              - type: craftengine
+                id: mypack:custom_block
+                probability: 10
               - DIRT: 10     # 旧構文も引き続き機能します
         ```
 
-    !!! tip "ItemsAdderとNexo"
-        ItemsAdderまたはNexoのカスタムブロックを使用するには、サーバーに各プラグインがインストールされている必要があります。
+    !!! tip "ItemsAdder、NexoおよびCraftEngine"
+        ItemsAdder、NexoまたはCraftEngineのカスタムブロックを使用するには、サーバーに各プラグインがインストールされている必要があります。
         AOneBlockは起動時にこれらのプラグインを自動検出し、適切なブロックハンドラーを登録します。
-        `itemsadder`または`nexo`ブロックを設定してもプラグインがインストールされていない場合、ブロックはSTONEにフォールバックします。
+        `itemsadder`、`nexo`または`craftengine`ブロックを設定してもプラグインがインストールされていない場合、ブロックはSTONEにフォールバックします。
 
 
 チェストファイルには、フェーズ番号とchestsセクションのみが含まれています。
@@ -648,3 +655,20 @@ AOneBlockにはAOneBlock専用のカスタムイベントがあります。た�
     🔡 カスタマイズがある場合は**ロケールファイルを再生成**してください。
 
     [リリース v1.23.0](https://github.com/BentoBoxWorld/AOneBlock/releases/tag/1.23.0)
+
+??? warning "v1.24.0 の新機能 — BentoBox 3.15.0 が必要"
+    **リリース日：** 2026-04-26
+
+    - **CraftEngine カスタムブロックサポート。** フェーズ定義で `type: craftengine` を使用して [CraftEngine](https://github.com/Xiao-MoMi/craft-core) ブロックを生成できるようになりました。BentoBox 3.15.0+ が必要です。
+    - **レアリティ別に設定可能なチェストパーティクル。** UNCOMMON/RARE/EPIC チェストの上に表示されるパーティクルの種類と色が `config.yml` の `world.chest-particles` で設定可能になりました。`NONE` に設定すると無効化できます。
+    - **`CHEST_WITH_X` 固定ブロック記法。** フェーズの `fixedBlocks` で `CHEST_WITH_<ITEM>` 形式を使用して、そのアイテムが入ったチェストを設置できます（例：`CHEST_WITH_WATER_BUCKET`）。
+    - **`OBSIDIAN_SCOOPING` がデフォルトでオフに。** 新規インストールではこのフラグが `false` に設定されます。明示的に設定している既存サーバーは影響を受けません。
+    - 🔡 アイランドのないプレイヤーのプレースホルダーデフォルト値：`%aoneblock_my_island_phase%`、`%aoneblock_my_island_count%`、`%aoneblock_my_island_percent_done%` が空文字列の代わりに `Unknown`、`0`、`0%` を返すようになりました。
+
+    🔺 **BentoBox 3.15.0 以降が必要です** — このリリースは古い BentoBox バージョンではロードされません。
+
+    ⚙️ **新しい config セクション** `world.chest-particles` — 設定可能なパーティクルエフェクトを使用したい場合は、最新の `config.yml` からコピーしてください。
+
+    🔡 新しいキーを取得するために**ロケールファイルを再生成**してください。
+
+    [リリース v1.24.0](https://github.com/BentoBoxWorld/AOneBlock/releases/tag/1.24.0)

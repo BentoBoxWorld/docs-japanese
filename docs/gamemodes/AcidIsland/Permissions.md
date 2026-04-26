@@ -103,10 +103,9 @@
 | acidisland.admin.setspawnpoint | '/acid setspawnpoint'コマンドの使用を許可する — この島のスポーンポイントとして現在地を設定する | OP |
 | acidisland.admin.resetflags | '/acid resetflags'コマンドの使用を許可する — config.ymlのデフォルトフラグ設定にすべての島をリセットする | OP |
 | acidisland.mod.switch | '/acid switch'コマンドの使用を許可する — 保護バイパスのオン/オフを切り替える | OP |
-| acidisland.admin.purge | '/acid purge'コマンドの使用を許可する — [days]日以上放置された島をパージする | OP |
-| acidisland.admin.purge.status | '/acid purge status'コマンドの使用を許可する — パージのステータスを表示する | OP |
-| acidisland.admin.purge.stop | '/acid purge stop'コマンドの使用を許可する — 進行中のパージを停止する | OP |
-| acidisland.admin.purge.unowned | '/acid purge unowned'コマンドの使用を許可する — オーナーなしの島をパージする | OP |
+| acidisland.admin.purge | '/acid purge &lt;days&gt;'コマンドの使用を許可する — [days]日以上放置された島のリージョンファイルを特定・削除する | OP |
+| acidisland.admin.purge.deleted | '/acid purge deleted'コマンドの使用を許可する — 削除可能としてフラグが立てられた島のリージョンファイルを回収する | OP |
+| acidisland.admin.purge.unowned | '/acid purge unowned'コマンドの使用を許可する — オーナーなしの島を削除可能としてフラグ付けする | OP |
 | acidisland.admin.purge.protect | '/acid purge protect'コマンドの使用を許可する — 島のパージ保護を切り替える | OP |
 | acidisland.admin.settings | '/acid settings'コマンドの使用を許可する — 設定GUIを開くか設定を行う | OP |
 | acidisland.admin.setprotectionlocation | '/acid setprotectionlocation'コマンドの使用を許可する — 島の保護エリアの中心として現在地または[x y z]を設定する | OP |
