@@ -36,6 +36,23 @@ config.ymlはASkyBlockに似ていますが、*同一ではありません*。�
 
 プレースホルダーの一覧は[こちら](Placeholders)をご覧ください。
 
+## 変更履歴
+
+??? warning "v1.20.0 の新機能 — BentoBox 3.13.0 と Paper 1.21.11 が必要"
+    **リリース日：** 2026-04-27
+
+    - 🐛 **モブの湧き不具合を修正。** チャンクジェネレーターが `shouldGenerateMobs()` をオーバーライドしていなかったため、Bukkit API のデフォルトである `false` が使われ、すべての BSkyBlock 生成ワールドでバニラのモブの湧きが密かに抑制されていました。モブが正しく湧くようになりました。
+    - 🐛 **水生生物（魚、イカ）の自然湧きを修正。** 1.21 プラットフォーム移行以降、BSkyBlock のワールドで魚やイカが自然に湧かなくなっていました。修正で再び自然に湧きます。[BentoBox #2593](https://github.com/BentoBoxWorld/BentoBox/issues/2593) を解消。
+    - ⚡ **チャンク生成のモダン化。** ワールドジェネレーターを古い `generateChunkData()` + `BiomeGrid`（廃止予定）アプローチから、Paper の現行 `generateNoise()` + `BiomeProvider` API に移行しました。
+    - 🔡 17 言語すべてのロケールファイルにある看板テキストを、レガシーな `&c` カラーコードから MiniMessage 形式に移行しました。
+    - ビルドのモダン化：JDK 21、JUnit 5 + MockBukkit テストスタック。
+
+    🔺 **BentoBox 3.13.0 以降と Paper 1.21.11 が必要。** これより古い BentoBox ではこのアドオンはロードされません。
+
+    🔡 **ロケールに関する注意：** 看板テキストは MiniMessage タグを使うようになりました（例：`&c` ではなく `<red>…</red>`）。カスタマイズしたロケールファイルは更新が必要です。
+
+    [Release v1.20.0](https://github.com/BentoBoxWorld/BSkyBlock/releases/tag/1.20.0)
+
 ## 翻訳
 
 {{ translations("BSkyBlock") }}
