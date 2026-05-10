@@ -94,6 +94,13 @@ options:
 
     [Release v1.17.0](https://github.com/BentoBoxWorld/InvSwitcher/releases/tag/1.17.0)
 
+??? note "v1.17.1 の新機能"
+    **リリース日：** 2026-05-09
+
+    - 🐛 **BentoBox ワールドから非 BentoBox ワールドへテレポートしたときにインベントリがクリアされる問題を修正。** 以前は、プレイヤーが BentoBox ゲームワールド（例：BSkyBlock）から非 BentoBox ワールド（例：デフォルトのオーバーワールドや第三者プラグインのワールド）へ離れるとき、それぞれの非 BentoBox ワールドが独自のキーでデータを保存していたため、「外側」のインベントリが失われることがありました。すべての非 BentoBox ワールドが単一のストレージキーを共有するようになり、プレイヤーのインベントリは常に正しく復元されます。古いワールドごとのキーで保存されたデータの自動マイグレーションを含みます。
+
+    [Release v1.17.1](https://github.com/BentoBoxWorld/InvSwitcher/releases/tag/1.17.1)
+
 ## 翻訳
 
 {{ translations("InvSwitcher") }}
