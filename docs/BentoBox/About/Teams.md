@@ -192,3 +192,52 @@ BentoBoxには以下の組み込みチームランクがあります：
 
 ### アントラストまたはアンコープ
 十分に高いランクを持つアイランドオーナーまたはプレイヤーは、これらのランクを持つプレイヤーをアイランドから削除するために`team untrust`または`team uncoop`コマンドを実行できます。削除されたプレイヤーはビジターステータスに戻ります。
+
+## ワールド単位でのチームの無効化
+
+BentoBox 3.16.0以降、ゲームモードは`WorldSettings#isTeamsDisabled()` API（デフォルトは`false`）を介してワールド単位でチームサブシステムをオプトアウトできます。有効化すると、チームメンバーの追加、削除、再編成を行うアクションコマンドはロケールメッセージ`commands.island.team.errors.teams-disabled`を表示して実行を拒否します。
+
+**チームが無効な場合にブロックされるコマンド：**
+
+- `/island team invite`および`team invite accept`（TEAMの招待のみ — COOPおよびTRUSTの招待は引き続き受け入れられます）
+- `/island team kick`、`team leave`、`team promote`、`team demote`、`team setowner`
+- `/[admin] team add`
+
+**引き続き利用可能なコマンド：**
+
+- 読み取り専用のプレイヤーコマンド：`/island team`パネル、`team info`、`team invites`、`team invite reject`
+- トラストおよびコープ関係：`trust`、`coop`、`untrust`、`uncoop` — チームが無効な場合の推奨される代替手段です
+- 既存のチームに対して動作する管理者コマンド：`kick`、`disband`、`disbandall`、`setowner`、`fix`、`maxsize`
+
+既にチームが存在するワールドで`isTeamsDisabled`を有効にした後、`/[admin] team disbandall`を一度実行して既存のチームをクリーンアップします。この管理者コマンドは、現在のワールドの全アイランドから全メンバーとサブオーナーを、確認可能な一括処理で剥奪します。トラストおよびコーププレイヤーは意図的に変更されません。
+
+??? note "v3.16.0の新機能"
+    **リリース日：** 2026-05-10
+
+    詳細なリリースノート：[Release 3.16.0](https://github.com/BentoBoxWorld/BentoBox/releases/tag/3.16.0)
+
+    **チーム処理**
+
+    - 新しい`WorldSettings#isTeamsDisabled()` API（デフォルトは`false`）により、ゲームモードがワールド単位でチームサブシステムをオプトアウト可能になりました。
+    - 新しい管理者コマンド`/[admin] team disbandall`が、現在のワールドの全アイランドから全メンバーとサブオーナーを、確認可能な一括処理で剥奪します。
+    - `/[admin] team kick`は、対象が複数のチームアイランドにいる場合に明示的な`x,y,z`座標を要求し、アイランドオーナーのキックを拒否するようになりました（管理者には`setowner`または`disband`を案内）。
+    - setownerの上限が`/island team setowner`と`/[admin] team setowner`の両方で強制されるようになりました — 受取人が同時アイランド上限に達している場合は移転を拒否します。
+
+    **バグ修正**
+
+    - プレイヤーのホームブロックが見つからない場合に、`ISLAND_RESPAWN`がワールドスポーン (0,0) にプレイヤーを置かなくなりました — 最終的に`SafeSpotTeleport`にフォールバックするチェーンを辿ります。
+    - `OFFLINE_GROWTH`がすべての広がる植物（ツタ、しだれツタ／ねじれツタなど）および苗木から育つ木／キノコをブロックするようになりました — 昆布と竹だけではありません。
+    - Dynmapのエリア/ポリゴンマーカーが、常にy=64で描画する代わりに、ワールド全体の最小／最大高度を使用するようになりました。
+
+    **API追加**
+
+    - `CraftEngineHook.getItemStack(String id)`と`CraftEngineHook.getItemId(ItemStack item)`により、アドオンがCraftEngineに直接依存することなく、CraftEngineのカスタムアイテムを描画・認識できるようになりました。
+
+    **ロケール**
+
+    - 追加されたキー：`commands.admin.team.disbandall.{description,confirmation,success}`、`commands.island.team.errors.teams-disabled`、`commands.admin.team.setowner.errors.at-max`。
+    - `commands.admin.team.kick.cannot-kick-owner`メッセージを更新し、管理者を`setowner`/`disband`に誘導するようになりました。
+    - 廃止された`commands.admin.team.kick.success-all`キーを削除しました。
+    - 同梱の22言語の翻訳がすべて同期されています。
+
+    **互換性：** Paper Minecraft 1.21.5 – 26.1.2、Java 21+。
