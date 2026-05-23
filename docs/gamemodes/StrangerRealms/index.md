@@ -65,6 +65,31 @@ Stranger Realmsでは*Border*アドオンを使用しないでください。競
 
 パーミッションの一覧は[こちら](Permissions)をご覧ください。
 
+??? note "v1.0.4の新機能"
+    **リリース日：** 2026-05-16
+
+    動的ワールドボーダーのバグ修正リリース。詳細なリリースノート：[Release 1.0.4](https://github.com/BentoBoxWorld/StrangerRealms/releases/tag/1.0.4)
+
+    - 動的ボーダーの初回縮小時（例：プレイヤー数が減少したとき）に `getBorderSize()` で発生する散発的な `NullPointerException` を修正しました。この問題はコンソールにスパムを出し、次回の再起動までボーダーを停止させていました。キャンセル経路は null ガード付きの `cancelBorderTask()` ヘルパーを使うようになりました。
+    - 起動時の BentoBox `Border` アドオンを使わないようにとの警告メッセージが、誤って "the Crowdbound world" を参照していました。現在は `StrangerRealms has its own Border, so do not use Border addon.` と表示されます。
+    - MockBukkit のトラッキングブランチに追随するため、Paper API 1.21.11 でビルドおよびテストされています。
+
+    **互換性：** BentoBox API 3.9.0+、Minecraft 1.21.10+、Java 21。
+
+!!! warning "v1.0.5の新機能 — ホットフィックス"
+    **リリース日：** 2026-05-19
+
+    同じサーバー上の他のゲームモードのアイランドを破壊する可能性のあるバグに対するホットフィックス。詳細なリリースノート：[Release 1.0.5](https://github.com/BentoBoxWorld/StrangerRealms/releases/tag/1.0.5)
+
+    - 🔺 **`TeamListener` が他のゲームモードのアイランドの range を破壊する問題を修正。** プレイヤーがチームを抜けたりキックされたりすると、クレームリセットのコードが同じサーバー上の他のゲームモード（例：AOneBlock）に属するアイランドに影響を与えていました。StrangerRealms を他のゲームモードと併用している場合は、ただちにアップグレードしてください。
+
+    **影響を受けたサーバーの復旧方法。** 以前の StrangerRealms バージョンが他のゲームモードのアイランドを破壊した場合、それらのアイランドは起動時に `Island distance mismatch` エラーで読み込みに失敗します。復旧するには、次のいずれかを選んでください：
+
+    - `plugins/BentoBox/database/Island/*.json` を編集し、`range` を影響を受けたゲームモードの設定済み `distance-between-islands` に戻す（例：AOneBlock / BSkyBlock は `400`、Boxed は `320`）、**または**
+    - 影響を受けたアイランドの JSON ファイルを失っても良い場合は削除する。
+
+    **互換性：** BentoBox API 3.9.0+、Minecraft 1.21.10+、Java 21。
+
 ## 翻訳
 
 {{ translations("StrangerRealms") }}

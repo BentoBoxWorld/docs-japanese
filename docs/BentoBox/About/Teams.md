@@ -241,3 +241,14 @@ BentoBox 3.16.0以降、ゲームモードは`WorldSettings#isTeamsDisabled()` A
     - 同梱の22言語の翻訳がすべて同期されています。
 
     **互換性：** Paper Minecraft 1.21.5 – 26.1.2、Java 21+。
+
+??? note "v3.16.2の新機能"
+    **リリース日：** 2026-05-19
+
+    小さなフォローアップパッチ。詳細なリリースノート：[Release 3.16.2](https://github.com/BentoBoxWorld/BentoBox/releases/tag/3.16.2)
+
+    - 🐛 **InvSwitcher 下でチーム招待を受諾してもインベントリが消えなくなりました。** 非 BentoBox ワールドにいるとき（`island.reset.on-join.inventory: true` — Boxed と AOneBlock はデフォルトで有効）にチーム招待を受諾したプレイヤーが、そのワールドに戻るとアイテムを失っていることがありました。参加時のインベントリ／経験値／HP／空腹／所持金リセットは、アイランドワールドへのテレポートが完了した*後*に実行されるようになり、InvSwitcher（および類似プラグイン）はリセットが走る前に元のワールドでのプレイヤーの実インベントリを保存できます。AOneBlock 1.25.0 / Boxed 3.3.0 / InvSwitcher 1.17.1 に対して報告されたケースを修正します。
+    - 🔺 **API：`Island.setRange` はもう静かにアイランドデータを破壊しません。** `setRange` は、ゲームモードで設定された `distance-between-islands` と一致しない値を拒否し、呼び出し元のスタックフレームをログに記録するようになりました。正当に領域サイズを変更するゲームモード（例：StrangerRealms）は引き続き動作します — それらは既に `GameModeAddon.isEnforceEqualRanges()` をオーバーライドして `false` を返しています。アドオンを保守していて `Refusing Island.setRange(...)` 警告が出る場合、ログに正確な呼び出し元が記載されています。
+    - 🐛 **CraftEngine 26.5+ 互換性。** `CraftEngineHook.getItemStack(id)` は `BukkitItemDefinition#buildBukkitItem()` を使用するようになり、書き直された CraftEngine API で動作します。
+
+    **互換性：** Paper Minecraft 1.21.5 – 26.1.2、Java 21+。
