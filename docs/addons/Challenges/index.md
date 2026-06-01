@@ -291,6 +291,15 @@ BentoBox カスタム GUI の詳細はこちらを参照してください: [カ
 
     [Release v1.6.0](https://github.com/BentoBoxWorld/Challenges/releases/tag/1.6.0)
 
+??? note "v1.6.1 の新機能"
+    **リリース日：** 2026-05-26
+
+    - 🐛 **確認会話が中断時に NPE を起こさないようになりました。** Web ライブラリと管理 GUI のワイプ/削除プロンプトは、確認会話が回答ではなく中断された場合（例：`confirm` と入力する前にライブラリ項目を複数回クリックした場合や、プロンプトがタイムアウトした場合）にコンソールへ `NullPointerException` をあふれさせることがありました。中断は無操作として静かに扱われるようになりました。
+
+    ドロップイン置き換え — 設定やロケールの変更は不要です。
+
+    [Release v1.6.1](https://github.com/BentoBoxWorld/Challenges/releases/tag/1.6.1)
+
 ## 翻訳
 
 !!! info "チャレンジの翻訳について"
