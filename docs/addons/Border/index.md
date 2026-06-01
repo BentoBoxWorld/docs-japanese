@@ -167,6 +167,16 @@ show-warps-on-map: true
 
     [Release v4.8.3](https://github.com/BentoBoxWorld/Border/releases/tag/4.8.3)
 
+??? note "v4.8.4 の新機能"
+    **リリース日：** 2026-05-26
+
+    - 🐛 **Paper/Purpur 1.21.10 での `NoSuchMethodError: WorldBorder.changeSize` を修正。** 4.8.3 のビルドは Paper 1.21.11 に対してコンパイルされており、ワールドボーダーのメソッドが改名されていたため、`/[player_command] bordertype vanilla` を使用すると 1.21.10 サーバーでバニラのボーダータイプがクラッシュしていました。Border はバージョン互換の `setSize` API を使用するようになり、**1.21.10 と 1.21.11 の両方**で動作します。
+    - 🐛 Modrinth 公開ワークフローを修正（成果物のパスが不正でした）。
+
+    設定やロケールの変更は不要です。`bordertype barrier` で回避していた場合は、4.8.4 をインストールすれば `vanilla` に戻せます。
+
+    [Release v4.8.4](https://github.com/BentoBoxWorld/Border/releases/tag/4.8.4)
+
 ## 翻訳
 
 {{ translations("Border") }}
