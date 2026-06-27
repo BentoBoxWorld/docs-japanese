@@ -35,43 +35,43 @@
 カスタム実績用の[公式Boxedデータパックをダウンロードする](https://github.com/BentoBoxWorld/BoxedDataPack)。
 または自分で作成することもできます。[チュートリアル動画はこちら](https://youtu.be/zNzQvIbweQs)
 
-## Regioneratorの使用
+## ワールドサイズを抑える
 
-*注意: このプラグインはワールドの未使用リージョンを削除するように設計されています！使用する場合は必ずバックアップを取ってください！自己責任でご使用ください！*
+!!! warning "Regionerator はもう必要ありません"
+    以前のバージョンのこのガイドでは、未使用チャンクを削除するためにサードパーティ製の [Regionerator](https://github.com/Jikoo/Regionerator) プラグインを推奨していました。**BentoBox 3.15.0 以降、これは標準機能になりました** — BentoBox がリージョン（`.mca`）ファイルを直接削除するようになったため、Regionerator は不要となり、Boxed では推奨されなくなりました。まだ使用している場合は削除して構いません。冗長であるだけでなく、シードワールドの除外設定が正しく行われていないと、Boxed のシードワールドを削除してサーバーの起動が非常に遅くなる可能性があります。
 
-[Regionerator](https://github.com/Jikoo/Regionerator)はワールドサイズを小さく保つために未使用のチャンクを徐々に削除するプラグインです。BentoBoxチームが作成したものではありませんが、BentoBoxをサポートしてボックスの境界を尊重します。ボックスチャンクを削除して再生成するためにも使用できます。Boxedはシードワールドをコピーするためのシードワールドを使用するため、Regioneratorによって未使用と判断され削除される可能性があり、起動が非常に遅くなることがあります。これを防ぐには、Regioneratorの設定ファイルのworldセクションにシードワールドを除外設定として追加してください:
+Boxed のワールドは、プレイヤーがボックスを拡張・リセットするにつれて大きくなりますが、そのディスク使用量は現在、BentoBox 自身が次の 2 つの方法で回収します。
 
+**自動ハウスキーピング（デフォルトで有効）。** ボックスがリセットされると、ブロックごとに消去されるのではなく *ソフト削除*（削除フラグが立てられる）され、スケジュールされたスイープがバックグラウンドでそのリージョンファイルを回収します。deleted スイープはデフォルトで 24 時間ごとに実行されます。BentoBox の `config.yml` の該当セクションは次のとおりです：
+
+```yaml
+island:
+  deletion:
+    housekeeping:
+      # すでに削除フラグが立てられたボックス（例：リセット）のリージョンファイルを回収します。
+      # デフォルトで有効。
+      deleted-sweep:
+        enabled: true
+        interval-hours: 24
+      # ボックスがリセットされたかどうかに関わらず、長期間アクセスされていない
+      # リージョンファイルを回収します。デフォルトで無効 — 最も積極的に
+      # サイズを抑えたい場合は有効にしてください。
+      age-sweep:
+        enabled: false
+        interval-days: 30
+        min-age-days: 60
 ```
-# Worlds the plugin is able to delete regions in
-worlds:
-  # "default" applies to all worlds not specified.
-  boxed_world/seed_base:
-    days-till-flag-expires: -1
-  boxed_world/seed:
-    days-till-flag-expires: -1
-  default:
-    # Flags older than x days can be ignored and the region deleted.
-    # Set to -1 to disable Regionerator in a world.
-    # To disable flagging, set this to 0.
-    # days-till-flag-expires must be greater than 0 to be used with delete-new-unvisited-chunks
-    days-till-flag-expires: 0
-```
 
-Regioneratorを最大限に活用するには、BentoBoxのconfig.ymlファイルを変更して、島が削除されるときにチャンクを*削除しない*ようにします。これにより削除がRegioneratorに任され、未使用エリアが十分に大きければチャンクがクリーンアップされるはずです。設定は`keep-previous-island-on-reset: true`です:
+**手動パージ。** サーバーコンソールまたはゲーム内から、必要に応じてスペースを回収することもできます（[コマンド](Commands) を参照）：
 
-```
-deletion:
-    # Toggles whether islands, when players are resetting them, should be kept in the world or deleted.
-    # * If set to 'true', whenever a player resets his island, his previous island will become unowned and won't be deleted from the world.
-    #   You can, however, still delete those unowned islands through purging.
-    #   On bigger servers, this can lead to an increasing world size.
-    #   Yet, this allows admins to retrieve a player's old island in case of an improper use of the reset command.
-    #   Admins can indeed re-add the player to his old island by registering him to it.
-    # * If set to 'false', whenever a player resets his island, his previous island will be deleted from the world.
-    #   This is the default behaviour.
-    # Added since 1.13.0.
-    keep-previous-island-on-reset: true
-```
+* `/boxadmin purge deleted` — すでに削除フラグが立てられたすべてのボックスのリージョンファイルを即座に回収します。
+* `/boxadmin purge <days>` — オーナーが `<days>` 日間ログインしておらず、リージョンファイルがその日数以上経過しているボックスのリージョンファイルを回収します。
+* `/boxadmin purge unowned` — 所有者のいないすべてのボックスを削除可能としてフラグを立て、次回のスイープで削除されるようにします。
+
+!!! note "大規模なパージの後は再起動してください"
+    リージョンファイルはディスクから即座に削除されますが、Paper は最近読み込んだチャンクをメモリ内のキャッシュに保持します。**大規模なパージの後はサーバーを再起動して**キャッシュをクリアし、解放された容量を完全に反映させてください。パージ保護されたボックス、スポーン島、および（Level アドオンがインストールされている場合）設定されたパージレベルを超えるボックスは常にスキップされます。いつものように、**パージの前にワールドフォルダをバックアップしてください。**
+
+以前の `keep-previous-island-on-reset` 設定は廃止されました — ボックスはリセット時に常にソフト削除され、ハウスキーピングによってクリーンアップされるため、Regionerator に「引き継がせる」ために設定するものは何もありません。
 
 
 ## 高度な設定
