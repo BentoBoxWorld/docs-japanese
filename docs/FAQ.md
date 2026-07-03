@@ -322,6 +322,10 @@ island:
 [ブループリントページ](BentoBox/Blueprints.md)には、ブループリントを始めるための関連情報とカスタマイズのヒントが記載されています。
 [このビデオ](https://youtu.be/4gvaG89uxAs)も参考になるかもしれません。古いですが、数分で最初のブループリントを作成するのに役立つでしょう。
 
+### アイランド作成メニューをもっと大きく（5行または6行）することはできますか？
+
+はい。アイランド作成メニュー（およびプレイヤーがアイランドをリセットする時に表示される同一のメニュー）は、[カスタマイズ可能な GUI](Tutorials/generic/Bigger-Create-Island-Menu.md) によって駆動される`island_creation_panel.yml`テンプレートです。メニューを単に背が高く見せたいだけなら、完全な6行（54スロット）パネルの場合は`force-shown: 6`を追加します。*もっと多くのアイランド バンドルを一度に表示したい*場合は、新しい行にさらに`blueprint_bundle_button`エントリを追加する必要があります—`force-shown`だけでは空の行を開くだけです。6行（54スロット）は Minecraft チェスト GUI の最大値です。完全な6行の例と配置場所については、[アイランド作成メニューを大きくする](Tutorials/generic/Bigger-Create-Island-Menu.md)を参照してください。
+
 ### 言語文字列/メッセージを変更するには？
 
 ロケールファイルは`plugins/BentoBox/locales/`（BentoBoxコア）と`plugins/BentoBox/addons/<AddonName>/locales/`（各アドオン）にあります。該当する`<lang>.yml`ファイルを編集してください。1つの言語のみを使用する場合は、BentoBoxの`config.yml`で`default-language`を設定し、プレイヤーが切り替えるためのパーミッションを削除してください。
