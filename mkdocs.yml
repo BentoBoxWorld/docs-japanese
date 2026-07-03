@@ -57,6 +57,8 @@ nav:
         - "インストール方法": BentoBox/Install-Bentobox.md
         - "BentoBoxワールドをデフォルトに設定": BentoBox/Set-a-BentoBox-world-as-the-server-default-world.md
         - "データベースの移行": BentoBox/Database-transition.md
+        - "カスタム GUI": Tutorials/generic/Customizable-GUI.md
+        - "アイランド作成メニューを大きくする": Tutorials/generic/Bigger-Create-Island-Menu.md
     - "チュートリアル – API":
         - "アドオンの作成": Tutorials/api/Create-an-addon.md
         - "Config API": BentoBox/Config-API.md
