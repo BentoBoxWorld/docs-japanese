@@ -269,8 +269,8 @@
 <td align='left'>strangerrealms.admin.blueprint</td>
 </tr>
 <tr>
-<td align='left'><b>/stranger setowner <player></b></td>
-<td align='left'>クレームのオーナーシップをプレイヤーに移譲する</td>
+<td align='left'><b>/stranger setowner <player> [claim owner]</b></td>
+<td align='left'>クレームのオーナーシップをプレイヤーに移譲する。現在のオーナーを指定すればコンソールから実行できる</td>
 <td align='left'>strangerrealms.mod.team</td>
 </tr>
 <tr>

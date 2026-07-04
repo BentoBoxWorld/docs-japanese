@@ -125,8 +125,8 @@
 <td align='left'>bskyblock.admin.blueprint</td>
 </tr>
 <tr>
-<td align='left'><b>/bsbadmin setowner <player></b></td>
-<td align='left'>島のオーナーをプレイヤーに移譲する</td>
+<td align='left'><b>/bsbadmin setowner <player> [island owner]</b></td>
+<td align='left'>島のオーナーをプレイヤーに移譲する。現在のオーナーを指定すればコンソールから実行できる</td>
 <td align='left'>bskyblock.mod.team</td>
 </tr>
 <tr>

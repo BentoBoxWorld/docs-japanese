@@ -123,8 +123,8 @@
 <td align='left'></td>
 </tr>
 <tr>
-<td align='left'><b>/boxadmin setowner <player></b></td>
-<td align='left'>島のオーナーをプレイヤーに移譲する</td>
+<td align='left'><b>/boxadmin setowner <player> [island owner]</b></td>
+<td align='left'>島のオーナーをプレイヤーに移譲する。現在のオーナーを指定すればコンソールから実行できる</td>
 <td align='left'>boxed.admin.register</td>
 </tr>
 <tr>

@@ -115,8 +115,8 @@
 <td align='left'>poseidon.admin.blueprint</td>
 </tr>
 <tr>
-<td align='left'><b>/padmin setowner <player></b></td>
-<td align='left'>レルムのオーナーをプレイヤーに移譲する</td>
+<td align='left'><b>/padmin setowner <player> [realm owner]</b></td>
+<td align='left'>レルムのオーナーをプレイヤーに移譲する。現在のオーナーを指定すればコンソールから実行できる</td>
 <td align='left'>poseidon.mod.team</td>
 </tr>
 <tr>
