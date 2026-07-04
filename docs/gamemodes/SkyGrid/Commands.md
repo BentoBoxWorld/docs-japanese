@@ -98,8 +98,8 @@
 <td align='left'>skygrid.admin.blueprint</td>
 </tr>
 <tr>
-<td align='left'><b>/sgadmin setowner <player></b></td>
-<td align='left'>エリアのオーナーシップをプレイヤーに移譲する</td>
+<td align='left'><b>/sgadmin setowner <player> [area owner]</b></td>
+<td align='left'>エリアのオーナーシップをプレイヤーに移譲する。現在のオーナーを指定すればコンソールから実行できる</td>
 <td align='left'>skygrid.mod.team</td>
 </tr>
 <tr>
