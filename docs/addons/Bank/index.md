@@ -126,6 +126,21 @@ permissions:
 
     [Release v1.10.1](https://github.com/BentoBoxWorld/Bank/releases/tag/1.10.1)
 
+??? warning "v1.10.0 の新機能 — 破壊的変更（Java 21、BentoBox 3.14.0、MiniMessage）"
+    **リリース日:** 2026-06-16
+
+    モダナイズリリースです。BankはこれからJava 21、Paper 1.21.11、BentoBox 3.14.0を対象とし、ロケール全体がBentoBoxの**MiniMessage**カラーフォーマットに移行されました。
+
+    - 🔡 **新しいプレースホルダー `%Bank_[gamemode]_latest_transaction%`** — プレイヤーの最新のアイランド銀行取引を `[Username] [TxType] $[Amount]` の形式で表示します（例: `tastybento Deposited $500.0`）。完全にローカライズされています。
+    - 🔡 **完全な言語対応** — BankはBentoBoxの全ロケールセット（23言語）に対応しました。
+    - 🔡 🔺 **MiniMessageロケール形式。** すべてのロケールファイルが、従来の `&`/`§` カラーコードからMiniMessageに変換されました。カスタマイズ済みのBankロケールファイルがある場合は、MiniMessage構文で書き直す必要があります — バックアップを取り、古いファイルを削除して再生成させてから、編集をやり直してください。
+    - 🔺 **プラットフォームの近代化。** ビルドがJava 21 / Paper 1.21.11 / BentoBox 3.14.0にアップグレードされました。`plugin.yml` の `api-version` は1.21に、テストスイートはJUnit 5 + MockBukkitに移行されました。
+    - 🐛 不正な形式のエントリに対する銀行取引履歴のパース処理を強化し、最新取引プレースホルダーのフォールバックテキストをローカライズしました。
+
+    🔺 **アップデート方法:** このバージョンをインストールする**前に**、BentoBoxを3.14.0に更新し、サーバーがJava 21で動作していることを確認してください。カスタマイズ済みのロケールファイルは事前にバックアップしてください。
+
+    [Release v1.10.0](https://github.com/BentoBoxWorld/Bank/releases/tag/1.10.0)
+
 ??? note "v1.9.1 の新機能"
     **リリース日:** 2026-03-28
 

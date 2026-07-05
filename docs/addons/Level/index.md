@@ -457,6 +457,21 @@ BentoBox カスタム GUI の詳細はこちらを参照してください: [カ
 
     [Release v2.26.0](https://github.com/BentoBoxWorld/Level/releases/tag/2.26.0)
 
+??? warning "v2.27.0 の新機能 — 対応が必要"
+    **リリース日：** 2026-05-13
+
+    🔺 **BentoBox 3.16.0 以降が必要です。** このリリースでは `addon.yml` の `api-version` が `3.16.0` に引き上げられ、新しい `CraftEngineHook.getItemId` / `getItemStack` ヘルパーに依存します。古いバージョンの BentoBox ではアドオンのロードが拒否されます。
+
+    - ⚙️ **寄付専用モード。** `config.yml` に新しい `donations-only` オプションが追加されました（デフォルト `false`）。`true` にすると、再計算ごとのチャンクスキャンが完全にスキップされ、アイランドレベルは設定済みの `level-calc` フォーミュラを使って寄付ポイントのみから算出されます。このモードでは `/island detail` は登録されず、トップテンビューアーのボタンも詳細パネルを開かなくなります。保存済みの `initialCount` は `/island level` 実行時に無視されるため、既存アイランドがあるサーバーでこのモードを有効にしても、プレイヤーが大きくマイナスのレベルに落ちることはありません。
+    - 💎 **`/island donate inv` — インベントリからすべて寄付。** 確認付きの新しい `inv` サブコマンドを追加。プレイヤーのインベントリ内にある寄付可能なブロックをマテリアルごとの価値と合計値付きで一覧表示し、確認するとすべて寄付してレベル再計算を実行します。設定されていない価値のアイテムやブロック以外のアイテムはインベントリに残ります。タブ補完で第1引数に `hand` / `inv` を、`hand` の後には手持ちアイテムの個数を提案するようになりました。
+    - 🧱 **価値・詳細・寄付メニュー全体でカスタムブロックに対応。** Oraxen、Nexo、ItemsAdder、CraftEngine のカスタムブロックが `/level value` で除外されたり、`/level detail` で名前のない PAPER アイコンとして表示されたりしなくなりました。価値パネルと詳細パネルは各プラグインのレジストリから実際のカスタムブロックの `ItemStack` を取得するため、設定済みのテクスチャ/モデルデータと表示名が保持されます。カスタムアイテムを手に持った状態での `/island value hand` は、設定済みの価値と表示名を報告するようになりました。寄付経路（`/island donate hand`、`/island donate inv`、寄付パネル）はカスタムブロックのアイテムを受け付け、カスタム ID のもとで寄付を記録します。
+    - 🐛 **マイナス方向への進行を修正。** 非線形の `level-calc` フォーミュラ（例：`3 * sqrt(blocks / level_cost)`）が、レベル間でゼロを下回らなくなりました。@msmith-codes に感謝します！
+    - ⚡ **パフォーマンス。** ポイント境界を計算する際、`tidyUp()` がメインスレッド上で最大 1,000 万ポイントを線形に走査しなくなりました — 前方・後方スキャンは二分探索を使用するようになり（数百万回ではなく約 23 回の反復）。
+
+    🔡 **ロケールを更新。** 出荷済みの 18 ロケールすべてに新しい `island.donate.inv.*` キー（`keyword`、`confirm-header`、`confirm-line`、`confirm-total`）が追加されました。`plugins/BentoBox/addons/Level/locales/` にカスタマイズ済みのロケールファイルがある場合は、新しい `donate.inv` ブロックをコピーしてください。そうしないと、新しい `/island donate inv` の流れで生のキーが表示されてしまいます。
+
+    [Release v2.27.0](https://github.com/BentoBoxWorld/Level/releases/tag/2.27.0)
+
 ## 翻訳
 
 {{ translations("Level") }}

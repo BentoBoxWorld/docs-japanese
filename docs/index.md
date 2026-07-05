@@ -15,6 +15,7 @@ hide:
 
   <div class="bb-cta-row">
     <a href="BentoBox/First-Steps" class="bb-btn bb-btn-primary">最初の 30 分 &rarr;</a>
+    <a href="FAQ" class="bb-btn bb-btn-ghost">FAQ とトラブルシューティング</a>
     <a href="gamemodes/Comparison" class="bb-btn bb-btn-ghost">ゲームモードを選ぶ</a>
     <a href="https://download.bentobox.world" class="bb-btn bb-btn-ghost">ビルドをダウンロード</a>
   </div>

@@ -20,6 +20,8 @@
 | `%Bank_[gamemode]_visited_island_balance_formatted%` | フォーマットされたプレイヤーが現在いるアイランドの残高（例: 1.2k） | 1.1.0 |
 | `%Bank_[gamemode]_top_value_#RANK#%` | リーダーボードの `#RANK#` 位アイランドの残高 | 1.1.0 |
 | `%Bank_[gamemode]_top_name_#RANK#%` | リーダーボードの `#RANK#` 位アイランドのオーナー名 | 1.1.0 |
+| `%Bank_[gamemode]_top_island_#RANK#%` | リーダーボードの `#RANK#` 位アイランドの名前 | 1.10.0 |
+| `%Bank_[gamemode]_latest_transaction%` | プレイヤーの最新のアイランド銀行取引。`[Username] [TxType] $[Amount]` の形式で表示されます（例: `tastybento Deposited $500.0`） | 1.10.0 |
 
 *注意*: `#RANK#` は 1 から Bank の config.yml の `number-of-ranks` 設定値までの数値です。
 
