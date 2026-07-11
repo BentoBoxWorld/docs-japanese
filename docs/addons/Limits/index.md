@@ -18,7 +18,7 @@
 
 ## コマンド
 
-`limits` というユーザーコマンドと管理者コマンドがあります。管理者は特定のアイランドオーナーの制限を確認できます。どちらも制限と現在のカウントを GUI パネルで表示します。
+ユーザーコマンドと管理者コマンドの両方が "limits" という名前です。管理者は特定のアイランドオーナーの制限を確認できます。どちらも制限と現在のカウント数を表示する GUI パネルを表示します。
 
 ## セットアップ - Config.yml
 
@@ -27,10 +27,15 @@ config.yml には以下のセクションがあります:
 * blocklimits
 * blocklimits-nether
 * blocklimits-end
+* blockgrouplimits *(1.29.0+)*
+* blockgrouplimits-nether / blockgrouplimits-end *(1.29.0+)*
 * worlds
 * entitylimits
 * entitylimits-nether
 * entitylimits-end
+* entitygrouplimits
+
+また、以下のトップレベルトグル設定があります（**1.29.0** で追加されたものを明記）: `apply-member-limit-perms`、`show-limit-messages`、`stacked-plants-count-as-one`、および `log-limits-on-join`。
 
 !!! info "ディメンションごとの制限 (1.28.2+)"
     **1.28.2** より、ブロック数、エンティティ数、制限、オフセットは**オーバーワールド、ネザー、エンドごとに独立して**追跡されるようになりました。`blocklimits` や `entitylimits` で定義した 1 つの制限は各ディメンションに個別に適用されます。例えば `HOPPER: 10` はオーバーワールドで 10 個、ネザーで 10 個、エンドで 10 個（アイランド全体で合計 30 個）のホッパーを許可します。特定のディメンションだけを上書きするには、オプションの `-nether` / `-end` セクションを使用してください。
@@ -77,6 +82,78 @@ entitygrouplimits:
       - ZOMBIE
       - CREEPER
 ```
+
+### blockgrouplimits
+
+!!! info "1.29.0 以降"
+    `entitygrouplimits` のブロック側対応版です。ブロックマテリアルのセット全体で共有される 1 つの制限。すべてのメンバーのカウント合計がグループ制限に対して確認されるため、プレイヤーは関連ブロック間での変換（例：grass → dirt）やバリアント分割（ピストン / スティッキーピストン）による制限回避ができません。個別の `blocklimits` も設定されていれば、その上で適用されます。
+
+名前付きグループを定義するには、`icon`、共有 `limit`、および `materials` リストを指定します。
+
+```yaml
+blockgrouplimits:
+  Pistons:
+    icon: PISTON
+    limit: 10
+    materials:
+    - PISTON
+    - STICKY_PISTON
+  Soil:
+    icon: GRASS_BLOCK
+    limit: 200
+    materials:
+    - GRASS_BLOCK
+    - DIRT
+    - DIRT_PATH
+    - FARMLAND
+```
+
+環境ごとの上書きは `blockgrouplimits-nether` / `blockgrouplimits-end` でサポートされ、`blockgrouplimits` で既に定義されたグループの数値制限だけを上書きします。
+
+```yaml
+blockgrouplimits-nether:
+  Pistons: 5
+```
+
+!!! warning "グループを変更した後は再カウントを実行してください"
+    ブロックグループを追加したり、下記の `stacked-plants-count-as-one` を変更した後は、`/[player_command] limits recount` を実行して、保存されているカウントが新しいカウントルールに一致するようにしてください。
+
+### ItemsAdder & Oraxen カスタムブロック
+
+!!! info "1.29.0 以降"
+    **ItemsAdder** と **Oraxen** のカスタムブロックは、既存の `blocklimits` セクション（およびその `-nether`/`-end` と `worlds:` 上書き）で直接そのid を使用して制限できます。実装は各プラグイン固有の place/break イベントを BentoBox フックを通じて使用し、プラグインがインストールされている場合のみ登録されます。コロンを含むキーは引用符で囲んでください。
+
+```yaml
+blocklimits:
+  "iafestivities:christmas/christmas_tree/green_orb": 5
+  "oraxen:caveblock": 10
+```
+
+### その他のトグル設定
+
+=== "apply-member-limit-perms"
+    !!! summary "説明"
+        (**1.29.0+**) `true` の場合、チームメンバーの `<gamemode>.island.limit.*` 権限はプレイヤーがログイン時にアイランドの制限にマージされ、最高値が優先されます。Coop と信頼できるプレイヤーはチームメンバーではなく、その権限は適用されません。
+
+        デフォルト: `false`
+
+=== "show-limit-messages"
+    !!! summary "説明"
+        (**1.29.0+**) `false` の場合、制限は静かに実装されます。配置とスポーンはブロックされますが、プレイヤーは制限に達したというメッセージを受け取りません。
+
+        デフォルト: `true`
+
+=== "stacked-plants-count-as-one"
+    !!! summary "説明"
+        (**1.29.0+**) `true` の場合、`SUGAR_CANE` または `BAMBOO` の茎はいかに高く成長しても 1 つの植物としてカウントされます。ベースセグメントだけがカウントされます。このオプションを変更した後は再カウントを実行してください。
+
+        デフォルト: `false`
+
+=== "log-limits-on-join"
+    !!! summary "説明"
+        アイランドオーナーがログイン時にアイランドの制限をコンソールに記録します。**1.29.0** 以降、これは **デフォルトで `false`** です（以前は `true` がデフォルトでした）。多くの権限ベースの制限があるサーバーではコンソール出力が大量になるためです。デバッグ出力に頼っていた場合は `true` に戻してください。
+
+        デフォルト: `false`
 
 ## 権限
 
@@ -141,11 +218,43 @@ entitygrouplimits:
 * エンダークリスタル
 * エンダーパール
 * エンダードラゴン
-* アイテムフレーム
-* 絵画
+
+!!! tip "アイテムフレームと絵画は 1.29.0 で制限できるようになりました"
+    アイテムフレーム、発光アイテムフレーム、絵画は以前このリストにありました。**1.29.0** 以降、エンティティカウントは永続的でイベント駆動型になっているため、この 3 つはすべて他のエンティティと同じように `entitylimits` で設定できるようになりました。
 
 
 ## 変更履歴
+
+??? note "v1.29.0 の新機能"
+    **リリース日:** 2026-07-10
+
+    互換性: BentoBox API 2.7.1 · Paper Minecraft 1.21.11 – 26.2 · Java 21。
+
+    - ⚙️ **ブロックグループ制限。** ブロックマテリアルのセット全体で共有される 1 つの制限（例：ピストン + スティッキーピストン、または草／土／農地）により、プレイヤーが関連ブロック間での変換による制限回避ができません。`blockgrouplimits` で設定し、`-nether`/`-end` 上書きに対応。上記の「設定」セクションを参照。
+    - ⚙️ **ItemsAdder と Oraxen カスタムブロック制限。** 名前空間付き id を直接 `blocklimits` に使用してカスタムブロックの制限を設定できます。
+    - ⚙️ **チームメンバー制限権限（オプトイン）。** `apply-member-limit-perms: true` の場合、チームメンバーの `island.limit.*` 権限がアイランドの制限に追加でき、オーナーの権限だけではなくなります。
+    - 🔡 **到達した制限プレースホルダーと API。** 新しい `%Limits_<gamemode>_island_reached_limits%` プレースホルダー（および `_overworld`/`_nether`/`_end`）が最大に達した制限を列挙し、新しい `Limits#getReachedLimits(...)` API によってサポートされます。2018 年に登録された最古のオープンチケットを閉じます。
+    - ⚙️ **積み重ねられた植物は 1 つとしてカウント可能。** 砂糖きびまたは竹の茎全体を 1 つの植物としてカウントしても良い場合は（`stacked-plants-count-as-one`）。
+    - ⚙️ **サイレント実装オプション。** `show-limit-messages: false` で制限に達したチャットメッセージを無効にしながら、制限は引き続き実装されます。
+    - 🔡 **マテリアル／エンティティ名のマニュアル翻訳。** ロケールファイルは GUI と制限に達したメッセージで表示されるブロック／エンティティ名を翻訳できるようになりました。
+    - **アイテムフレーム、発光アイテムフレーム、絵画は `entitylimits` で制限できるようになりました。**
+    - 🐛 **修正：ポータル移動したモブからのファントムエンティティカウント**（例：アイランドにチキンがないのに「Chicken 10/10」）と銅ゴーレムが `COPPER_CHEST` 制限をバイパスする。
+    - ⚙️ **`log-limits-on-join` のデフォルトが `false` に変更** — コンソール出力に頼っていた場合は `true` に戻してください。
+
+    !!! warning "新しい設定オプションは自動的に追加されません"
+        新しいキーは既存の `config.yml` に**表示されません** — 上記のリストから必要なものを追加するか、config を削除して再生成してください。ブロックグループを追加したり、`stacked-plants-count-as-one` を変更した後は、保存されているカウントが新しいカウントルールに一致するように再カウントを実行してください。
+
+    [Release v1.29.0](https://github.com/BentoBoxWorld/Limits/releases/tag/1.29.0)
+
+??? note "v1.28.4 の新機能"
+    **リリース日:** 2026-07-06
+
+    エンティティカウントを正確に保ち、確実に永続化することに焦点を当てたメンテナンスリリース。設定またはロケール変更は必要ありません。
+
+    - 🐛 **エンティティカウントはもう実際の値を超えてドリフトしません。** スポーン／削除のシーケンスの下では、追跡されたエンティティカウントは実際のアイランド上にあるエンティティ数を超えて上昇でき、最終的にスポーンをブロックするべきものをブロックしました。カウントは実際のアイランド個体数と同期を保つようになりました。[[#273](https://github.com/BentoBoxWorld/Limits/pull/273)]
+    - 🐛 **エンティティカウント永続性の一元化。** すべてのエンティティカウント変更は `BlockLimitsListener` を通じてフローするようになり、通常のバッチ保存サイクルに登録されるため、アドオンを無効にするときだけではなく、アンクリーンなシャットダウンやクラッシュ時のカウント損失を防ぎます。[[#274](https://github.com/BentoBoxWorld/Limits/pull/274)]
+
+    [Release v1.28.4](https://github.com/BentoBoxWorld/Limits/releases/tag/1.28.4)
 
 ??? note "v1.28.3 の新機能"
     **リリース日:** 2026-06-29

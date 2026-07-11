@@ -32,15 +32,15 @@
 
 ### border type {...}
 **コマンド**: `/[player command] border type {barrier | vanilla}`  
-**説明**: ボーダーの種類を設定します。  
-**権限**: `[gamemode].border.set-type`。デフォルト: `true`。  
+**説明**: ボーダーの種類を設定します。引数なしで実行すると、利用可能な種類を切り替えます。  
+**権限**: `[gamemode].border.type`。デフォルト: `true`。  
 **例**: `/[player command] border type barrier`  
 
-### color {red|green|blue}
-**コマンド**: `/[player command] color {red | green | blue}`  
+### border color {red|green|blue}
+**コマンド**: `/[player command] border color {red | green | blue}`  
 **説明**: プレイヤーのバニラワールドボーダーの色を設定します。バニラボーダータイプ使用時のみ適用されます。  
-**権限**: `[gamemode].color.red`、`[gamemode].color.green`、`[gamemode].color.blue`（または全色に `[gamemode].color.*`）。デフォルト: `op`。  
-**例**: `/[player command] color green`  
+**権限**: `[gamemode].border.color.red`、`[gamemode].border.color.green`、`[gamemode].border.color.blue`（または全色に `[gamemode].border.color.*`）。デフォルト: `op`。  
+**例**: `/[player command] border color green`  
 
 !!! tip "ヒント"
     `[gamemode]` は実行中のゲームモードによって異なるプレフィックスです。
@@ -70,6 +70,33 @@ disabled-gamemodes:
 disabled-gamemodes: []
 ```
 
+### ボーダーの種類
+新しいプレイヤーが取得するボーダーのデフォルトな種類。2つの選択肢があります:
+
+- `VANILLA` — Minecraft 独自のワールドボーダー効果を使用します（バニラゲームで見られるゆらゆらした壁）。色を付けることができます。
+- `BARRIER` — 目に見えないバリアブロックと色付きパーティクルを使用します。エッジに近づいたときだけ表示されます。
+
+権限のあるプレイヤーは `/[player command] border type` でボーダーを切り替えられます。権限がない場合は、ここで設定したボーダーが提供されます。
+
+```yml
+type: VANILLA
+```
+
+### バニラボーダーの色
+バニラワールドボーダーの色。ボーダーの種類が `VANILLA` の場合のみ使用されます。  
+選択肢は `RED`、`GREEN`、または `BLUE`。権限のあるプレイヤーは `/[player command] border color` でカスタムカラーを選べます。
+
+```yml
+color: BLUE
+```
+
+### アイテムのバウンスバック
+`true` の場合、プレイヤーがボーダーに投げたアイテムは外に飛び出さず、内側に戻されます。`false` に設定すると、投げたアイテムはボーダーを通過します。
+
+```yml
+bounce-back: true
+```
+
 ### 帰還テレポート
 プレイヤーがボーダーを何らかの方法で通過した場合（例: 同じワールド内でのテレポート）、アイランドに戻すかどうかを制御します。
 
@@ -87,6 +114,13 @@ return-teleport: true
     use-barrier-blocks: false
     return-teleport: false
     ```
+
+### 帰還テレポート時の安全ブロック
+`return-teleport` が `true` の場合のみ使用されます。プレイヤーがボーダー内にテレポートで戻され、危険な場所に着地した場合（例: 崖の上やマグマ内）、足元に安全ブロックを配置して怪我を防ぎます。
+
+```yml
+return-teleport-safety-block: true
+```
 
 ### バリアブロックの使用
 バニラボーダータイプを**使用していない**プレイヤーにのみ適用されます。
@@ -127,11 +161,19 @@ show-max-border: true
 show-particles: true
 ```
 
-### マップにワープを表示
-バニラワールドボーダーの色機能が利用可能かどうかを制御します。個々のプレイヤーの色は `/[player_command] color` コマンドで設定します。ウェブマッププラグイン（Dynmap または BlueMap）と BentoBox マップフックが必要です。
+### バリアオフセット
+バニラボーダータイプを**使用していない**プレイヤーにのみ適用されます。
+
+通常、ボーダーはプレイヤーの保護範囲の端に正確に配置されます。この設定はバリアを指定ブロック数分**外向き**にシフトするため、プレイヤーは壁に当たる前に保護範囲を少し超えて歩くことができます。
+
+覚えておくべき重要な点:
+
+- 保護範囲そのものを大きくする**わけではありません** — プレイヤーは追加スペースに建築したり保護したりできません。ただ立つことができるだけです。
+- ボーダーはアイランド距離を超えて外に出ることは決してありません。どんな大きな数字を設定しても関係ありません。
+- 最小値（およびデフォルト値）は `0` で、これはボーダーが保護範囲の上に配置されることを意味します。
 
 ```yml
-show-warps-on-map: true
+barrier-offset: 0
 ```
 
 ## プレースホルダー
@@ -139,6 +181,51 @@ show-warps-on-map: true
 | プレースホルダー | 説明 | バージョン |
 |---|---|---|
 | `%Border_color%` | プレイヤーの現在のボーダー色（`red`、`green`、または `blue`） | 4.8.0 |
+
+## FAQ
+
+??? question "ボーダーのサイズを変更するには？"
+    ボーダーはそのもの自体のサイズを持っていません — 各アイランドの**保護範囲**の周りに描画されます。ボーダーを大きくまたは小さくするには、保護範囲を変更します。
+
+    - プレイヤーに `[gamemode].island.range.<number>` のような権限を与えてより大きな範囲を提供します（例: `bskyblock.island.range.150`）。
+    - 管理者は管理範囲コマンドで特定のアイランドの範囲を設定できます。例: `/bsbadmin range set <player> <number>`。
+    - 範囲は**アイランド間の距離の半分**を超えることはできません。この距離はワールド作成時に一度だけ設定され、その後は変更できません。
+
+    詳細は [Island Range and Spacing](../../BentoBox/About/IslandManagement.md#island-range-and-spacing) を参照してください。
+
+??? question "ボーダーをアイランドの範囲より少し大きくすることはできますか？"
+    はい！`config.yml` の `barrier-offset` 設定を使用してください。選択したブロック数分ボーダーを外向きにシフトするため、プレイヤーは壁に当たる前に保護範囲を少し超えて立つことができます。
+
+    この設定はボーダーを移動させるだけで、プレイヤーに建築または保護できる追加土地を**与えません**。上記の [バリアオフセット](#バリアオフセット) 設定を参照してください。
+
+??? question "バリアとバニラボーダータイプの違いは何ですか？"
+    - **バニラ** は Minecraft 独自のワールドボーダー効果を使用します — 通常のゲームで知られている輝く壁。赤、緑、青に色付けできます。
+    - **バリア** は見えないバリアブロックと、エッジに近づいたときだけ表示される色付きパーティクルを使用します。
+
+    権限のあるプレイヤーは `/[player command] border type` で切り替えられます。
+
+??? question "固い壁ではなく、プレイヤーが越えられるラインだけが欲しいのですが？"
+    はい。`use-barrier-blocks: false` で固い壁がなくなり、`return-teleport: false` でプレイヤーが引き戻されません。これでビジュアルボーダーだけが残ります。`config.yml` に以下を設定します:
+
+    ```yml
+    use-barrier-blocks: false
+    return-teleport: false
+    ```
+
+??? question "ボーダーの色を変更するには？"
+    色は**バニラ**ボーダータイプでのみ機能します。`config.yml` の `color` 設定でサーバー全体のデフォルトを設定します（`RED`、`GREEN` または `BLUE`）。権限のあるプレイヤーはゲーム内で `/[player command] border color {red|green|blue}` で色を選択できます。
+
+??? question "ボーダーをオフにするには？"
+    プレイヤーは `/[player command] border` でボーダーのオン/オフを切り替えられます（`[gamemode].border.toggle` 権限が必要です）。全員デフォルトでオフにするには、`config.yml` で `show-by-default: false` に設定します。
+
+??? question "ボーダーが表示されていません —何を確認すればいい？"
+    - `config.yml` の `disabled-gamemodes` にゲームモードが記載されていないか確認してください。
+    - プレイヤーがボーダーを実際にオンにしているか確認します（`/[player command] border`）。また `show-by-default` が `true` か確認します。
+    - ボーダーは自分のアイランドの保護範囲周りにだけ表示されるため、エッジの近くにいないと見えません。
+    - **バリア**タイプで `show-particles: false` を使用している場合、触れるまで壁は見えません — これは期待通りです。
+
+??? question "機能 X を追加してくれませんか？"
+    [issue tracker](https://github.com/BentoBoxWorld/Border/issues) でリクエストしてください。
 
 ## 変更履歴
 
