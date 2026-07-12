@@ -149,6 +149,39 @@
 
 **2.8.0**以降、ジェネレーターと—個々のブロック内で—最小および最大Yレベルに制限でき、異なる高さで異なるマテリアルが生成されます。新しいGUIボタンを使用すると、管理者は範囲を設定およびクリアでき、ジェネレーターロアはプレイヤーに各ジェネレーターの動作場所を示します。高さ範囲のないレガシーテンプレートは完全に互換性があります。
 
+### ロック解除の進行と要件
+
+**2.9.0**以降、ジェネレーターはより豊かな要件の背後にゲートされ、ティアのフラットなリストではなく、適切なアンロックツリーを設計できます。これらはすべて、管理者GUIのジェネレーター編集パネルから設定されます：
+
+- **前提条件ジェネレーター** — 複数段階の進行を構築し、最初に1つ以上の他のジェネレーターをアンロックする必要があります。
+- **AOneBlockフェーズ要件** — AOneBlockゲームモードでは、ジェネレーターを特定のアイランドフェーズの背後にゲートし、アイランドが進むにつれてティアのロックが解除されます。
+- **OneBlockブロック数要件** — OneBlockアイランドで破壊されたブロック数の背後にジェネレーターをゲートします。
+- **アンロック時に有効化** — ジェネレーターがアンロックされた瞬間に自動的に有効化するジェネレーターごとのオプション。プレイヤーがGUIへのアクセスを節約できます。
+- **購入確認** — ジェネレーターを購入するときにお金が取られる前に、明確な確認を要求するオプション。誤った購入を防止します。
+
+=== "lose-tiers-on-level-loss"
+    !!! summary "説明"
+        *2.9.0で追加。* アイランドレベルによってアンロックされたジェネレーターがアイランドレベルが後で要件を下回る場合に再度ロックされる、2.0.0前の動作を復元します。購入されたティアは常に保持されます — 無料でレベルアンロックされたティアのみが再ロックされます。アップグレード後の最初のロード時に`config.yml`に自動的に書き込まれます。
+
+        デフォルト: `false`
+
+!!! warning "権限ゲートされたジェネレーターは今リボーク（取り消し）されます"
+    **2.9.0**以降、権限によってアンロックされたジェネレーターは再確認され、現在のオンラインオーナーが必要な権限を保持しなくなった場合（例：所有権の移転後）、アイランドのアンロック済みおよびアクティブなリストから**リボーク**されます。購入されたティアは保持されるため、権限が再び取得されるとアクセスが返ります。オフラインオーナーは影響を受けません。以前はそのような付与は恒久的でした。
+
+### カスタムブロック出力 (ItemsAdder, CraftEngine, Oraxen, Nexo)
+
+**2.10.0**以降、ジェネレーターティアは、バニラマテリアルだけでなく、ItemsAdder、CraftEngine、OraxenおよびNexoからのカスタムブロックを生成できます — 例えば、ダイヤモンドで装飾されたItemsAdderの鉱石は、他のすべてのものと一緒に加重ランダムミックスにロールされます。これらのプラグインへのすべてのアクセスはBentoBoxコアフックを通じてルーティングされるため、アドオンは直接それらに依存しません。
+
+- ブロックは文字列IDとして保存されます：`COBBLESTONE`のようなバニラ名、またはプロバイダー接頭辞付きID `itemsadder:namespace:id`、`craftengine:namespace:id`、`oraxen:id`、`nexo:id`。**既存のデータベースおよびテンプレートは変更されずにロードされます。**
+- 管理者編集パネルは**カスタムブロックの追加**ボタンを獲得します — チャットでIDを入力し、フックレジストリに対して検証されます。パネルはカスタムブロックをプロバイダー自身のテクスチャと表示名でレンダリングします。
+- ピックアップされたカスタムブロックが生成時に利用できない場合（プロバイダーまたはブロックが不足している場合）、ジェネレーターはバニラブロックにフォールバックし、サイレント失敗ではなく`/[admin_command] generator why`経由で理由を報告します。テンプレートインポートの未登録カスタムブロックは警告付きでインポートされるため、テンプレートはサーバー間で移植可能なままです。
+
+!!! note "プロバイダーの可用性"
+    ItemsAdderとCraftEngineは今日ブロックを生成します。OraxenとNexoは配線されており、一致するBentoBoxコアフックが出荷されると生成します（BentoBox 3.20.0はNexoフックと`OraxenHook.placeBlock`を追加します）。
+
+!!! warning "BentoBox 3.19.1以降が必須"
+    2.10.0はBentoBox 3.19.1で追加されたカスタムブロックフックAPIに依存し、**古いコアではロードされません**。このjarをドロップする前にBentoBoxを更新してください。
+
 ## コマンド
 
 !!! tip "ヒント"
@@ -169,6 +202,7 @@
     - `/[admin_command] generator database import <file>`: エクスポートされたデータベース `<file>` をインポートします。
     - `/[admin_command] generator database export <file>`: データベースを `/plugins/BentoBox/addons/MagicCobblestoneGenerator/` フォルダ内の `<file>` にエクスポートします。
     - `/[admin_command] generator why <player>`: 各プレイヤーのジェネレーターの問題を発見するためのデバッグコマンドです。
+    - `/[admin_command] generator reset <player>`: プレイヤーのアイランドジェネレーターデータ — アンロック済み、購入済み、およびアクティブなジェネレーター — を確認プロンプト後にリセットします。*(2.9.0で追加。)*
 
 ## 権限
 
@@ -299,7 +333,38 @@
 
 ## 変更履歴
 
-!!! warning "v2.8.0 の新機能 — BentoBox 3.14.0 / Java 21 が必須"
+??? warning "v2.10.0 の新機能 — カスタムブロック、BentoBox 3.19.1 が必須"
+    **リリース日:** 2026-07-11
+
+    ジェネレーターは他のプラグインからカスタムブロックをドロップできるようになりました。BentoBoxコアフックを通じてルーティングされます。
+
+    - 🔺 **カスタムブロックのサポート。** ジェネレーターティアはバニラマテリアルと同様に、**ItemsAdder、CraftEngine、OraxenおよびNexo**からのブロックを生成できます。ブロックは文字列IDとして保存されます（`COBBLESTONE`、または`itemsadder:namespace:id`、`craftengine:namespace:id`、`oraxen:id`、`nexo:id`）。既存のデータベースは変更されずにロードされます。[#103](https://github.com/BentoBoxWorld/MagicCobblestoneGenerator/issues/103)を修正。上記の設定セクションを参照してください。
+    - ✨ **カスタムブロック追加パネルボタン** チャット入力検証付き、フックレジストリに対して検証されます。パネルはカスタムブロックをプロバイダーのテクスチャと名前でレンダリングします。利用不可のカスタムブロックはバニラブロックにフォールバックし、サイレント失敗ではなく`/why`レポートで報告されます。ItemsAdderとCraftEngineは今日生成されます。OraxenとNexoはBentoBox 3.20.0のフックが存在すると生成されます。
+    - 🐛 **トレジャーチャンス編集が保存されるようになりました。** 管理パネルのトレジャーチャンス編集が非推奨の`treasureChanceMap`の代わりに`treasureItemChanceMap`に書き込まれていたため、編集が失われていました — 修正されました。
+    - ⚙️ **テンプレートがカスタムブロックを受け入れます。** `generatorTemplate.yml`はクォートされたプロバイダー接頭辞付きブロックキーを受け入れるようになりました。既存のセットアップにはアクション不要です。未登録のカスタムブロックは警告付きでインポートされます。
+    - 🔡 **ロケール注記:** カスタムブロック UIの新しい`en-US.yml`キーが追加されました。ロケールファイルを再生成または更新して、新しい文字列を取得してください。
+    - 🔺 **BentoBox 3.19.1以降が必須。** このリリースが呼び出すカスタムブロックフック API は3.19.1からのみ利用可能です。アドオンは古いコアではロードされません。最初にBentoBoxを更新してください。
+
+    [Release v2.10.0](https://github.com/BentoBoxWorld/MagicCobblestoneGenerator/releases/tag/2.10.0)
+
+??? warning "v2.9.0 の新機能 — 権限ゲートされたジェネレーターは今リボーク（取り消し）されます"
+    **リリース日:** 2026-07-08
+
+    豊かなアンロック進行とまたはいくつかの管理/API改善が追加されます。
+
+    - 🔒 **前提条件ジェネレーター。** 1つ以上の他のジェネレーターの背後にジェネレーターをゲートし、設計された進行でティアのロックを解除します。新しい管理者GUIセレクターで設定されます。[#88](https://github.com/BentoBoxWorld/MagicCobblestoneGenerator/issues/88)を修正。
+    - 🧱 **OneBlock / AOneBlockゲーティング。** OneBlockアイランドで特定のAOneBlockフェーズまたはブロック数を要求し、ジェネレーターが利用可能になる前に。[#121](https://github.com/BentoBoxWorld/MagicCobblestoneGenerator/issues/121)、[#117](https://github.com/BentoBoxWorld/MagicCobblestoneGenerator/issues/117)を修正。
+    - ⚙️ **レベル低下時にティアを再ロック。** 新しい`lose-tiers-on-level-loss`設定（デフォルト`false`）はアイランドのレベルが低下した場合、レベルアンロックされたジェネレーターを再ロックします。購入されたティアは常に保持されます。[#118](https://github.com/BentoBoxWorld/MagicCobblestoneGenerator/issues/118)を修正。
+    - ✨ **アンロック時に有効化。** ジェネレーターはアンロックされた瞬間に自動的に有効化できるようになりました。[#106](https://github.com/BentoBoxWorld/MagicCobblestoneGenerator/issues/106)を修正。
+    - 💰 **購入確認。** ジェネレーター購入前にプレイヤーに確認を要求します。[#109](https://github.com/BentoBoxWorld/MagicCobblestoneGenerator/issues/109)を修正。
+    - 🛠️ **管理者データリセット。** 新しい`/[admin_command] generator reset <player>`コマンドは確認プロンプト後にプレイヤーのアンロック済み、購入済み、およびアクティブなジェネレーターをリセットします。[#149](https://github.com/BentoBoxWorld/MagicCobblestoneGenerator/issues/149)を修正。
+    - 🔌 **新しいキャンセル可能APIイベント** `GeneratorPreBuyEvent`および`GeneratorTreasureDropEvent`は他のアドオンがフックインできます（下記のAPIセクションを参照）。
+    - 🔺 **動作変更:** 権限ゲートされたジェネレーターは、アイランドのオンラインオーナーが必要な権限を保持しなくなった場合（例：所有権の移転後）、**リボーク**されるようになりました。購入されたティアは保持されるため、権限が再び取得されるとアクセスが返ります。
+    - 🔡 **ロケール注記:** 前提条件セレクター、アンロック時に有効化、購入確認、管理者リセットコマンド、およびOneBlock/AOneBlock要件メッセージの新しい`en-US.yml`キーが追加されました。ロケールファイルを再生成または更新して、新しい文字列を取得してください。
+
+    [Release v2.9.0](https://github.com/BentoBoxWorld/MagicCobblestoneGenerator/releases/tag/2.9.0)
+
+??? warning "v2.8.0 の新機能 — BentoBox 3.14.0 / Java 21 が必須"
     **リリース日:** 2026-07-03
 
     - ⚙️ **ジェネレーター排出量制限。** オプションで、ジェネレーターが期間ごとに生成するブロック数をレート制限し、制限に達するとクールダウンします。グローバルに（`config.yml`の`exhaustion.*`）およびジェネレーターティアごと（テンプレートの`exhaustion-limit`）で設定可能。オプトイン式で、デフォルトは無効。上記の設定セクションを参照してください。
@@ -424,6 +489,67 @@ MagicCobblestoneGenerator の JavaDocs は[こちら](https://ci.codemc.io/job/B
 
             String generator = event.getGenerator();
             String generatorID = event.getGeneratorID();
+        }
+        ```
+
+=== "GeneratorPreBuyEvent"
+    !!! summary "説明"
+        ジェネレーターが購入される**前に**発火するイベント。購入をキャンセルまたは検査できます。共有`GeneratorEvent`基本クラスを拡張します。
+        このイベントはキャンセル可能です。
+
+        2.9.0バージョン以降。
+
+        クラスへのリンク: [GeneratorPreBuyEvent](https://github.com/BentoBoxWorld/MagicCobblestoneGenerator/blob/develop/src/main/java/world/bentobox/magiccobblestonegenerator/events/GeneratorPreBuyEvent.java)
+
+    !!! question "変数"
+        - `String islandUUID` - 対象アイランドの ID。
+        - `UUID targetPlayer` - ジェネレーターを購入しているプレイヤーの ID。
+        - `String generator` - 購入されるジェネレーターの名前。
+        - `String generatorID` - 購入されるジェネレーターの ID。
+
+        
+    !!! example "コード例"
+        ```java
+        @EventHandler(priority = EventPriority.LOW)
+        public void onGeneratorPreBuy(GeneratorPreBuyEvent event) {
+            UUID user = event.getTargetPlayer();
+            String island = event.getIslandUUID();
+            String generatorID = event.getGeneratorID();
+
+            // 必要に応じて購入を拒否する
+            if (someCondition) {
+                event.setCancelled(true);
+            }
+        }
+        ```
+
+=== "GeneratorTreasureDropEvent"
+    !!! summary "説明"
+        トレジャーがジェネレーターからドロップしようとするときに発火するイベント。ドロップをキャンセルまたは変更できます。共有`GeneratorEvent`基本クラスを拡張します。
+        このイベントはキャンセル可能です。
+
+        2.9.0バージョン以降。
+
+        クラスへのリンク: [GeneratorTreasureDropEvent](https://github.com/BentoBoxWorld/MagicCobblestoneGenerator/blob/develop/src/main/java/world/bentobox/magiccobblestonegenerator/events/GeneratorTreasureDropEvent.java)
+
+    !!! question "変数"
+        - `String islandUUID` - 対象アイランドの ID。
+        - `UUID targetPlayer` - トレジャーがドロップするプレイヤーの ID。
+        - `String generator` - トレジャーをドロップするジェネレーターの名前。
+        - `String generatorID` - トレジャーをドロップするジェネレーターの ID。
+        - `Location location` - トレジャーがドロップしようとする位置。
+        - `ItemStack itemStack` - ドロップしようとするトレジャーアイテム（変更可能）。
+
+        
+    !!! example "コード例"
+        ```java
+        @EventHandler(priority = EventPriority.LOW)
+        public void onTreasureDrop(GeneratorTreasureDropEvent event) {
+            Location location = event.getLocation();
+            ItemStack treasure = event.getItemStack();
+
+            // ドロップをキャンセルまたはアイテムをスワップ
+            event.setCancelled(true);
         }
         ```
 
