@@ -60,3 +60,39 @@ PlayerEvent.builder()
 ```
 
 これは完全に追加的なもので、すべてのクラスが新規であり既存の API は変更されていないため、3.17.0 は既存のアドオンとバイナリ互換です。[Inventory Switcher アドオン](../addons/InvSwitcher/index.md)はこれらのイベントを利用して、リセット時にワールドごとのインベントリと残高を保護します。[Release 3.17.0](https://github.com/BentoBoxWorld/BentoBox/releases/tag/3.17.0) を参照してください。
+
+# モーダルダイアログ { #modal-dialogs }
+
+*BentoBox 3.21.0 で追加されました。*
+
+`world.bentobox.bentobox.api.dialogs` は Paper のモーダルダイアログシステムをラップしたもので、**Minecraft 26 以降**が必要です。ダイアログは Panels API と並び立つ存在です。パネルはプレイヤーがクリックして閉じられるインベントリですが、ダイアログはプレイヤーが必ず答えなければならないモーダルです。コアはこれをコマンドの確認、`/island go` の行き先ピッカー、チーム招待、初回参加時のゲームモード選択に使用しています。
+
+| クラス | 用途 |
+| --- | --- |
+| `Dialogs` | `Dialogs.isSupported()` — このサーバーがダイアログを表示できるかどうか |
+| `DialogBuilder` | 流暢なビルダー: `title`、`body`、`escapable`、`pause`、`confirmation`、`button`、`build` |
+| `DialogButton` | ラベル、任意のツールチップ、および `Consumer<User>` のクリックハンドラー |
+| `BBDialog` | ビルドされたダイアログ — `show(User)` で表示します |
+
+`title(...)`、`body(...)`、`DialogButton.of(...)` はいずれも Adventure の `Component`、または `User` とロケール参照（任意で変数付き）のどちらかを受け取ります。そのため、ダイアログのテキストはアドオンの他の部分と同じ方法で翻訳されます。すべてが端から端まで `Component` ベースなので、クリックアクションも失われません。
+
+```java
+if (!Dialogs.isSupported()) {
+    // 26 より前のサーバー: 従来のチャットまたはパネルのフローにフォールバック
+    askInChat(user);
+    return;
+}
+new DialogBuilder()
+    .title(user, "myaddon.confirm.title")
+    .body(user, "myaddon.confirm.body", "[name]", island.getName())
+    .confirmation(
+        DialogButton.of(user, "myaddon.confirm.yes", u -> doTheThing(u)),
+        DialogButton.of(user, "myaddon.confirm.no", u -> u.sendMessage("myaddon.confirm.cancelled")))
+    .build()
+    .show(user);
+```
+
+!!! warning "必ずフォールバックを用意してください"
+    コアと同じように、`Dialogs.isSupported()` をチェックし、古いサーバー向けに従来のチャットまたはパネルの動作を残しておいてください。ボタンのクリックハンドラーはメインスレッドで実行されるため、Bukkit API を直接呼び出せます。
+
+[Release 3.21.0](https://github.com/BentoBoxWorld/BentoBox/releases/tag/3.21.0) を参照してください。
