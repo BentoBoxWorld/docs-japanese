@@ -36,11 +36,23 @@
 **権限**: `[gamemode].border.type`。デフォルト: `true`。  
 **例**: `/[player command] border type barrier`  
 
+### bordertype {...}
+**コマンド**: `/[player command] bordertype {barrier | vanilla}`  
+**説明**: `border type` と同じコマンドで、ゲームモードのコマンド直下に登録されています。  
+**権限**: `[gamemode].border.bordertype`。デフォルト: `false`。  
+**例**: `/[player command] bordertype vanilla`  
+
 ### border color {red|green|blue}
-**コマンド**: `/[player command] border color {red | green | blue}`  
+**コマンド**: `/[player command] border color {red | green | blue}`（`/[player command] bordercolor {red | green | blue}` としても利用できます）  
 **説明**: プレイヤーのバニラワールドボーダーの色を設定します。バニラボーダータイプ使用時のみ適用されます。  
-**権限**: `[gamemode].border.color.red`、`[gamemode].border.color.green`、`[gamemode].border.color.blue`（または全色に `[gamemode].border.color.*`）。デフォルト: `op`。  
+**権限**: コマンドを実行するには `[gamemode].border.color` が必要です。デフォルト: `true`。  
+さらに、それぞれの色に個別の権限が必要です: `[gamemode].border.color.red`、`[gamemode].border.color.green`、`[gamemode].border.color.blue`（または全色に `[gamemode].border.color.*`）。デフォルト: `op`。  
 **例**: `/[player command] border color green`  
+
+!!! warning "4.8.5 での権限変更"
+    `[gamemode].border.color` は 4.8.5 より前は宣言されていなかったため、暗黙のうちに op 限定にフォールバックしており、通常のプレイヤーは色コマンドをまったく実行できませんでした。現在はデフォルト `true` で宣言されています。
+
+    宣言されていたノード `[gamemode].bordertype` も、コマンドが実際に確認しているノードである `[gamemode].border.bordertype` に改名されました。LuckPerms（などの権限プラグイン）で `[gamemode].bordertype` を許可または拒否していた場合は、ルールを更新してください — 古いノードは実際には何の効果もありませんでした。
 
 !!! tip "ヒント"
     `[gamemode]` は実行中のゲームモードによって異なるプレフィックスです。
@@ -263,6 +275,20 @@ barrier-offset: 0
     設定やロケールの変更は不要です。`bordertype barrier` で回避していた場合は、4.8.4 をインストールすれば `vanilla` に戻せます。
 
     [Release v4.8.4](https://github.com/BentoBoxWorld/Border/releases/tag/4.8.4)
+
+??? warning "v4.8.5 の新機能 — 権限の変更"
+    **リリース日：** 2026-08-01
+
+    互換性と権限に関する修正リリースです。設定やロケールの変更は不要です。
+
+    - 🐛 **他プラグインからドロップ品を横取りしなくなりました。** 4.7.0 で追加された死亡ドロップの保護は、`PlayerDeathEvent` からすべてのアイテムを取り出して自前でスポーンさせ、リストを空にしていました。そのため DeathChest や墓石系プラグイン、インベントリ保持機能は後から実行されて空のイベントを受け取り、アイテムはすでに地面に落ちている状態でした。デフォルトの `bounce-back: true` では、これがそれらすべてを静かに壊していました。Border はイベントのドロップ品に手を触れず、MONITOR 優先度で実行し、直後のティックに死亡地点付近でサーバー自身がスポーンさせたアイテムだけを跳ね返すようになりました。他のプラグインがドロップ品を取得した場合は何も跳ね返らず、ドロップ品が残った場合はこれまでどおり跳ね返り、バニラの初速や消滅タイマーも保たれます。
+    - 🔺 **`[gamemode].border.color` がデフォルト `true` で宣言されるようになりました。** これにより、通常のプレイヤーもドキュメントどおりに色コマンドを使用できます。以前は `addon.yml` で宣言されていなかったため、op 限定にフォールバックしていました。個別の色（`.red`、`.green`、`.blue`）は引き続き `op` です。この不具合を回避するために明示的に付与していた権限は、そのままでも動作します。
+    - 🔺 **`[gamemode].bordertype` を `[gamemode].border.bordertype` に改名。** これは `BorderTypeCommand` が実際に確認しているノードです。デフォルトの `false` は変更ありません。古いノードを参照している LuckPerms のルールは更新してください — どちらにせよ効果はありませんでした。
+    - リリースが Modrinth に加えて CurseForge と Hangar にも自動公開されるようになり、Modrinth の掲載対象が 1.21.5～1.21.11 および 26.1.x になりました。
+
+    互換性: BentoBox API 3.12.0+、Minecraft 1.21.5～1.21.11 および 26.1.x、Java 21。
+
+    [Release v4.8.5](https://github.com/BentoBoxWorld/Border/releases/tag/4.8.5)
 
 ## 翻訳
 
