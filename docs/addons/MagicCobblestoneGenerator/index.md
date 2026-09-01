@@ -37,7 +37,9 @@
         # Icon used in GUI's. Number at the end allows to specify stack size for item.
         # Default value: Paper.
         icon: "PAPER:1"
-        # Generator type: COBBLESTONE, STONE or BASALT. Self explanatory.
+        # Generator type: which vanilla lava mechanic this tier replaces.
+        # COBBLESTONE, STONE, BASALT, COBBLESTONE_OR_STONE, BASALT_OR_COBBLESTONE,
+        # BASALT_OR_STONE or ANY. See the "Generator types" section below.
         # Default value: COBBLESTONE
         type: COBBLESTONE
         # Indicates if genertor is default generator. Default generators ignores requirement section.
@@ -113,6 +115,25 @@
           - generator_id_1
           - generator_id_2
     ```
+
+### ジェネレーター型（ティアが置き換わるマグマのメカニクス）
+
+Minecraftはマグマからブロックを4つの異なる方法で作成し、ジェネレーターティアはそのタイプがカバーするものだけに対して起動します。これは、ジェネレーターが*どこ*使用できるかを制御する主な設定です：
+
+| バニラのメカニクス | バニラが作成するブロック | ジェネレーター型 |
+|---|---|---|
+| マグマ**ソース**が水に接触 | 黒曜石 | *アドオンで処理されない* |
+| **流れるマグマ**が同じレベルの水に接触 | 丸石 | `COBBLESTONE` |
+| **流れるマグマ**が水に落ちる | 石 | `STONE` |
+| **流れるマグマ**がソウルソイルの隣の青い氷に落ちる | 玄武岩 | `BASALT` |
+
+型はジェネレーターティアごと、管理者GUI — `/[admin] generator` → ティアを選択 → **Type**ボタンに設定されます。背後にあるメカニクスについてのヒント付きのすべてのタイプをリストすることで、ピッカーを開く — または、テンプレートファイルの`type:`キーで。結合型`COBBLESTONE_OR_STONE`、`BASALT_OR_COBBLESTONE`、`BASALT_OR_STONE`、`ANY`を使用すると、ティアが複数のメカニクスに対して起動します。
+
+!!! warning "`STONE`ジェネレーターは任意の水体で動作"
+    `STONE`ジェネレーターは、プレイヤーがマグマを水に注ぐことができるどこでも起動します — アイランド保護範囲内の外洋を含む。**AcidIsland**のような水が多いゲームモードでは、1つのマグマバケツで大量の外洋をジェネレーターブロックに変換し、アイランドレベルをアップグレードできます。2つの方法がそれを防止します：
+
+    - **プレイヤーに`STONE`ティアを与えない。** `COBBLESTONE`および/または`BASALT`タイプのみを使用して、ブロック生成が適切に構築されたジェネレーターを必要とするようにします。
+    - **高さ範囲を制限する。** `STONE`ティアに海面を除くが洞窟や水の上高くで動作するミニマムとマキシマムYを与える。[ブロックごとの高さ範囲](#ブロックごとの高さ範囲)を参照してください。
 
 ### ジェネレーター排出量制限（レート制限）
 
@@ -253,6 +274,9 @@
 ??? question "管理者 GUI にジェネレーターが表示されますが、プレイヤーには見えません。"
     おそらく「デプロイ」ステータスが原因です。管理者がジェネレーターを追加している間にプレイヤーがアクティブ化しようとする問題を避けるため、ジェネレーターはデプロイされておらず誰も使用できません。管理者 GUI でジェネレーターを編集し、ジェネレーター編集 GUI のレバーをクリックすることで有効化できます。
     ![deployed](resources/deployed.png){: loading=lazy }
+
+??? question "プレイヤーが外洋でマグマバケツを使ってブロックを生成しています。どうすれば止められますか？"
+    それは設計通りに動作する`STONE`ジェネレーターです。バニラはマグマが水に流れ込むときはいつでも水を石に変えるため、`STONE`ティアはプレイヤーが到達できるすべての水、外洋を含む、に対して起動します。`STONE`ティアの配信をやめて、`COBBLESTONE`および/または`BASALT`タイプのみを代わりに使用するか、海面を除くが洞窟や水の上高い高さ範囲を与えてください。[ジェネレーター型](#ジェネレーター型（ティアが置き換わるマグマのメカニクス）)を参照してください。
 
 ??? question "トレジャーとは何ですか？"
     トレジャーはブロック生成時にドロップされるものです。各ジェネレーターに追加のカスタマイズを与えることができます。

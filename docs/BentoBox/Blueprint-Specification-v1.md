@@ -2,6 +2,9 @@
 
 **バージョン1**
 
+!!! warning "非推奨"
+    このページは履歴参考のために保存されています。現在の完全な仕様 — ブループリント、ブロック、エンティティ、バンドルのすべてのフィールド、および検証用の公開JSON Schema — は[ブループリントファイルフォーマット](Blueprint-Format.md)ページです。
+
 このドキュメントの「MUST」「MUST NOT」「REQUIRED」「SHALL」「SHALL NOT」「SHOULD」「SHOULD NOT」「RECOMMENDED」「MAY」「OPTIONAL」というキーワードは[RFC 2119](http://www.ietf.org/rfc/rfc2119.txt)に記載されているように解釈されます。
 
 ## はじめに

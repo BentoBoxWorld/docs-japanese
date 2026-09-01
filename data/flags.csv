@@ -141,3 +141,5 @@ Visit,RECEIVE_VISIT_MESSAGE_FLAG,Receive Visiting Messages,PAPER,Toggle if membe
 VoidPortals,VOID_WORLD_TELEPORT_FLAG,Void world teleports,ENDER_PEARL,This allows to toggle ability to teleport to different dimension if player falls in void.,WORLD_SETTING,BASIC,false,,
 Warps,PLACE_WARP,Place Warp,OAK_SIGN,Allows to toggle who can place warp signs on island,PROTECTION,EXPERT,MEMBER_RANK,MEMBER_RANK,OWNER_RANK
 Level,ISLAND_BLOCK_DONATION,Block donation,HOPPER,Allow island members to donate blocks to island level,PROTECTION,BASIC,OWNER_RANK,MEMBER_RANK,OWNER_RANK
+BentoBox,BED_ANCHOR_RESPAWN,"Bed/anchor respawn",RED_BED,"Respawn players at a valid bed or respawn anchor if it is on an island they are a member of.",WORLD_SETTING,EXPERT,true,,
+BentoBox,FISHING,"Fishing",FISHING_ROD,"Allow fishing with a fishing rod. Prevents fishing into protected areas from outside the island.",PROTECTION,EXPERT,VISITOR_RANK,VISITOR_RANK,OWNER_RANK

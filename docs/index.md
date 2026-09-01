@@ -11,7 +11,7 @@ hide:
 <div class="bb-hero">
   <p class="bb-hero__eyebrow">docs.bentobox.world</p>
   <h1>プレイヤーが最高の時間を過ごせます。</h1>
-  <p>BSkyBlock、AOneBlock、AcidIsland、CaveBlock、SkyGrid、Boxed、Poseidon、StrangerRealms — すべて同じ Paper サーバーで並行稼働し、それぞれ独自のワールド・ルール・進行システムを持ちます。プラグイン一つ。使いたいゲームモードを追加するだけ。</p>
+  <p>BSkyBlock、AOneBlock、ChunkBlock、AcidIsland、CaveBlock、SkyGrid、Boxed、Poseidon、StrangerRealms、TradeWinds — すべて同じ Paper サーバーで並行稼働し、それぞれ独自のワールド・ルール・進行システムを持ちます。プラグイン一つ。使いたいゲームモードを追加するだけ。</p>
 
   <div class="bb-cta-row">
     <a href="BentoBox/First-Steps" class="bb-btn bb-btn-primary">最初の 30 分 &rarr;</a>
@@ -30,7 +30,7 @@ hide:
       <div class="bb-stat__l">アドオン</div>
     </div>
     <div class="bb-stat">
-      <div class="bb-stat__n">8</div>
+      <div class="bb-stat__n">10</div>
       <div class="bb-stat__l">ゲームモード</div>
     </div>
     <div class="bb-stat">
@@ -62,7 +62,7 @@ hide:
         <span class="bb-step-time">5 分</span>
       </div>
       <p class="bb-step-title">ゲームモードを選ぶ</p>
-      <p class="bb-step-body">BSkyBlock、AOneBlock、AcidIsland、CaveBlock、Boxed、Poseidon &mdash; まず 1 つ選んでみましょう。</p>
+      <p class="bb-step-body">BSkyBlock、AOneBlock、ChunkBlock、AcidIsland、CaveBlock、Boxed、Poseidon、TradeWinds &mdash; まず 1 つ選んでみましょう。</p>
       <a href="gamemodes/Comparison" class="bb-step-link">ゲームモードを比較する &rarr;</a>
     </div>
     <div class="bb-step-card">
@@ -96,6 +96,10 @@ hide:
       <span class="bb-mode-swatch" style="background:#e8d49e"></span>
       <span><span class="bb-mode-name">AOneBlock</span><span class="bb-mode-sub">1 ブロック</span></span>
     </a>
+    <a href="gamemodes/ChunkBlock/" class="bb-mode-card">
+      <span class="bb-mode-swatch" style="background:#d99a6c"></span>
+      <span><span class="bb-mode-name">ChunkBlock</span><span class="bb-mode-sub">ワンブロック・壁あり</span></span>
+    </a>
     <a href="gamemodes/CaveBlock/" class="bb-mode-card">
       <span class="bb-mode-swatch" style="background:#a09689"></span>
       <span><span class="bb-mode-name">CaveBlock</span><span class="bb-mode-sub">地下</span></span>
@@ -115,6 +119,10 @@ hide:
     <a href="gamemodes/StrangerRealms/" class="bb-mode-card">
       <span class="bb-mode-swatch" style="background:#cf6e72"></span>
       <span><span class="bb-mode-name">StrangerRealms</span><span class="bb-mode-sub">ミステリー</span></span>
+    </a>
+    <a href="gamemodes/TradeWinds/" class="bb-mode-card">
+      <span class="bb-mode-swatch" style="background:#8fcabe"></span>
+      <span><span class="bb-mode-name">TradeWinds</span><span class="bb-mode-sub">海上交易</span></span>
     </a>
   </div>
 </div>
