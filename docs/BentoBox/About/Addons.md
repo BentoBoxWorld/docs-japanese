@@ -24,12 +24,14 @@ BentoBox自体では何もしません。それはプラットフォームです
 |---|---|
 | **BSkyBlock** | クラシックSkyblock — 空に浮かぶ島 |
 | **AOneBlock** | 1つの魔法の再生ブロックからスタート |
+| **ChunkBlock** | 壁に囲まれたチャンク内の1ブロック — アイランドレベルを使用して追加領土を獲得（Levelが必要） |
 | **AcidIsland** | 海が酸のSkyblock |
 | **CaveBlock** | 固い地下世界でのサバイバル |
 | **SkyGrid** | 虚空に散らばった単一ブロック |
 | **Boxed** | アドバンスメントを達成すると成長するボックス |
 | **Poseidon** | 水中サバイバル |
 | **StrangerRealms** | 危険なミラー次元でのサバイバル |
+| **TradeWinds** | 果てしない外洋のNPC貿易港での海上交易（Vaultが必要） |
 
 詳細な説明は[ゲームモード](GameModes.md)をご覧いただくか、[比較](../../gamemodes/Comparison.md)して選択にお役立てください。
 

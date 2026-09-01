@@ -1,6 +1,8 @@
 # TopBlock
 
-AOneBlock 専用のアイランドレベルを計算する BentoBox 用アドオンです。ランクは採掘されたマジックブロックの数（カウント）によって決まります。
+マジックブロックゲームモード用のトップテンランキングを生成する BentoBox 用アドオンです。ランクは採掘されたマジックブロックの数（カウント）によって決まります。
+
+TopBlock は [**AOneBlock**](../../gamemodes/AOneBlock/index.md) と [**ChunkBlock**](../../gamemodes/ChunkBlock/index.md) をサポートしています。どちらか一方、または両方をインストールできます — 両方が存在する場合、各ゲームモードは独自の完全に分離されたトップテン、独自の `topblock` コマンド、および独自のプレースホルダーセットを取得します。AOneBlock でのプレイヤーの立場は ChunkBlock での立場に影響しません。
 
 作成・メンテナンス: [tastybento](https://github.com/tastybento)
 
@@ -13,6 +15,9 @@ AOneBlock 専用のアイランドレベルを計算する BentoBox 用アドオ
 3. アドオンはデータフォルダを作成し、その中に config.yml が作成されます
 4. config.yml を希望通りに編集します
 5. 変更した場合はサーバーを再起動します
+
+!!! note "TopBlock はスタンドアロンではありません"
+    TopBlock には [AOneBlock](../../gamemodes/AOneBlock/index.md) または [ChunkBlock](../../gamemodes/ChunkBlock/index.md) **の少なくとも 1 つ**が一緒にインストールされている必要があります。どちらも見つからない場合、TopBlock はエラーを記録して自身を無効にします。起動時に見つかったゲームモードをフックするため、後でゲームモードをインストールまたは削除すると、再起動後にのみ有効になります。
 
 ## 設定
 
@@ -27,11 +32,11 @@ TopBlock アドオンには 2 つの全般的な設定があります:
 
 最新の config.yml は[こちら](https://github.com/BentoBoxWorld/TopBlock/blob/develop/src/main/resources/config.yml)で確認できます。
 
-このセクションではアドオンの全般的な設定を定義します。
+このセクションではアドオンの全般的な設定を定義します。これらの設定はグローバルです — TopBlock がフックしたすべてのゲームモードに適用されます。ゲームモードごとの設定はありません。
 
 ??? note "refresh-time"
     トップ 10 が更新される頻度（分単位）。最小は 1 分、デフォルトは 5 分です。
-    更新のたびにデータベースからすべてのアイランドを読み込む必要があるため、頻繁に実行しないでください。
+    更新のたびにデータベースからすべてのフックされたゲームモードのアイランドを読み込む必要があります（2.1.1 以降はその読み込みはメインスレッドの外で実行されるため、ラグスパイクが起きなくなりました）。AOneBlock と ChunkBlock の両方を実行している場合、各更新は両方のアイランドセットを読み込むため、デフォルトのままにするか、または上げることを検討してください。
 
     デフォルト: `5`
 
@@ -116,13 +121,27 @@ BentoBox カスタム GUI の詳細はこちらをご覧ください: [Custom GU
     例えば BSkyBlock では、デフォルトの `[player_command]` は `island`、デフォルトの `[admin_command]` は `bsbadmin` です。
 
 === "プレイヤーコマンド"
-    - `/[player_command] topblock`: トップパネルにアクセスします。`aoneblock.island.topblock` 権限が必要です。
+    - `/[player_command] topblock`: トップパネルにアクセスします。そのゲームモードの `island.topblock` 権限が必要です（`aoneblock.island.topblock` または `chunkblock.island.topblock`）。
+
+TopBlock はフックされた**各**ゲームモードで `topblock` サブコマンドを登録するため、両方がインストールされている場合、AOneBlock 向けに `/ob topblock`、ChunkBlock 向けに同等のコマンドが得られます。各パネルは実行したワールドのゲームモードを開きます — 2 つのランキングは完全に分離されています。
 
 ## 権限
 
 === "プレイヤー権限"
-    - `aoneblock.island.topblock` - (デフォルト: `true`) - プレイヤーが `/[player_command] top` コマンドを使用できます。
-    - `aoneblock.intopten` - (デフォルト: `true`) - プレイヤーのアイランドがトップテンに表示されるかどうかを制御します。管理者やテスターからこの権限を削除するとランキングから除外されます。
+    - `aoneblock.island.topblock` - (デフォルト: `true`) - プレイヤーが AOneBlock で `/[player_command] topblock` コマンドを使用できます。
+    - `aoneblock.intopten` - (デフォルト: `true`) - プレイヤーのアイランドが AOneBlock トップテンに表示されるかどうかを制御します。ランキングから除外するには管理者やテスターからこの権限を削除してください。
+    - `chunkblock.island.topblock` - (デフォルト: `true`) - プレイヤーが ChunkBlock で `/[player_command] topblock` コマンドを使用できます。
+    - `chunkblock.intopten` - (デフォルト: `true`) - プレイヤーのアイランドが ChunkBlock トップテンに表示されるかどうかを制御します。
+
+??? question "プレイヤーをランキングから非表示にするには？"
+    非表示にしたいゲームモードから `intopten` 権限を削除（またはネゲート）してください — `aoneblock.intopten` または `chunkblock.intopten`。プレフィックスがゲームモードごとなので、1 つのランキングから非表示にしながら、別のランキングには表示させたままにできます。
+
+    注意すべき 2 つのこと：
+
+    - 権限は島の**所有者がオンラインの場合**にのみチェックされます。オフライン所有者は常に含まれます。Bukkit はログインしていないプレイヤーの権限を確実に評価することができないためです。別のアカウント（alt）ではなく、実際にログインするアカウントから権限を削除してください。
+    - チェックされるのは**島所有者の**権限のみです。チームメンバーの権限は違いを作りません。
+
+    変更は次の更新時に有効になるため、島がリストから削除されるまで最大 `refresh-time` 分待つことができます。
 
 ??? question "何か不足していますか？"
     このアドオンの [addon.yml](https://github.com/BentoBoxWorld/TopBlock/blob/develop/src/main/resources/addon.yml) ファイルで権限の完全なリストを確認できます。  
@@ -130,6 +149,8 @@ BentoBox カスタム GUI の詳細はこちらをご覧ください: [Custom GU
 
 
 ## プレースホルダー
+
+プレースホルダーはフックされたゲームモードごとに別々に登録され、そのゲームモード独自のプレフィックスを使用します。ChunkBlock がインストールされている場合にのみ `chunkblock_` セットが存在し、ChunkBlock 独自のランキングを報告します — 2 つが混在することはありません。
 
 {{ placeholders_source(source="TopBlock") }}
 
@@ -139,6 +160,31 @@ BentoBox カスタム GUI の詳細はこちらをご覧ください: [Custom GU
     [こちら](https://github.com/BentoBoxWorld/TopBlock/issues)のリストに追加してください。
 
 ## 変更履歴
+
+??? note "v2.1.1 の新機能"
+    **リリース日:** 2026-08-27
+
+    パッチリリース — 設定、ロケール、データ形式の変更なし。2.1.0 の直接置き換え。
+
+    - 🐛 **トップテン更新がメインスレッドをもう止めなくなりました。** 更新タスク（`refresh-time` 分ごと、デフォルト 5）はゲームモードの島データベース全体を同期的にメインスレッドで読み込みました — 多くの島があるサーバーで最大～1 秒、AOneBlock と ChunkBlock の両方がフックされている場合は 2 倍 — 定期的なラグスパイクを引き起こしました。データベース読み込みは非同期に実行されるようになりました。安価な島とパーミッションの検索のみメインスレッドのままです。
+
+    [Release v2.1.1](https://github.com/BentoBoxWorld/TopBlock/releases/tag/2.1.1)
+
+??? note "v2.1.0 の新機能 — ChunkBlock サポート"
+    **リリース日:** 2026-08-21
+
+    TopBlock はもう AOneBlock のみではありません。**ChunkBlock** もサポートするようになり、どちらのゲームモード — または両方一緒に — もインストールできます。互換性：BentoBox API 3.14.0+ · AOneBlock 1.18.0+ と ChunkBlock 1.0.1+ · Paper Minecraft 1.21.x · Java 21。
+
+    - ✨ **ChunkBlock サポート。** TopBlock は起動時に見つかった AOneBlock と ChunkBlock をフックします。両方がインストールされている場合、各ゲームモードは完全に分離されたトップテン、`topblock` コマンド、プレースホルダーセットを保持します。
+    - ✨ **新しいプレースホルダー** — 既存の `aoneblock_` 境界をミラーリングし、ChunkBlock 独自のランキングを報告する完全な `%chunkblock_island_*_top_<number>%` セット。
+    - ✨ **新しい権限** — `chunkblock.island.topblock` と `chunkblock.intopten`、両方デフォルト `true`、AOneBlock 相当をミラーリング。プレフィックスはゲームモードごとなので、1 つのランキングからプレイヤーを非表示にしながら別に見えるようにできます。
+    - 🔺 **AOneBlock はソフト依存になりました。** TopBlock は以前 AOneBlock なしで読み込みを拒否していました。サポートされたゲームモードが*どちらも*存在しない場合のみ自身を無効にします。既存の AOneBlock のみのセットアップは影響を受けず、変更は不要です。
+    - 🐛 **各トップテンは自身のゲームモードのアイランドのみを表示するようになりました。** AOneBlock と ChunkBlock の両方が `database/OneBlockIslands/` の下にアイランドを保存するため、ChunkBlock 更新は AOneBlock のレコードもロードして間違ったプレイヤーが表示されました。アイランドはゲームモードのワールドでフィルタリングされるようになりました。
+    - 🐛 **トップテンパネルの Steve ヘッド修正。** `top_panel.yml` で `icon: PLAYER_HEAD` がコメント解除されていたら、スキン解決が発動されず、すべてのヘッドが Steve としてレンダリングされました。パネルは名前ベースのヘッド経路にフォールスルーするようになりました。
+
+    ℹ️ これは AOneBlock サーバーのドロップイン更新です — 設定、パネル、ロケール変更は不要です。
+
+    [Release v2.1.0](https://github.com/BentoBoxWorld/TopBlock/releases/tag/2.1.0)
 
 ??? warning "v2.0.0 の新機能 — プラットフォームアップグレードが必要"
     **リリース日：** 2026-04-26

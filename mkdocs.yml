@@ -16,16 +16,35 @@ nav:
         - 管理ツール: BentoBox/About/AdminTools.md
     - 用語集: Glossary.md
     - FAQ: FAQ.md
+    - プライバシー: BentoBox/Privacy.md
+    - AIポリシー: BentoBox/AI-Policy.md
+    - 行動規範: BentoBox/CodeOfConduct.md
+    - 貢献ガイド: BentoBox/Contributing.md
     - ゲームモード:
         - ゲームモードの比較: gamemodes/Comparison.md
         - AcidIsland: gamemodes/AcidIsland/index.md
-        - AOneBlock: gamemodes/AOneBlock/index.md
+        - AOneBlock:
+            - 概要: gamemodes/AOneBlock/index.md
+            - フェーズのカスタマイズ: gamemodes/AOneBlock/Phases.md
         - BSkyBlock: gamemodes/BSkyBlock/index.md
         - Boxed: gamemodes/Boxed/index.md
         - CaveBlock: gamemodes/CaveBlock/index.md
+        - ChunkBlock:
+            - 概要: gamemodes/ChunkBlock/index.md
+            - チャンクの取得: gamemodes/ChunkBlock/Chunks.md
+            - フェーズ: gamemodes/ChunkBlock/Phases.md
+            - コマンド: gamemodes/ChunkBlock/Commands.md
+            - パーミッション: gamemodes/ChunkBlock/Permissions.md
+            - プレースホルダー: gamemodes/ChunkBlock/Placeholders.md
         - Poseidon: gamemodes/Poseidon/index.md
         - SkyGrid: gamemodes/SkyGrid/index.md
         - Stranger Realms: gamemodes/StrangerRealms/index.md
+        - TradeWinds:
+            - 概要: gamemodes/TradeWinds/index.md
+            - 船乗りのハンドブック: gamemodes/TradeWinds/Gameplay.md
+            - コマンド: gamemodes/TradeWinds/Commands.md
+            - パーミッション: gamemodes/TradeWinds/Permissions.md
+            - プレースホルダー: gamemodes/TradeWinds/Placeholders.md
 
     - アドオン:
         - Bank: addons/Bank/index.md
@@ -36,6 +55,7 @@ nav:
         - Chat: addons/Chat/index.md
         - CheckMeOut: addons/CheckMeOut/index.md
         - ControlPanel: addons/ControlPanel/index.md
+        - DeathChest: addons/DeathChest/index.md
         - DimensionalTrees: addons/DimensionalTrees/index.md
         - ExtraMobs: addons/ExtraMobs/index.md
         - FarmersDance: addons/FarmersDance/index.md
@@ -65,9 +85,11 @@ nav:
         - "Database API": BentoBox/Database-API.md
         - "Metadata API": BentoBox/MetadataAPI.md
         - "テンプレートパネルAPI": Tutorials/api/Templated-Panel.md
+        - "ブループリントファイル形式": BentoBox/Blueprint-Format.md
         - "アドオンからデータを取得": BentoBox/Request-Handler-API---How-plugins-can-get-data-from-addons.md
 theme:
   name: material
+  custom_dir: overrides
   language: ja
   palette:
     scheme: slate

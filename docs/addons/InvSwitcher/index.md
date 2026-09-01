@@ -14,7 +14,7 @@
 * 経験値
 * 体力
 * ゲームモード（クリエイティブ、サバイバルなど）
-* 所持金（ワールドごとの経済、1.18.0 で追加）
+* 所持金（ワールドごとの経済、1.18.0 で追加 — **1.19.3 以降はデフォルトで無効**、`options.money: true` で有効化）
 
 ## 使い方
 
@@ -32,11 +32,23 @@ InvSwitcher が動作するゲームモードワールドの一覧です。ネ�
 
 ```yml
 worlds:
-- bskyblock_world
 - acidisland_world
 - oneblock_world
-# ... etc.
+- boxed_world
+- bskyblock_world
+- skyblock-world
+- caveblock-world
+- poseidon_world
+- stranger_world
+- skygrid-world     # 1.19.2 でデフォルト設定に追加
+- raft_world        # 1.19.2 で追加
+- brix_world        # 1.19.2 で追加
+- parkour_world     # 1.19.2 で追加
+- tradewinds_world
 ```
+
+!!! warning "既存の設定は上書きされません"
+    新しいデフォルトワールドはクリーンインストール時のみ表示されます。`config.yml` が 1.19.2 以前で SkyGrid、Raft、Brix、Parkour、TradeWinds を実行している場合は、それらのエントリを `worlds:` リストに手動で追加して再起動してください。リストされていないワールドは自動的には管理されません — InvSwitcher は起動時にフックするワールドをログに記録するので、その一覧で確認してください。
 
 ### オプション
 
@@ -52,7 +64,7 @@ options:
   experience: true
   ender-chest: true
   statistics: true
-  money: true          # ワールドごとの所持金（1.18.0 で追加）。Vault が必要です。
+  money: false         # ワールドごとの所持金（1.18.0 で追加）。1.19.3 以降はデフォルトで無効。Vault が必要です。
   # Per-island inventory switching (added in 1.17.0)
   # The world-level option must also be true for the island option to take effect.
   islands:
@@ -72,7 +84,7 @@ options:
 
 ### 経済
 
-1.18.0 で追加。`options.money` を有効にすると、InvSwitcher は自身を Vault の経済プロバイダーとして登録し、**切り替えられる各ワールドごとに別々の残高**を保持します。取引（ショップでの売買、`/pay`、ジョブなど）は、対象のプレイヤーがオフラインでも別のワールドにいても、その取引が属するワールドの残高に振り分けられます。InvSwitcher が管理しないワールドは既存の経済プラグイン（例：EssentialsX）に引き渡され、他に経済プラグインがなければ InvSwitcher がすべてのワールドを自分で処理します。
+1.18.0 で追加。**1.19.3 以降はデフォルトで無効** — `config.yml` で `options.money: true` でオプトインしない限り InvSwitcher は自身を Vault 経済プロバイダーとして登録しません。有効にすると、InvSwitcher は自身を Vault の経済プロバイダーとして登録し、**切り替えられる各ワールドごとに別々の残高**を保持します。取引（ショップでの売買、`/pay`、ジョブなど）は、対象のプレイヤーがオフラインでも別のワールドにいても、その取引が属するワールドの残高に振り分けられます。InvSwitcher が管理しないワールドは既存の経済プラグイン（例：EssentialsX）に引き渡され、他に経済プラグインがなければ InvSwitcher がすべてのワールドを自分で処理します。
 
 !!! warning "Vault が必要"
     ワールドごとの所持金には [Vault](https://www.spigotmc.org/resources/vault.34315/) プラグインが必要です。別途の経済プラグインは任意です — InvSwitcher が唯一の経済になることもできます。**Bank** アドオンを使用している場合、アイランドの財布もワールドごとになります。
@@ -113,6 +125,27 @@ economy:
     | `/[admin_command] eco set <プレイヤー> <金額>` | プレイヤーの残高を設定 |
     | `/[admin_command] eco balance <プレイヤー>` | プレイヤーの残高を表示 |
 
+## 権限
+
+!!! tip
+    `[gamemode]` はゲームモードによって異なるプレフィックスです — 例えば `bskyblock.invswitcher.balance`。
+
+経済コマンドは `options.money` が有効で Vault がインストールされている場合にのみ登録されるため、これらの権限はワールドごとの経済が実行されているサーバーでのみ関係があります。*（1.19.2 以降は `addon.yml` で宣言されています — それ以前はノードが登録されていなかったため、コマンドは全員に拒否されていました。）*
+
+=== "プレイヤー権限"
+    - `[gamemode].invswitcher.balance` - (デフォルト: `true`) - プレイヤーが `balance` コマンドを使用できます。
+    - `[gamemode].invswitcher.pay` - (デフォルト: `true`) - プレイヤーが `pay` コマンドを使用できます。
+
+=== "管理者権限"
+    - `[gamemode].invswitcher.admin.eco` - (デフォルト: `op`) - プレイヤーが管理者 `eco` コマンドを使用できます。
+    - `[gamemode].invswitcher.admin.eco.balance` - (デフォルト: `op`) - プレイヤーが管理者 `eco balance` コマンドを使用できます。
+    - `[gamemode].invswitcher.admin.eco.give` - (デフォルト: `op`) - プレイヤーが管理者 `eco give` コマンドを使用できます。
+    - `[gamemode].invswitcher.admin.eco.take` - (デフォルト: `op`) - プレイヤーが管理者 `eco take` コマンドを使用できます。
+    - `[gamemode].invswitcher.admin.eco.set` - (デフォルト: `op`) - プレイヤーが管理者 `eco set` コマンドを使用できます。
+
+!!! note
+    プレイヤーノードはデフォルトで `true` なので、ほとんどのサーバーは何もする必要がありません。パーミッションプラグインがリストされていないノードを拒否する場合は、デフォルトグループにそれらを付与してください。
+
 ## 機能
 このアドオンはインストールされた各ゲームモードとそれに対応するワールドごとに、プレイヤーに別々のインベントリ、体力、食料レベル、進捗、経験値を与えます。プレイヤーが各ゲームモードを独立してプレイできるようにします。
 
@@ -126,6 +159,27 @@ economy:
 - BentoBox のワールドだけに限定されません。現時点ではサーバー上の全てのワールドに適用されます。
 
 ## 変更履歴
+
+??? note "v1.19.3 の新機能"
+    **リリース日:** 2026-08-04
+
+    - ⚙️ **ワールドごとの所持金がデフォルトで無効になりました。** InvSwitcher は `config.yml` で `options.money: true` でオプトインしない限り自身を Vault 経済プロバイダーとして登録しなくなりました。この機能の他の部分は変わっていません。
+
+    ⚙️ **既存の設定は上書きされません** — 新しいデフォルトはクリーンインストール時のみ適用されます。`config.yml` に既に `options.money: true` が含まれていて InvSwitcher に所持金を管理させたくない場合は、それを `false` に設定して再起動してください。
+
+    [Release v1.19.3](https://github.com/BentoBoxWorld/InvSwitcher/releases/tag/1.19.3)
+
+??? warning "v1.19.2 の新機能 — ロールバック修正、新しい権限、デフォルトワールド"
+    **リリース日:** 2026-08-04
+
+    互換性：BentoBox 3.17.0 · Paper Minecraft 1.21.5～26.1.2 · Java 21。
+
+    - 🐛 **シャットダウン時にオンライン中のプレイヤーのインベントリがロールバックされなくなりました。** BentoBox はアドオン無効化直後にデータベースをクローズするため、非同期シャットダウン保存はレースに負けて静かに破棄されていました。プレイヤーが最後のワールド変更以降にしたことはすべて失われ、古いスナップショットが次のログイン時に実際のインベントリに上書きされていました。シャットダウン保存が非同期で行われるようになりました。通常のゲーム内保存は非同期のままです。停止前にログアウトしたプレイヤーは影響を受けず、既に失われたデータは復旧できません。
+    - 🔺 **経済コマンドが通常プレイヤーのために機能するようになりました。** `/[player_command] balance` と `pay` はすべての非 Op でパーミッションエラーで失敗していました。`addon.yml` が権限を宣言していなかったためです。ノードが登録されるようになりました — `[gamemode].invswitcher.balance` と `.pay` はデフォルトで `true`、管理者 `eco` ノードは `op` です。上記の Permissions セクションを参照してください。パーミッションプラグインがリストされていないノードを拒否する場合は、プレイヤーノードをデフォルトグループに付与してください。
+    - ⚙️ **デフォルト設定に不足していたゲームモードワールドが追加されました。** `skygrid-world`、`raft_world`、`brix_world`、`parkour_world` はシップ済みの `worlds:` リストに含まれていなかったため、クリーンインストールは自動的にそれらを管理しませんでした。**既存の設定は上書きされません** — それらのゲームモードを実行している場合はエントリを手動で追加してください。
+    - 📄 別のインベントリマネージャー（Multiverse-Inventories、PerWorldInventory、MultiInv）を実行しないに関する新しいセクション — [他のインベントリプラグインとの互換性](#互換性-他のインベントリプラグイン)を参照してください。
+
+    [Release v1.19.2](https://github.com/BentoBoxWorld/InvSwitcher/releases/tag/1.19.2)
 
 ??? note "v1.19.1 の新機能"
     **リリース日:** 2026-07-02

@@ -34,7 +34,7 @@ BentoBox は Maven を使用しており、Maven リポジトリは [CodeMC](htt
 <repositories>
   <repository>
     <id>codemc-repo</id>
-    <url>https://repo.codemc.org/repository/maven-public/</url>
+    <url>https://repo.codemc.io/repository/bentoboxworld/</url>
   </repository>
 </repositories>
 
@@ -54,7 +54,7 @@ BentoBox は Maven を使用しており、Maven リポジトリは [CodeMC](htt
 
 ```groovy
 repositories {
-  maven { url "https://repo.codemc.org/repository/maven-public/" }
+  maven { url "https://repo.codemc.io/repository/bentoboxworld/" }
 }
 
 dependencies {
