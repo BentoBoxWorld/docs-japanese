@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Repository purpose
 
-Japanese translation of the BentoBox documentation site (a Minecraft Bukkit plugin framework). The site is built with MkDocs + Material theme and published via Read the Docs. Almost all content is Markdown under `docs/`; the rest of the repo is the build configuration and a small set of macros that generate tables at build time.
+Japanese translation of the BentoBox documentation site (a Minecraft Bukkit plugin framework). The site is built with [Zensical](https://zensical.org) (the successor to Material for MkDocs; it reads the MkDocs-style `mkdocs.yml`) and published via Read the Docs. Almost all content is Markdown under `docs/`; the rest of the repo is the build configuration and a small set of macros that generate tables at build time.
 
 ## Common commands
 
@@ -12,11 +12,11 @@ Use the in-repo virtualenv (`.venv/`) or install requirements first:
 
 ```bash
 pip install -r requirements.txt
-mkdocs serve     # local preview at http://127.0.0.1:8000
-mkdocs build     # output to ./site
+zensical serve     # local preview at http://localhost:8000
+zensical build     # output to ./site
 ```
 
-Read the Docs uses Python 3.9 and `mkdocs.yml` as the entry point (see `.readthedocs.yml`). There are no tests or linters.
+Read the Docs uses Python 3.12 and runs `zensical build` (see `.readthedocs.yml`); `.github/workflows/zensical.yml` runs the same build on every push and PR. `requirements.txt` is kept as the MkDocs fallback (`pip install -r requirements.txt && mkdocs build`); Zensical does not support the `git-revision-date-localized` plugin, so the "last updated" line is not shown. There are no tests or linters.
 
 ## Architecture
 
