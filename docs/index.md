@@ -22,7 +22,7 @@ hide:
 
   <div class="bb-stats">
     <div class="bb-stat">
-      <div class="bb-stat__n">1,100+</div>
+      <div class="bb-stat__n">1,400+</div>
       <div class="bb-stat__l">サーバー</div>
     </div>
     <div class="bb-stat">
@@ -34,7 +34,7 @@ hide:
       <div class="bb-stat__l">ゲームモード</div>
     </div>
     <div class="bb-stat">
-      <div class="bb-stat__n">MC 1.15 &rarr; 26.x.x</div>
+      <div class="bb-stat__n">MC 1.15 &rarr; 26.2.x</div>
       <div class="bb-stat__l">対応済み</div>
     </div>
   </div>
@@ -178,7 +178,7 @@ hide:
     <div class="bb-sponsor-card">
       <p class="bb-card-eyebrow" style="color:oklch(0.78 0.13 220)">オープンソース</p>
       <p class="bb-card-title">BentoBox をスポンサーする</p>
-      <p class="bb-card-body">ご支援がゲームの継続と更新を支えています。無料・オープンソースで世界 1,100 以上のサーバーで使用中。</p>
+      <p class="bb-card-body">ご支援がゲームの継続と更新を支えています。無料・オープンソースで世界 1,400 以上のサーバーで使用中。</p>
       <div class="bb-btn-row">
         <a href="https://github.com/sponsors/tastybento" class="bb-btn bb-btn-sm bb-btn-ink">&#9829; GitHub スポンサー</a>
         <a href="https://www.paypal.me/BentoBoxWorld" class="bb-btn bb-btn-sm bb-btn-ghost">PayPal</a>
