@@ -69,6 +69,27 @@
 
 *すべての基本フラグが表示されるよう設定されたプレイヤービュー。*
 
+### 設定パネルのカスタマイズ { #customizing-the-settings-panel }
+
+!!! new "BentoBox 3.23.0で追加"
+    設定パネルは、他の[カスタマイズ可能なGUI](/en/latest/Tutorials/generic/Customizable-GUI/)と同様にテンプレートファイルでレイアウトされます。
+
+設定パネルのレイアウトは`plugins/BentoBox/panels/settings_panel.yml`から読み込まれます。このファイルはBentoBoxの初回起動時に作成されます。ゲームモードアドオンは自身の`panels`フォルダーに独自のコピーを同梱でき（例：`plugins/BentoBox/addons/BSkyBlock/panels/settings_panel.yml`）、そのゲームモードではそちらが代わりに使用されます。デフォルトのファイルは以前のパネルをそのまま再現しているため、編集するまで何も変わりません。ファイルを読み込めない場合、BentoBoxはエラーをログに出力し、組み込みのパネルを表示します。
+
+各ボタンは`data.type`で配置します：
+
+| タイプ | 表示内容 |
+| --- | --- |
+| `TAB` | タブボタン。`data.tab`は`PROTECTION`、`SETTING`、または`WORLD_PROTECTION`（プレイヤーがアイランド上にいないときに表示される読み取り専用のビュー）です。該当しないタブは表示されず、代わりにボタンの`fallback`が使用されます。 |
+| `FLAG` | ページ分けされたフラグ一覧の1スロット。1ページに表示したいフラグの数だけ配置します。`data.flag: <FLAG_ID>`を指定すると、そのスロットには常にそのフラグが表示され、そのフラグはページ一覧から外れます。ロックアイコンや設定変更アイコンはこの方法で配置されています。 |
+| `MODE` | 表示モードの切り替え。`data`内の`basic-icon`、`advanced-icon`、`expert-icon`でモードごとにアイコンを設定できます。 |
+| `RESET` | すべてのフラグをデフォルトに戻します。アイランドのオーナーにのみ表示されます。 |
+| `NEXT`、`PREVIOUS` | ページ送り。移動先のページがある場合にのみ表示されます。 |
+
+**タイトルとタブ名は別々です。** パネルのタイトルはテンプレートの`title`で、デフォルトはロケールエントリー`panels.settings.title`です。これは`[tab]`（表示中のタブの名前）と`[world_name]`を置き換えて翻訳されます。デフォルトは`[tab]`のみです。各タブボタンには独自の`title`と`description`があり、デフォルトは`protection.panel.PROTECTION.title`などのエントリーです。そのため、テンプレートまたはロケールのどちらでも、タイトルとタブボタンを別々のスタイルにできます。
+
+**説明文（lore）のレイアウト。** フラグの説明文は、ロケールの`protection.panel.flag-item.description-layout`（保護フラグ）、`setting-layout`（設定）、または`menu-layout`（サブパネルを開くフラグ）から組み立てられます。3.23.0以降、これらのレイアウトには`[ranks]`（保護フラグのランク一覧が挿入される位置）と`[tooltips]`（テンプレートのフラグボタンの`actions`のツールチップが挿入される位置）を含めることができます。`[ranks]`がない場合、ランク一覧は従来どおりレイアウトの後に追加されます。`[tooltips]`がない場合、ツールチップは空行の後に追加されます。クリックのヒントをランク一覧の下に移動するには、レイアウトからヒントを削除し、`[ranks]`と`[tooltips]`を好きな位置に置き、テンプレートの`flag_button`でヒントをツールチップとして宣言します。テンプレート内のフラグボタン自身の`title`と`description`で別のロケールエントリーを指定すると、そのパネルでのみ名前と説明文のレイアウトとして使用されます。
+
 ![消滅の呪い](https://user-images.githubusercontent.com/20014332/80591692-6799b500-8a1e-11ea-9ab8-e076f47d2220.png)
 
 *フラグの1つに「消滅の呪い」が適用されています。*
@@ -150,6 +171,9 @@ Bukkit `NPC`メタデータを持つエンティティ（例：Citizens NPCs）�
 ## 管理者設定パネル
 
 **管理者設定パネル**は`/[admin_command] settings`（引数なし）でアクセスできます。3つのタブが含まれています：
+
+!!! new "BentoBox 3.23.0で追加"
+    管理者設定パネルは、[プレイヤーの設定パネル](#customizing-the-settings-panel)と同じ方法で`plugins/BentoBox/panels/admin_settings_panel.yml`によってレイアウトされます。タブタイプは`WORLD_SETTING`、`WORLD_DEFAULTS`、`ISLAND_DEFAULTS`です。後の2つには`[gamemode].admin.set-world-defaults`パーミッションが必要で、パーミッションがない場合は非表示になります。同じファイルで`/[admin_command] settings <player_name>`もレイアウトされます。各ワールドタブは`fallback`としてアイランドタブ（`PROTECTION`、`SETTING`）を指定しており、アイランドがある場合はそちらが表示されます。
 
 ### ワールド設定
 
