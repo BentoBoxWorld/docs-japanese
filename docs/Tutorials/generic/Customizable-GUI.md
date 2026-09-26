@@ -207,3 +207,34 @@ panel_name:
     すべてのオプションがプレイヤーによって使用できるわけではないことに注意してください。
 
     `action` はツールチップ生成をサポートしています。ツールチップは常にボタンの説明の末尾にアクションの順序で追加されます。
+
+??? question "ボタンの `fallback` とは何ですか？"
+    ボタンには `fallback` を指定できます。これは別のボタン定義（または `reusable` の名前）で、ボタン自体を表示できないときに代わりに表示されます。例えば、現在の状況では該当しないタブや、表示するものが残っていないページ分けスロットなどです。fallback は完全なボタンなので、独自の `data` や `actions`、さらに独自の `fallback` を持つこともできます。設定パネルではこれを利用して、アイランド外で表示されるタブとアイランド上で表示されるタブを同じスロットに配置しています。
+    ```yaml
+    2:
+      icon: SHIELD
+      title: protection.panel.PROTECTION.title
+      data:
+        type: TAB
+        tab: PROTECTION
+      fallback:
+        icon: STONE_BRICKS
+        title: protection.panel.WORLD_DEFAULTS.title
+        data:
+          type: TAB
+          tab: WORLD_PROTECTION
+    ```
+    fallback は BentoBox 3.23.0 以降で動作します。それ以前のバージョンでは fallback がスキップされ、その fallback 自身の fallback が表示されていました。
+
+??? question "カスタマイズ可能な BentoBox のパネルはどれですか？"
+    BentoBox は初回起動時に以下のテンプレートを `plugins/BentoBox/panels/` に書き出します。ゲームモードアドオンは、これらのいずれかの独自のコピーを自身の `panels` フォルダーに同梱でき、そのゲームモードではそちらが使用されます。
+
+    | ファイル | パネル |
+    | --- | --- |
+    | `island_creation_panel.yml` | アイランド作成時のブループリントバンドル選択 |
+    | `island_homes_panel.yml` | `/[player_command] homes` |
+    | `language_panel.yml` | `/[player_command] language` |
+    | `team_panel.yml` と `team_invite_panel.yml` | `/[player_command] team` とその招待画面 |
+    | `settings_panel.yml` | `/[player_command] settings`、[設定パネルのカスタマイズ](/en/latest/BentoBox/Island-Protection,-Flags-&-Ranks/#customizing-the-settings-panel)を参照 |
+    | `admin_settings_panel.yml` | `/[admin_command] settings` |
+    | `placeholder_panel.yml` と `placeholder_list_panel.yml` | プレースホルダーブラウザー |
