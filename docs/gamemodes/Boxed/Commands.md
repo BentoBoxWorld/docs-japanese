@@ -128,8 +128,13 @@
 <td align='left'>boxed.admin.register</td>
 </tr>
 <tr>
-<td align='left'><b>/boxadmin setrank <player> <rank></b></td>
-<td align='left'>プレイヤーの島でのランクを設定する</td>
+<td align='left'><b>/boxadmin place <structure> [x y z] [rotation] [mirror] [NO_MOBS]</b></td>
+<td align='left'>シード世界の構造物を現在のボックスに配置します；現在の座標に ~ を使用します。NO_MOBS (3.4.1+) は構造物の組み込みモブを抑制します。/boxadmin place undo は最後の配置を削除します</td>
+<td align='left'>boxed.commands.boxadmin.place</td>
+</tr>
+<tr>
+<td align='left'><b>/boxadmin setrank <player> <rank> [island owner | x,y,z]</b></td>
+<td align='left'>プレイヤーの島でのランクを設定する — コンソールから機能します；ランクはキーワード（member、sub-owner、trusted、coop）、名前、または番号で指定できます。所有者またはセンター x,y,z を指定して特定の島を選択します</td>
 <td align='left'></td>
 </tr>
 <tr>

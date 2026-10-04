@@ -120,8 +120,8 @@
 <td align='left'>poseidon.mod.team</td>
 </tr>
 <tr>
-<td align='left'><b>/padmin setrank <player> <rank></b></td>
-<td align='left'>プレイヤーのレルムでのランクを設定する</td>
+<td align='left'><b>/padmin setrank <player> <rank> [island owner | x,y,z]</b></td>
+<td align='left'>プレイヤーのレルムでのランクを設定する — コンソールから機能します；ランクはキーワード（member、sub-owner、trusted、coop）、名前、または番号で指定できます。所有者またはセンター x,y,z を指定して特定のレルムを選択します</td>
 <td align='left'>poseidon.admin.setrank</td>
 </tr>
 <tr>
