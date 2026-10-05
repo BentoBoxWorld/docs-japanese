@@ -90,6 +90,15 @@ Stranger Realmsでは*Border*アドオンを使用しないでください。競
 
     **互換性：** BentoBox API 3.9.0+、Minecraft 1.21.10+、Java 21。
 
+??? note "v1.0.6 の新機能 — Paper 26.3 修正"
+    **リリース:** 2026-09-26
+
+    完全なリリースノートを参照してください：[Release 1.0.6](https://github.com/BentoBoxWorld/StrangerRealms/releases/tag/1.0.6)
+
+    - 🐛 **Paper 26.3 で Upside Down が生成されるときに Sculk センサー警告がなくなりました。** バニラのケーブカーバーが StrangerRealms が Sculk センサーを配置した後に実行され、一部のセンサーをマグマに置き換え、各センサーの `ServerInternalException` (*「Trying to set block entity SculkSensorBlockEntity ...」*) 警告を残しました。センサーはカーバーと装飾の後、ブロックポピュレータで配置されるようになりました。密度は変わらず、既に生成されているチャンクは変わりません。
+
+    **互換性：** BentoBox API 3.9.0+、Minecraft 1.21.10+（26.1.x、26.2、26.3 を含む）、Java 21。
+
 ## 翻訳
 
 {{ translations("StrangerRealms") }}
