@@ -59,6 +59,9 @@
 
 ![エキスパート保護フラグ](https://user-images.githubusercontent.com/20014332/80592793-4df96d00-8a20-11ea-891e-8833578642e4.png)
 
+!!! new "BentoBox 3.23.3で追加"
+    設定パネルは各プレイヤーが最後に選んだ表示モードを記憶し、次にパネルを開いたときはそのモードで表示されます。1つのモード設定は保護タブと設定タブで共有されます。選択されたモードで表示できるフラグがないタブがある場合は、プレイヤーの選択を変更することなく、次のモードが表示されます。管理者設定パネルは常に`EXPERT`で開きます。
+
 ### フラグの非表示
 
 [BentoBox 1.4.0](https://github.com/BentoBoxWorld/BentoBox/releases/tag/1.4.0)以降、管理者は設定パネルを開き、非表示にしたいフラグのアイコンを++shift+left-button++することでGUIのフラグを非表示にできます。
@@ -97,6 +100,54 @@
 ![非表示フラグ](https://user-images.githubusercontent.com/20014332/80591757-839d5680-8a1e-11ea-8864-83b09252a7b9.png)
 
 *「トラップドア」フラグが非表示になった状態の基本フラグのプレイヤービュー。*
+
+### コマンドランク { #command-ranks }
+
+設定タブの**コマンドランク**アイコンをクリックすると、パネルが開き、アイランドのオーナーが各チームコマンド（例えば、誰がメンバーを招待、キック、またはアイランドの名前を設定できるか）を使用するために必要な最小[ランク](#ranks)を選択できます。コマンドの**左クリック**と**右クリック**でランクを循環させます。保護フラグの場合と同じです。オペレーターは++shift+left-button++を使ってプレイヤーからコマンドを非表示にできます。これは[フラグを非表示にする](#hide-flags)場合と同じ方法です。
+
+BentoBox 3.23.3以降、プレイヤーには自分が使用権限を持つコマンドのみが表示されます。サーバーでコマンドのパーミッションを拒否している場合（例えば`[gamemode].island.border`）、そのコマンドはこのパネルに表示されなくなります。以前は最上位レベルのコマンドのみが確認されていたため、プレイヤーが実行できないサブコマンドも一覧に表示されていました。
+
+#### コマンドランクパネルのカスタマイズ { #customizing-the-command-ranks-panel }
+
+!!! new "BentoBox 3.23.3で追加"
+    コマンドランクパネルは、[設定パネル](#customizing-the-settings-panel)と同様にテンプレートファイルでレイアウトされます。
+
+レイアウトは`plugins/BentoBox/panels/command_ranks_panel.yml`から読み込まれます。このファイルはBentoBoxの初回起動時に作成されます。ゲームモードアドオンは自身の`panels`フォルダーに独自のコピーを同梱でき、そのゲームモードではそちらが代わりに使用されます。デフォルトのファイルは以前のパネルをそのまま再現しているため、編集するまで何も変わりません。ファイルを読み込めない場合、BentoBoxは組み込みのパネルを表示します。
+
+すべてのボタンは`data.type`で配置します：
+
+| タイプ | 表示内容 |
+| --- | --- |
+| `COMMAND` | ページ分けされたコマンド一覧の1スロット。1ページに表示したいコマンドの数だけ配置します。デフォルトは45です。 |
+| `NEXT`、`PREVIOUS` | ページ送り。移動先のページがある場合にのみ表示されます。 |
+
+組み込みパネルは49個のコマンドで停止していたため、それ以上のコマンドは表示されていませんでした。テンプレートはページ分けの代わりに使用されます。
+
+コマンドの描画方法は、テンプレートの`reusable`セクションの`command_button`で変更できます：
+
+- `icon`はデフォルトの`MAP`を置き換えます。
+- `title`はロケールエントリー（またはテキスト）で、`protection.panel.flag-item.name-layout`の代わりに名前レイアウトとして使用されます。`[name]`はコマンド（例: `/island sethome`）です。
+- `description`はロケールエントリー（またはテキスト）で、`protection.panel.flag-item.description-layout`の代わりにloreレイアウトとして使用されます。`[description]`は`protection.panel.flag-item.command-instructions`からのコマンドのテキストです。ランク一覧がその後に追加されます。
+- `actions`はツールチップのみを追加し、ランク一覧の後に追加されます。クリック自体は常に上記のように機能します。デフォルトのレイアウトにはクリックヒントが既に含まれています。
+
+例えば、各コマンドを紙として表示し、空きスロットを埋めるには：
+
+```yaml
+command_ranks_panel:
+  title: protection.flags.COMMAND_RANKS.name
+  type: INVENTORY
+  background:
+    icon: LIGHT_BLUE_STAINED_GLASS_PANE
+    title: "&b&r"
+  force-shown: 6
+  content:
+    # ... rows of command_button, and the paging buttons, as in the default file
+  reusable:
+    command_button:
+      icon: PAPER
+      data:
+        type: COMMAND
+```
 
 ## ランク
 

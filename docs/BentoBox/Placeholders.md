@@ -78,7 +78,7 @@ BentoBoxや他のデフォルトゲームモードのプレースホルダーを
 | %[gamemode]_rank% | プレイヤーが自分のアイランドで持つランク | 1.5.0 |
 | %[gamemode]_resets% | プレイヤーがアイランドをリセットした回数 | 1.5.0 |
 | %[gamemode]_resets_left% | プレイヤーがアイランドをリセットできる残り回数 | 1.5.0 |
-| %[gamemode]_deaths% | プレイヤーが死んだ回数 | 1.12.0 |
+| %[gamemode]_deaths% | BentoBox が数えるこのゲームモードでプレイヤーが死んだ回数（ゲームモードの`deaths.max`でキャップされます）。これは Level 2.29.0 以降 Level アドオンが使用する島ごとの死亡数ではありません。 | 1.12.0 |
 | %[gamemode]_on_island% | プレイヤーが自分が属するアイランドにいるかどうか | 1.13.0 |
 
 ### フラグプレースホルダー
@@ -112,6 +112,7 @@ BentoBoxや他のデフォルトゲームモードのプレースホルダーを
 - アドオン
     - [Bank](../../addons/Bank/#placeholders)
     - [Challenges](../../addons/Challenges/#placeholders)
+    - [IslandStats](../../addons/IslandStats/#placeholders)
     - [Level](../../addons/Level/#placeholders)
     - [Likes](../../addons/Likes/#placeholders)
     - [Limits](../../addons/Limits/#placeholders)

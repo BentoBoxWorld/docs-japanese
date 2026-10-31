@@ -91,11 +91,12 @@ BentoBox の TemplatedPanel は Minecraft 開発者向けの強力なツール�
 - `parameters(@NonNull String... parameters)`: パネルタイトルのパラメーターを設定します。チェーン用に `TemplatedPanelBuilder` インスタンスを返します。バージョン 1.20.0 から利用可能です。
 - 例: `panelBuilder.parameters("[name]", this.user.getName());` はユーザーの名前をパネルのタイトルに配置します。
 
-### リスナーメソッド
+### リスナーメソッド { #listener-method }
 
 - `listener(PanelListener listener)`: ユーザーインタラクションを処理するための `PanelListener` をパネルに追加します。チェーン用に `TemplatedPanelBuilder` インスタンスを返します。
 - リスナーは、別のタブへの移動やクリックへの反応などの機能は API 内で処理されるため、必須ではありません。
 - カスタム機能が必要な場合にのみリスナーが必要になる場合があります。
+- デフォルトでは、リスナーを持つパネルはプレイヤーの独自インベントリのすべてのクリックをキャンセルし、`onInventoryClick`に渡すため、パネルはそれらのクリックに反応できます（例えばアイコンを選択するため）。BentoBox 3.23.4 以降、`allowsPlayerInventoryClicks()` をオーバーライドして `true` を返すと、パネルが開いている間プレイヤーはインベントリのアイテムをピックアップ、配置、スワップ、ドロップでき、バンドルを使用できます。これらのクリックはバニラに任せられ、`onInventoryClick`に渡されません。Shift クリック、ダブルクリック収集、パネルスロットへのドラッグは常にブロックされます。リスナーなしのパネルは常にインベントリ使用を許可します。
 
 ### タイプビルダーの登録
 

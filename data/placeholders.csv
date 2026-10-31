@@ -42,7 +42,7 @@ BentoBox,[gamemode]_owns_island,Whether the player is an owner of an island,1.14
 BentoBox,[gamemode]_rank,Rank the player has on his island,1.5.0
 BentoBox,[gamemode]_resets,Number of times the player has reset his island,1.5.0
 BentoBox,[gamemode]_resets_left,Number of times the player can reset his island,1.5.0
-BentoBox,[gamemode]_deaths,Number of times the player died,1.12.0
+BentoBox,[gamemode]_deaths,"Number of times the player died in this game mode, as counted by BentoBox (not the per-island count used by Level 2.29.0+)",1.12.0
 BentoBox,[gamemode]_on_island,Whether the player is on an island he is part of or not,1.13.0
 BentoBox,[gamemode]_island_online_members_count,The number of online island members,2.0.1
 BentoBox,[gamemode]_visited_island_online_members_count,The number of online visited island members,2.0.1
@@ -121,26 +121,36 @@ MagicCobblestoneGenerator,[gamemode]_magiccobblestonegenerator_generator_exhaust
 MagicCobblestoneGenerator,[gamemode]_magiccobblestonegenerator_exhausted_generator_names,List of the player island's generators that are currently on exhaustion cooldown separated with comma,2.8.0
 Limits,Limits_[gamemode]_island_[material]_count,Current count of material (lower cased) on the island,1.17.2
 Limits,Limits_[gamemode]_island_[material]_limit,The limit of material (lower cased) for the island,1.17.2
+Limits,Limits_[gamemode]_island_[material]_base_limit,The base limit of material (lower cased) for the island before permission-based increases,1.19.1
+Limits,Limits_[gamemode]_island_[material]_[overworld|nether|end]_count,Current count of material in that dimension only (the un-suffixed placeholder is the total across all dimensions),1.28.2
+Limits,Limits_[gamemode]_island_[material]_[overworld|nether|end]_limit,The limit of material in that dimension only,1.28.2
+Limits,Limits_[gamemode]_island_[material]_[overworld|nether|end]_base_limit,The base limit of material in that dimension only,1.28.2
+Limits,Limits_[gamemode]_island_reached_limits,"Comma-separated list of every limited block, entity, and entity group that is at or over its limit across all dimensions",1.29.0
+Limits,Limits_[gamemode]_island_reached_limits_overworld,Reached limits in the overworld only,1.29.0
+Limits,Limits_[gamemode]_island_reached_limits_nether,Reached limits in the nether only,1.29.0
+Limits,Limits_[gamemode]_island_reached_limits_end,Reached limits in the end only,1.29.0
 TopBlock,aoneblock_island_player_name_top_<number>,Island owner's name at the `<number>` position, 1.0.1
 TopBlock,aoneblock_island_member_names_top_<number>,Name of island team members at the `<number>` position, 1.0.1
 TopBlock,aoneblock_island_phase_name_top_<number>,Name of the phase they have reached at the `<number>` position, 1.0.1
 TopBlock,aoneblock_island_phase_number_top_<number>,Phase number (e.g. Plains is 1; Underground is 2) at the `<number>` position, 1.0.1
 TopBlock,aoneblock_island_count_top_<number>,Block Count of magic blocks mined this round at the `<number>` position, 1.0.1
 TopBlock,aoneblock_island_lifetime_top_<number>,Lifetime count of magic blocks mined at the `<number>` position, 1.0.1
-Border,Border_color,Current border color (red/green/blue) for the player,4.8.0
-InvSwitcher,[gamemode]_invswitcher_balance,The player's money balance for this gamemode's world,1.18.0
-InvSwitcher,[gamemode]_invswitcher_balance_formatted,The player's money balance for this gamemode's world formatted with currency name,1.18.0
-Limits,Limits_[gamemode]_island_reached_limits,"Comma-separated list of every limited block, entity, and entity group that is at or over its limit across all dimensions",1.29.0
-Limits,Limits_[gamemode]_island_reached_limits_overworld,Reached limits in the overworld only,1.29.0
-Limits,Limits_[gamemode]_island_reached_limits_nether,Reached limits in the nether only,1.29.0
-Limits,Limits_[gamemode]_island_reached_limits_end,Reached limits in the end only,1.29.0
 TopBlock,chunkblock_island_player_name_top_<number>,Island owner's name at the `<number>` position, 2.1.0
 TopBlock,chunkblock_island_member_names_top_<number>,Name of island team members at the `<number>` position, 2.1.0
 TopBlock,chunkblock_island_phase_name_top_<number>,Name of the phase they have reached at the `<number>` position, 2.1.0
 TopBlock,chunkblock_island_phase_number_top_<number>,Phase number (e.g. Plains is 1; Underground is 2) at the `<number>` position, 2.1.0
 TopBlock,chunkblock_island_count_top_<number>,Block Count of magic blocks mined this round at the `<number>` position, 2.1.0
 TopBlock,chunkblock_island_lifetime_top_<number>,Lifetime count of magic blocks mined at the `<number>` position, 2.1.0
+Border,Border_color,Current border color (red/green/blue) for the player,4.8.0
+InvSwitcher,[gamemode]_invswitcher_balance,The player's money balance for this gamemode's world,1.18.0
+InvSwitcher,[gamemode]_invswitcher_balance_formatted,The player's money balance for this gamemode's world formatted with currency name,1.18.0
 TradeWinds,tradewinds_rank,The player's Seafarer rank name (Deck Hand ... Mythic Mariner),0.1.0
 TradeWinds,tradewinds_charted,How many islands the player has charted (including any admin adjustment),0.1.0
 TradeWinds,tradewinds_top_name_<1-10>,Name of the sailor at this position on the charted-islands top ten,0.1.0
 TradeWinds,tradewinds_top_charted_<1-10>,Charted-island count of the sailor at this position on the top ten,0.1.0
+IslandStats,[gamemode]_island_kill_entity_total,Total mobs killed by players on the player's island,1.0.0
+IslandStats,[gamemode]_island_kill_entity_<entity>,Count of one mob type (mobs killed by players) on the player's island,1.0.0
+IslandStats,[gamemode]_visited_island_kill_entity_total,Total mobs killed by players on the island the player is standing on,1.0.0
+IslandStats,[gamemode]_island_entity_death_total,Total all mob deaths on the player's island,1.0.0
+IslandStats,[gamemode]_island_entity_death_<entity>,Count of one mob type (all mob deaths) on the player's island,1.0.0
+IslandStats,[gamemode]_visited_island_entity_death_total,Total all mob deaths on the island the player is standing on,1.0.0

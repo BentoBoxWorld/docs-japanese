@@ -52,6 +52,7 @@ Greenhouses はアイランドワールドをパワーアップする BentoBox �
 * ネザーグリーンハウスを建てられますか？ 試してみてください...（実際には権限が必要かもしれません）
 * ネザーにグリーンハウスを建てられますか？ はい。それらを使ってネザーを植民地化できます。
 * バイオームにはどんなモブがスポーンしますか？ 予想通りのものです。寒い針葉樹林ではオオカミ、平原では馬など。
+* 管理者がネザーグリーンハウスにウィザースケルトンが出現する可能性を追加するには？ `biomes.yml` の `NETHER` レシピにモブを追加してください — [モブスポーンのカスタマイズ](#モブスポーンのカスタマイズ例ウィザースケルトン)の下を参照。
 
 ## 必要プラグイン
 
@@ -113,6 +114,37 @@ Greenhouses はアイランドワールドをパワーアップする BentoBox �
 !!! tip "重なり合ったグリーンハウス"
     保存されている 2 つのグリーンハウスが重なっている場合、起動時に一方がスキップされ、重なっている相手のレコードとともにログに記録されます。`/bsbadmin greenhouses list` でスキップされたレコードとその理由を確認し、`/bsbadmin greenhouses delete <id>` で不要な方を削除してください。データベースの編集も再起動も不要です。
 
+## モブスポーンのカスタマイズ（例：ウィザースケルトン）
+
+グリーンハウスがスポーンできるすべてのモブは、レシピごとに `plugins/BentoBox/addons/Greenhouses/biomes.yml` で定義されるため、新しいモブを追加するのは設定編集だけです。レシピの `mobs:` セクションの各エントリは以下のフォーマットです：
+
+```
+ENTITY_TYPE: chance:BLOCK_TO_SPAWN_ON
+```
+
+例えば、ネザーグリーンハウスにウィザースケルトンが出現する可能性を追加するには、`NETHER:` レシピを見つけて、その `mobs:` セクションに 1 行追加してください：
+
+```yaml
+NETHER:
+  # ...
+  mobs:
+    ZOMBIFIED_PIGLIN: 10:NETHERRACK
+    PIGLIN: 10:NETHERRACK
+    STRIDER: 10:LAVA
+    ENDERMAN: 5:NETHERRACK
+    WITHER_SKELETON: 5:NETHERRACK
+```
+
+これにより、ウィザースケルトンがグリーンハウス内のネザーラック ブロックに出現する可能性が 5% になります。スポーン先ブロックはグリーンハウス内の任意のブロックになります — より要塞のような雰囲気にするために、代わりに `WITHER_SKELETON: 10:NETHER_BRICKS` を使用することもできますが、その場合、グリーンハウス内にネザーレンガがあるとスポーンが起こります。
+
+**/bsbadmin greenhouses reload** （または `**/acid greenhouses reload**` など、ゲームモードの管理者相当）を使用して変更を適用するか、サーバーを再起動してください。既存のグリーンハウスは再構築なしで新しいモブを取得します。
+
+留意すべきことは：
+
+* **1 つのレシピのすべてのチャンスは 100 以下である必要があります。** 新しいエントリが合計を 100 を超える場合、そのモブはスキップされ、エラーがログに記録されます（`Mob chances add up to > 100% in NETHER biome recipe! Skipping ...`）。
+* スポーンはレシピの `moblimit` と `maxmobs` の値およびモブティック間隔（`config.yml`）によっても制限されます — したがって、低いパーセンテージは実際には稀に感じることがあります。
+* `ENTITY_TYPE` は有効な [Bukkit EntityType](https://jd.papermc.io/paper/1.21.5/org/bukkit/entity/EntityType.html) 名である必要があります；不明な名前はスキップされ、警告が出力されます。
+
 ## 権限 { #permissions }
 
 権限の完全なリストは[こちら](Permissions)にあります。
@@ -145,7 +177,29 @@ Greenhouses はアイランドワールドをパワーアップする BentoBox �
 
 {{ translations("Greenhouses") }}
 
-!!! note "v1.10.0 の新機能 — 管理者コマンド"
+!!! warning "v1.10.2 の新機能 — Paper 26.2 でのクラッシュ修正"
+    **リリース日:** 2026-09-06
+
+    互換性：BentoBox API 2.7.1 · Minecraft 1.21.5+ · Java 21。設定またはロケール変更なし。
+
+    - 🐛 **ホッパーが骨粉を使い尽くしたときに植物の成長がクラッシュしなくなりました。** ルーフホッパーが単一の骨粉を保持していて、少なくとも 1 つの植物が成長すると、Greenhouses は残りをゼロ量アイテムとして戻しました。古いサーバーはそれを黙って許容していました；Paper 26.2 は `EcoSystemManager.setBoneMeal` から `IllegalArgumentException: amount must be greater than 0` をスロー、毎ティック植物がエラーをログにしてクラッシュし、そのグリーンハウスの成長パスを中止します。最後の骨粉は単に削除されるようになりました。
+
+    🔺 **Paper 26.2 以降を使用している場合、このアップデートを強くお勧めします。** ホッパーが空になるすべてのグリーンハウスは、それ以外はこのエラーを毎ティックログし、骨粉が再び追加されるまで植物の成長を停止します。
+
+    [Release v1.10.2](https://github.com/BentoBoxWorld/Greenhouses/releases/tag/1.10.2)
+
+??? warning "v1.10.1 の新機能 — Limits を実行している場合はリカウント"
+    **リリース日:** 2026-09-01
+
+    互換性：BentoBox API 2.7.1 · Minecraft 1.21.5+ · Java 21。設定またはロケール変更なし。
+
+    - 🐛 **Greenhouses はモブを Limits アドオンの制限を超えて滑らせなくなりました。** Limits がエンティティ制限でスポーンをキャンセルすると、Greenhouses はスポーンされたことのないエンティティで操作を続け、「このモブはガラスの内側に適合していますか？」チェック（Ghasts は 4×4×4 で、しばしば適合しません）を実行し、それが適合しなかった場合、`remove()` を呼び出しました。Paper は、モブが世界に入ったことはないのに `EntityRemoveEvent` を発火、Limits はそれを実際の削除としてカウントし、その結果、それのカウンターが下がり、次のスポーンが通りました — 報告されたケースは 4/3 Ghasts でした。キャンセルされたスポーンは完全に放置されるようになりました。Limits 1.30.1 には、そのサイド上の一致する補強が含まれます。
+
+    🔺 **これが見られた場合、** 影響を受けたアイランドの Limits カウンターはリビルドされるまで間違っています。プレイヤーにアップデート後に 1 回 `/[player_command] limits recount` を実行させるか（または管理者 `/[admin_command] limits calc <player>` を実行してください）。
+
+    [Release v1.10.1](https://github.com/BentoBoxWorld/Greenhouses/releases/tag/1.10.1)
+
+??? note "v1.10.0 の新機能 — 管理者コマンド"
     **リリース日:** 2026-07-26
 
     Greenhouses にようやく管理者コマンドツリーが加わりました。互換性: BentoBox API 2.7.1 · Minecraft 1.21.5+ · Java 21。
