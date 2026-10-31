@@ -119,6 +119,8 @@ BentoBox 1.16では、ポータルを適切にリンクするオプションが�
 
 適切なエンドの黒曜石プラットフォーム（バニラのエンドのような）を作成するには、`create-obsidian-platform`オプションを`true`に設定してください。
 
+`create-obsidian-platform`が`false`の場合、BentoBox（3.23.4以降）はプレイヤーがエンドのどこに到着したかをチェックします。床がない場合は、最も近い安全なスポットに送信され、その後最も高いブロックに送信され、どちらもない場合は小さなポッドを構築するため、プレイヤーはボイドに落ちることはできません。
+
 これらのオプションを有効にすると、オリジナルのMinecraftと同様に、無制限の黒曜石生成の悪用が可能になることに注意してください。
 
 ### Boxedでの構造物生成を無効にするにはどうすればいいですか？
@@ -128,6 +130,25 @@ Boxedの`config.yml`に`structures`リストがあります。そのリストか
 ### BentoBoxでMultiverseを使用できますか？
 
 Multiverseはほとんどのゲームモードで機能しますが、**BoxedとPoseidon**は除きます。これらは`bukkit.yml`で独自のワールドジェネレーターを設定する必要があります。Multiverseをこれらのゲームモードで使用すると、ワールドが正しく生成されません。MyWorldsは人気のある代替ツールです。
+
+### 他のプラグインがスタートアップ時にBentoBoxワールドを見つけられないのはなぜですか？
+
+BentoBoxは独自のゲームモードワールドを作成して読み込みます。Multiverseに登録するとき、Multiverseが最初にそれらを読み込まないよう`auto-load: false`に設定します。ただし、タイミングに問題があります。BentoBoxは最初のサーバーティックでワールドを読み込みます。**これはすべてのプラグインが有効化を終えた後です**。すべてのワールドがMultiverseが有効化されると存在することを期待しているプラグイン（ホログラム、NPC、ワープ、スタートアップ時に保存された位置を読み込むもの）はBentoBoxワールドを見つけられず、そこにデータを読み込むのに失敗する可能性があります。
+
+これが起きた場合、各BentoBoxワールド（ネザーとエンドを含む）の`auto-load`をオンにして、Multiverseに早期ロードさせます：
+
+```
+/mv modify bskyblock_world set auto-load true
+/mv modify bskyblock_world_nether set auto-load true
+/mv modify bskyblock_world_the_end set auto-load true
+```
+
+自分のワールド名を使用してください。`plugins/Multiverse-Core/worlds.yml`に一覧があります。
+
+BentoBoxはワールドを初回登録するときのみ`auto-load: false`に設定するため、この設定は再起動後も保持されます。これはBentoBox 3.23.3以降が必要です。バージョン3.22.0から3.23.1は起動時に`false`にリセットされていました。
+
+!!! warning "Boxed向けではありません"
+    これをするのはBSkyBlock、AcidIsland、CaveBlock、AOneBlockなど、Multiverseが有効化される前にワールドジェネレーターが準備されているゲームモードのみにしてください。Boxedではしないでください。そのジェネレーターはBentoBoxが最初に作成する必要があるシードワールドに依存しているため、Multiverseで早期ロードされたBoxedワールドは正しく生成されません。
 
 ## モブ、スポーン、エンティティ
 

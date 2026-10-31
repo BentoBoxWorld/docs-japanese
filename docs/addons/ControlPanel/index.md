@@ -83,9 +83,17 @@ ControlPanel は 2 つのファイルを使用します:
       - AcidIsland
     ```
 
+??? note "template-file"
+    （**1.16.1+**）コントロールパネルのインポート元となるテンプレートファイルです。パネルが最初に作成されるときに読み込まれ、`/{admin} bentobox reload` のたびに再読み込みされるため、編集してリロードすれば変更が反映されます。アドオンフォルダ（`plugins/BentoBox/addons/ControlPanel/`）内に存在する必要があります。リロード、管理者の `import` コマンド、初回作成のいずれもこの設定に従うため、アドオンに独自のファイルを指定できます。
+
+    デフォルト: `controlPanelTemplate.yml`
+
 ### controlPanelTemplate.yml
 
-このファイルは全てのコントロールパネルとそのボタンを定義します。編集後、`/{admin} cp import` を実行して変更を読み込みます。
+このファイルは全てのコントロールパネルとそのボタンを定義します。編集後、`/{admin} bentobox reload`（**1.16.1+**）または `/{admin} cp import` を実行して変更を読み込みます。
+
+!!! warning "リロードで保存済みパネルが置き換えられます（1.16.1+）"
+    パネルは BentoBox のデータベースに保存されており、1.16.1 より前のテンプレートは一度だけの初期データでした。テンプレートを編集して `bbox reload` を実行しても、`cp import` も実行しない限り何も起こりませんでした。**1.16.1** 以降、リロードのたびに有効な各ゲームモードの保存済みパネルが消去され、テンプレートファイルから再インポートされます。テンプレートから*削除した*パネルも消え、データベースにのみ存在していたものは失われます — 変更はすべてテンプレートファイルに残してください。
 
 #### パネル構造
 
@@ -315,12 +323,12 @@ panel-list:
     ```
 
 ??? tip "変更後のリロード"
-    `controlPanelTemplate.yml` を編集した後、`/{admin} cp import` を実行してリロードします。`config.yml` に変更を加えた場合は、代わりに BentoBox のリロードコマンドを使用してください: `/{admin} bentobox reload`。
+    `controlPanelTemplate.yml` を編集した後、`/{admin} bentobox reload` を実行します（**1.16.1** からはテンプレートが再インポートされます）。または `/{admin} cp import` でインポートします。`config.yml` に変更を加えた場合も `/{admin} bentobox reload` を使用してください。
 
 ## よくある質問
 
 ??? question "ControlPanel を変更するにはどうすればいいですか？"
-    ControlPanel はパネルをデータベースに保存しますが、テンプレートファイルを通じて編集します。`controlPanelTemplate.yml` に変更を加えた後、`/{admin} controlpanel import` を実行してインポートします。追加のテンプレートファイルを作成して名前でインポートすることもできます: `/{admin} controlpanel import myPanels`。
+    ControlPanel はパネルをデータベースに保存しますが、テンプレートファイルを通じて編集します。`controlPanelTemplate.yml` に変更を加えた後、`/{admin} bentobox reload`（**1.16.1+**）を実行するか、`/{admin} controlpanel import` でインポートします。追加のテンプレートファイルを作成して名前でインポートすることもできます: `/{admin} controlpanel import myPanels`。または、`template-file` 設定オプションで独自のファイルを指定できます。
 
 ??? question "ユーザーごとに異なるパネルを設定できますか？"
     はい。テンプレートファイルで複数のパネルを定義し、それぞれに異なる `permission` サフィックスを付けます。その後、プレイヤーに対応する権限（例: `bskyblock.controlpanel.panel.vip`）を割り当てます。特定のパネル権限を持たないプレイヤーには `defaultPanel: true` のマークが付いたパネルが表示されます。
@@ -336,6 +344,22 @@ panel-list:
 
 ??? question "機能 X を追加してもらえますか？"
     [こちら](https://github.com/BentoBoxWorld/ControlPanel/issues)のリストに追加してください。
+
+## 変更履歴
+
+!!! warning "v1.16.1 の新機能 — リロードで保存済みパネルが上書きされるようになりました"
+    **リリース日:** 2026 年 9 月 2 日
+
+    互換性: BentoBox 2.7.1 以降（3.7.4 で Minecraft 1.21.4 での動作確認）· Minecraft 1.21.4 – 26.2 · Java 21。
+
+    - 🔺 ⚙️ **`bbox reload` がテンプレートを再インポートするようになりました。** `controlPanelTemplate.yml` を編集してリロードしても何も起こりませんでした。パネルはデータベースに存在し、テンプレートは一度だけ初期化に使用されたためです。リロードは各アクティブなゲームモードの保存済みパネルをすべて削除し、テンプレートから再インポートするようになったので、`cp import` なしにテンプレート編集が有効になり、テンプレートから削除されたパネルは残る代わりに消えるようになります。
+    - ⚙️ **新しい `template-file` 設定オプション**（デフォルト `controlPanelTemplate.yml`）。リロード、初期シード化、管理コマンド `import` すべてがこれに従うので、アドオンを独自のファイルに指定できます。
+    - 🔺 **BentoBox の最小バージョンを 2.7.1 に引き下げました。** 1.16.0 は 3.10.0 の `api-version` を宣言していましたがコードには必要なく、BentoBox 3.10+ が実行できないサーバー（特に Minecraft 1.21.4 で上限が BentoBox 3.7.4）では BentoBox がそれを拒否（`INCOMPATIBLE`）していました。これらのサーバーは現在の ControlPanel を再度使用できます。
+    - 🔡 繁体字中国語（`zh-TW`）翻訳を更新しました。
+
+    🔺 **リロードで保存済みパネルが上書きされるようになりました。** データベース専用のパネル変更（`controlPanelTemplate.yml` に含まれていないもの）に依存している場合は、アップデート前にそれらをテンプレートに入れてください。さもないと次のリロード時に失われます。新しい `template-file` キーは自動的に `config.yml` に追加されます。既存のインストールは何の変更もなく動き続けます。
+
+    [Release v1.16.1](https://github.com/BentoBoxWorld/ControlPanel/releases/tag/1.16.1)
 
 ## 翻訳
 

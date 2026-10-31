@@ -237,4 +237,5 @@ panel_name:
     | `team_panel.yml` と `team_invite_panel.yml` | `/[player_command] team` とその招待画面 |
     | `settings_panel.yml` | `/[player_command] settings`、[設定パネルのカスタマイズ](/en/latest/BentoBox/Island-Protection,-Flags-&-Ranks/#customizing-the-settings-panel)を参照 |
     | `admin_settings_panel.yml` | `/[admin_command] settings` |
+    | `command_ranks_panel.yml` | 設定パネルから開くコマンドランクパネル（3.23.3+）、[コマンドランクパネルのカスタマイズ](/en/latest/BentoBox/Island-Protection,-Flags-&-Ranks/#customizing-the-command-ranks-panel)を参照 |
     | `placeholder_panel.yml` と `placeholder_list_panel.yml` | プレースホルダーブラウザー |

@@ -22,6 +22,44 @@
 2. サーバーを再起動します。
 3. 完了！
 
+## 他のインベントリプラグインとの互換性
+
+!!! warning "2 つのインベントリマネージャーを実行しないでください"
+    InvSwitcher は、ワールド単位のインベントリを管理する唯一のプラグインでなければなりません。Multiverse-Inventories、PerWorldInventory、MultiInv などと一緒に実行すると、両方のプラグインはワールドが変わるたびにプレイヤーを保存および復元し、互いのデータを上書きします。
+
+通常の症状はアイテムが消えることです：アイランド上でアイテムを取得し、ロビーに行き、戻ってくる、そしてアイランドのインベントリは空です。コンソールには何も表示されません。なぜなら、どちらのプラグインも失敗していないからです。それぞれが他方が既に上書きしたプレイヤー状態を忠実に保存しています。テストでは、アイランドのインベントリは*ロビーの*ストレージキーの下に保存され、アイランドの下には空のインベントリが保存されていました。
+
+InvSwitcher のバージョンは関係ありません。これが見えている場合は、他に何かする前にセカンドインベントリプラグインを確認してください。
+
+### Multiverse-Inventories
+
+ここで管理者を誤解させる 2 つのことがあります：
+
+- **BentoBox のワールドをすべてのインベントリグループから除外することは役に立ちません。** グループはどのワールドが*インベントリを共有*するかを制御し、Multiverse-Inventories がどのワールドを処理するかではありません。グループにないワールドでも、ワールド単位のプロファイルを書き込みます。
+- **`/mv remove <world>` も役に立ちません。** Multiverse-Core は BentoBox ワールドが作成されるため、削除は次の再起動で無視されて元に戻ります。`auto-import-3rd-party-worlds: false` を設定しても役に立ちません。Multiverse-Core が起動するときに実行されるインポート スイープのみを抑制します。これは BentoBox がワールドを作成する前です。
+
+Multiverse-Inventories には、ワールドを無視する設定オプションはありませんが、バイパス権限があります。まず Multiverse-Inventories `config.yml` で有効にしてください（デフォルトは `false` です）：
+
+```yml
+share-handling:
+  enable-bypass-permissions: true
+```
+
+その後、各 BentoBox ワールド（その Nether と End を含む）に対して、すべてのプレイヤーに `mvinv.bypass.world.<world>` を付与してください。[LuckPerms](https://luckperms.net/) では：
+
+```
+lp group default permission set mvinv.bypass.world.bskyblock_world true
+lp group default permission set mvinv.bypass.world.bskyblock_world_nether true
+lp group default permission set mvinv.bypass.world.bskyblock_world_the_end true
+```
+
+すべてのプレイヤーが継承するグループ（`default` など）にノードを設定すると、新しいプレイヤーが自動的にカバーされます。実行するゲームモードワールドごとに繰り返してください。
+
+!!! tip "オペレーターはこの権限を自動的に取得しません"
+    Op を付与することで十分ではありません — ノードを明示的に付与する必要があります。修正がないと、ノードがないオペレーターとしてテストすると、修正が機能していないようになります。
+
+ワールドごとに 1 つのノードを使用してください。`mvinv.bypass.world.*` は避けてください。これは Multiverse-Inventories をまだ管理したいワールドを含むすべてのワールドに対してオフにします。
+
 ## Config.yml
 
 InvSwitcher には 2 つのメインセクションを持つ `config.yml` があります。
@@ -177,7 +215,7 @@ economy:
     - 🐛 **シャットダウン時にオンライン中のプレイヤーのインベントリがロールバックされなくなりました。** BentoBox はアドオン無効化直後にデータベースをクローズするため、非同期シャットダウン保存はレースに負けて静かに破棄されていました。プレイヤーが最後のワールド変更以降にしたことはすべて失われ、古いスナップショットが次のログイン時に実際のインベントリに上書きされていました。シャットダウン保存が非同期で行われるようになりました。通常のゲーム内保存は非同期のままです。停止前にログアウトしたプレイヤーは影響を受けず、既に失われたデータは復旧できません。
     - 🔺 **経済コマンドが通常プレイヤーのために機能するようになりました。** `/[player_command] balance` と `pay` はすべての非 Op でパーミッションエラーで失敗していました。`addon.yml` が権限を宣言していなかったためです。ノードが登録されるようになりました — `[gamemode].invswitcher.balance` と `.pay` はデフォルトで `true`、管理者 `eco` ノードは `op` です。上記の Permissions セクションを参照してください。パーミッションプラグインがリストされていないノードを拒否する場合は、プレイヤーノードをデフォルトグループに付与してください。
     - ⚙️ **デフォルト設定に不足していたゲームモードワールドが追加されました。** `skygrid-world`、`raft_world`、`brix_world`、`parkour_world` はシップ済みの `worlds:` リストに含まれていなかったため、クリーンインストールは自動的にそれらを管理しませんでした。**既存の設定は上書きされません** — それらのゲームモードを実行している場合はエントリを手動で追加してください。
-    - 📄 別のインベントリマネージャー（Multiverse-Inventories、PerWorldInventory、MultiInv）を実行しないに関する新しいセクション — [他のインベントリプラグインとの互換性](#互換性-他のインベントリプラグイン)を参照してください。
+    - 📄 別のインベントリマネージャー（Multiverse-Inventories、PerWorldInventory、MultiInv）を実行しないに関する新しいセクション — [他のインベントリプラグインとの互換性](#他のインベントリプラグインとの互換性)を参照してください。
 
     [Release v1.19.2](https://github.com/BentoBoxWorld/InvSwitcher/releases/tag/1.19.2)
 
