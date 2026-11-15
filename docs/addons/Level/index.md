@@ -383,7 +383,7 @@ BentoBox カスタム GUI の詳細はこちらを参照してください: [カ
     以下のリストに不足しているものがあれば、お知らせください！
 
 
-## プレースホルダー
+## プレースホルダー { #placeholders }
 
 {{ placeholders_source(source="Level") }}
 
