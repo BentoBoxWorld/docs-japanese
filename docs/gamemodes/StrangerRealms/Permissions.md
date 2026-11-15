@@ -1,56 +1,47 @@
-# Stranger Realms パーミッション
+# StrangerRealms パーミッション
 
-| パーミッション | 説明 | デフォルト |
-| --- | --- | --- |
-| `strangerrealms.island` | クレームコマンドの使用を許可する | `true` |
-| `strangerrealms.claim` | クレームコマンドの使用を許可する | `true` |
-| `strangerrealms.unclaim` | アンクレームコマンドの使用を許可する | `true` |
-| `strangerrealms.create` | クレームの作成を許可する | `false` |
-| `strangerrealms.island.home` | プレイヤーのクレームへのテレポートを許可する | `true` |
-| `strangerrealms.island.sethome` | プレイヤーがsethomeコマンドを使用できるようにする | `true` |
-| `strangerrealms.island.info` | プレイヤーが他のプレイヤーの情報を確認できるようにする | `true` |
-| `strangerrealms.island.lock` | クレームのロックを許可する | `true` |
-| `strangerrealms.island.near` | プレイヤーが近くのクレーム名を確認できるようにする | `true` |
-| `strangerrealms.island.expel` | 訪問者の追放を許可する | `true` |
-| `strangerrealms.island.ban` | 訪問者のBANを許可する | `true` |
-| `strangerrealms.island.settings` | プレイヤーがサーバー設定を確認できるようにする | `true` |
-| `strangerrealms.island.language` | プレイヤーが言語を選択できるようにする | `true` |
-| `strangerrealms.island.name` | プレイヤーがクレームの名前を設定できるようにする | `true` |
-| `strangerrealms.spawn` | スポーンが存在する場合にプレイヤーがクレームのスポーンコマンドを使用できるようにする | `true` |
-| `strangerrealms.island.reset` | プレイヤーがクレームのリセットまたはリスタートコマンドを使用できるようにする | `false` |
-| `strangerrealms.island.team` | プレイヤーがチームコマンドを使用できるようにする | `true` |
-| `strangerrealms.island.team.setowner` | プレイヤーがチームオーナーを変更できるようにする | `true` |
-| `strangerrealms.island.team.invite` | プレイヤーが他のプレイヤーを招待できるようにする | `true` |
-| `strangerrealms.island.team.reject` | プレイヤーが招待を拒否できるようにする | `true` |
-| `strangerrealms.island.team.leave` | プレイヤーがチームを離れられるようにする | `true` |
-| `strangerrealms.island.team.kick` | プレイヤーがチームメンバーを追放できるようにする | `true` |
-| `strangerrealms.island.team.accept` | プレイヤーが招待を承諾できるようにする | `true` |
-| `strangerrealms.island.team.trust` | プレイヤーがチームのtrustコマンドを使用できるようにする | `true` |
-| `strangerrealms.island.team.coop` | プレイヤーがチームのcoopコマンドを使用できるようにする | `true` |
-| `strangerrealms.island.team.promote` | プレイヤーがpromoteコマンドを使用できるようにする | `true` |
-| `strangerrealms.island.settings.*` | クレームでの設定の使用を許可する | `true` |
-| `strangerrealms.mod.info` | モデレーターがプレイヤーの情報を確認できるようにする | `op` |
-| `strangerrealms.mod.clearreset` | クレームのリセット上限のクリアを許可する | `false` |
-| `strangerrealms.mod.bypasscooldowns` | モデレーターがクールダウンを無視することを許可する | `op` |
-| `strangerrealms.mod.bypassdelays` | モデレーターが遅延を無視することを許可する | `op` |
-| `strangerrealms.mod.bypassprotect` | モデレーターがクレームの保護を無視することを許可する | `op` |
-| `strangerrealms.mod.bypassexpel` | モデレーターがクレームからの追放を無視することを許可する | `op` |
-| `strangerrealms.mod.switch` | モデレーターが保護バイパスのオン/オフを切り替えられるようにする | `op` |
-| `strangerrealms.mod.lock` | クレームのロック・アンロックを許可する | `op` |
-| `strangerrealms.mod.bypasslock` | クレームのロックを無視する | `op` |
-| `strangerrealms.mod.bypassban` | クレームのBANを無視する | `op` |
-| `strangerrealms.mod.team` | kickとaddコマンドによるチームの変更を有効にする | `false` |
-| `strangerrealms.admin.tp` | クレームへのテレポートを許可する | `op` |
-| `strangerrealms.admin.clearresetall` | すべてのプレイヤーのクレームリセット上限のクリアを許可する | `op` |
-| `strangerrealms.admin.reload` | config.ymlをリロードする | `op` |
-| `strangerrealms.admin.delete` | プレイヤーを完全に削除できるようにする（クレームを含む） | `op` |
-| `strangerrealms.admin.register` | 最も近いクレームを別のプレイヤーに登録できるようにする | `op` |
-| `strangerrealms.admin.unregister` | クレームのブロックを削除せずにプレイヤーをクレームから削除する | `op` |
-| `strangerrealms.admin.setspawn` | スポーンツールの使用を許可する | `op` |
-| `strangerrealms.admin.setrange` | クレームの保護範囲の設定を許可する | `op` |
-| `strangerrealms.admin.settingsreset` | すべてのクレームをデフォルトの保護設定にリセットする | `op` |
-| `strangerrealms.admin.noban` | プレイヤーがクレームからBANされないようにする | `op` |
-| `strangerrealms.admin.noexpel` | プレイヤーがクレームから追放されないようにする | `op` |
-| `strangerrealms.admin.setlanguage` | すべてのプレイヤーの言語をリセットしてデフォルト言語を設定する | `op` |
-| `strangerrealms.admin.getrank` | プレイヤーのランクを取得する | `op` |
-| `strangerrealms.admin.setrank` | プレイヤーのランクを設定する | `op` |
+StrangerRealmsパーミッションは`strangerrealms.`で始まります。すべてのパーミッションは[パーミッションリファレンス](../../BentoBox/Permissions.md)に`strangerrealms`の代わりにリストされています。より大きなチーム、アイランド、より多くのホームなどのVIP特典については、[パーミッション&VIP特典](../../BentoBox/Permissions-Guide.md)を参照してください。
+
+## プレイヤーコマンド：デフォルトで誰が持っているか
+
+これらのデフォルトはStrangerRealmsの`addon.yml`から来ています。**全員**とは、除外しない限りすべてのプレイヤーが権限を持つことを意味します。**オペレーター**とは、パーミッションプラグインでプレイヤーに与える必要があることを意味します。コンソールで`/bentobox perms`を実行して、サーバーのデフォルトを確認してください。
+
+| パーミッション | コマンド | デフォルト |
+|---|---|---|
+| `strangerrealms.island` | プレイヤーコマンド自体 | 全員 |
+| `strangerrealms.island.create` | `create` | オペレーター (not declared) |
+| `strangerrealms.island.home` | `go` | 全員 |
+| `strangerrealms.island.homes` | `homes` | 全員 |
+| `strangerrealms.island.sethome` | `sethome` | 全員 |
+| `strangerrealms.island.deletehome` | `deletehome` | 全員 |
+| `strangerrealms.island.renamehome` | `renamehome` | 全員 |
+| `strangerrealms.island.info` | `info` | 全員 |
+| `strangerrealms.island.near` | `near` | 全員 |
+| `strangerrealms.island.reset` | `reset` | Nobody |
+| `strangerrealms.island.name` | `setname`, `resetname` | 全員 |
+| `strangerrealms.island.language` | `language` | 全員 |
+| `strangerrealms.island.settings` | `settings` | 全員 |
+| `strangerrealms.island.lock` | `lock` | 全員 |
+| `strangerrealms.island.ban` | `ban`, `unban`, `banlist` | 全員 |
+| `strangerrealms.island.expel` | `expel` | 全員 |
+| `strangerrealms.island.team` | `team` | 全員 |
+| `strangerrealms.island.team.invite` | `team invite` | 全員 |
+| `strangerrealms.island.team.accept` | `team accept` | 全員 |
+| `strangerrealms.island.team.reject` | `team reject` | 全員 |
+| `strangerrealms.island.team.leave` | `team leave` | 全員 |
+| `strangerrealms.island.team.kick` | `team kick` | 全員 |
+| `strangerrealms.island.team.promote` | `team promote`, `team demote` | 全員 |
+| `strangerrealms.island.team.setowner` | `team setowner` | 全員 |
+| `strangerrealms.island.team.trust` | `team trust`, `team untrust` | 全員 |
+| `strangerrealms.island.team.coop` | `team coop`, `team uncoop` | 全員 |
+
+## StrangerRealmsのみのパーミッション
+
+| パーミッション | 許可 | デフォルト |
+|---|---|---|
+| `strangerrealms.claim` | `/st claim` | 全員 |
+| `strangerrealms.unclaim` | `/st unclaim` | 全員 |
+| `strangerrealms.spawn` | `/st spawn` | 全員 |
+| `strangerrealms.admin.worldborder` | `/stranger worldborder` | オペレーター (not declared) |
+
+管理者およびモデレーターパーミッション（`strangerrealms.admin.*`、`strangerrealms.mod.*`）はデフォルトでオペレーター用です。[スタッフパーミッション](../../BentoBox/Permissions-Guide.md#staff-permissions)を参照してください。
