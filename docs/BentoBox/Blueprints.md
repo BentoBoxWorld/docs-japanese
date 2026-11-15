@@ -62,7 +62,7 @@ lp user [player] parent add skyblock-starter
 
 ゴールドインゴットでバンドルにコストを設定。プレイヤーはそれでアイランドを作成またはリセットするとき支払い、余裕がない場合は選択できません。これには`use-economy: true`がBentoBoxの`config.yml`と必要。Vaultと経済プラグイン。ないとゴールドインゴットは表示されません。
 
-## サイン
+## サイン { #signs }
 
 | サインの最初の行 | 何が起こるか |
 |---|---|

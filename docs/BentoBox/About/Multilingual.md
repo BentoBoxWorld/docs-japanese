@@ -119,7 +119,7 @@ example: "You're not on your island. Click to go home![run_command: /island go][
 
 ## メニュー テキスト
 
-メニュータイトルとボタンテキストもロケールファイル内。メニューテンプレートから参照。[メニューのカスタマイズ](../../Tutorials/generic/Customizable-GUI.md#change-the-title-or-button-text)を参照。
+メニュータイトルとボタンテキストもロケールファイル内。メニューテンプレートから参照。[メニューのカスタマイズ](../../Tutorials/generic/Customizable-GUI.md)を参照。
 
 ## 翻訳の修正または追加
 
