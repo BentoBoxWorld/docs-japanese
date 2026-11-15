@@ -200,8 +200,26 @@ island:
 /bentobox rank remove ranks.veteran
 ```
 
-## 関連項目も参照
+## トラブルシューティング { #troubleshooting }
 
-- [パーミッション](../Permissions.md)
-- [アイランド](IslandManagement.md)
-- [保護、フラグとランク](../Island-Protection,-Flags-&-Ranks.md)
+**「アイランドが満杯です」ですが、チームが小さく見えます。**
+制限は所有者を含みます。`max-team-size`と、所有者が`team.maxsize`パーミッションを持っているかどうかを確認してください。新しいパーミッションが適用されるようにするには、所有者は一度ログインする必要があります。
+
+**プレイヤーを招待できません。**
+プレイヤーは既にチームに参加している可能性があります（最初に脱退する必要があります）、既に保留中の招待がある可能性があります。またはそのアイランドから脱退またはキックされた後の招待クールダウン中である可能性があります。
+
+**Coopプレイヤーはランクを失い続けます。**
+これはCoopの仕組みです。チームメンバーがオンラインでなくなると終了します。アクセスを保持する必要があるプレイヤーの場合は、信頼を代わりに使用してください。
+
+**所有者は脱退したいです。**
+所有者は脱退できません。`/island team setowner <player>`で別のメンバーに譲るか、管理者が`/bsbadmin team setowner`で実行する必要があります。
+
+**プレイヤーはチームの参加/脱退を利用してアイテムまたは報酬を複製しています。**
+`on-join`と`on-leave`リセットをオンにして、`leavers-lose-reset: true`を設定し、招待クールダウンを保つこと。
+
+## 関連項目も参照 { #see-also }
+
+- [保護、フラグとランク](../Island-Protection,-Flags-&-Ranks.md)：各ランクがアイランド上でできることを説明
+- [アイランド](IslandManagement.md)：アイランドの作成、リセット、削除
+- [複数のアイランド](../ConcurrentIslands.md)
+- [メニューのカスタマイズ](../../Tutorials/generic/Customizable-GUI.md)：チームメニューは`plugins/BentoBox/panels/team_panel.yml`
