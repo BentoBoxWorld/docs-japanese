@@ -1,4 +1,4 @@
-# AOneBlock コマンド
+# AOneBlock コマンド { #aoneblock-commands }
 
 | | コマンド | パーミッションプレフィックス |
 |---|---|---|
@@ -7,7 +7,7 @@
 
 ゲームモードの`config.yml`内で両方のコマンドの名前を変更できます。
 
-## 標準コマンド
+## 標準コマンド { #standard-commands }
 
 AOneBlockはBentoBoxの標準プレイヤーおよび管理者コマンドを使用します。それらはすべてリストされており、パーミッション付きで[コマンドリファレンス](../../BentoBox/Commands.md)にあります。`/[player_command]`を`/ob`に、`/[admin_command]`を`/obadmin`に、`[gamemode]`を`aoneblock`に置き換えてください。例えば：
 
@@ -21,7 +21,7 @@ AOneBlockはBentoBoxの標準プレイヤーおよび管理者コマンドを使
 
 詳細については、[プレイヤーガイド](../../BentoBox/Player-Guide.md)および管理者ガイド（[チーム&ランク](../../BentoBox/About/Teams.md)および[アイランド](../../BentoBox/About/IslandManagement.md)など）を参照してください。
 
-## AOneBlockのみのコマンド
+## AOneBlockのみのコマンド { #commands-only-in-aoneblock }
 
 | コマンド | 説明 | パーミッション | デフォルト |
 |---|---|---|---|
@@ -36,6 +36,6 @@ AOneBlockはBentoBoxの標準プレイヤーおよび管理者コマンドを使
 | `/obadmin sanity <phase>` | フェーズのブロック確率チェックをコンソールに出力 | `aoneblock.admin.sanity` | オペレーター |
 | `/obadmin phases` | フェーズ順序エディターを開く | `aoneblock.admin.phases` | オペレーター |
 
-## アドオンコマンド
+## アドオンコマンド { #addon-commands }
 
 アドオンは`/ob`および`/obadmin`にサブコマンドを追加します。例えば[Level](../../addons/Level/index.md)の`/ob level`または[Challenges](../../addons/Challenges/index.md)の`/ob challenges`があります。各アドオンのページを参照してください。

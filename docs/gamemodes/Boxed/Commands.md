@@ -1,4 +1,4 @@
-# Boxed コマンド
+# Boxed コマンド { #boxed-commands }
 
 | | コマンド | パーミッションプレフィックス |
 |---|---|---|
@@ -7,7 +7,7 @@
 
 ゲームモードの`config.yml`内で両方のコマンドの名前を変更できます。
 
-## 標準コマンド
+## 標準コマンド { #standard-commands }
 
 BoxedはBentoBoxの標準プレイヤーおよび管理者コマンドを使用します。それらはすべてリストされており、パーミッション付きで[コマンドリファレンス](../../BentoBox/Commands.md)にあります。`/[player_command]`を`/boxed`に、`/[admin_command]`を`/boxadmin`に、`[gamemode]`を`boxed`に置き換えてください。例えば：
 
@@ -21,12 +21,12 @@ BoxedはBentoBoxの標準プレイヤーおよび管理者コマンドを使用�
 
 詳細については、[プレイヤーガイド](../../BentoBox/Player-Guide.md)および管理者ガイド（[チーム&ランク](../../BentoBox/About/Teams.md)および[アイランド](../../BentoBox/About/IslandManagement.md)など）を参照してください。
 
-## Boxedのみのコマンド
+## Boxedのみのコマンド { #commands-only-in-boxed }
 
 | コマンド | 説明 | パーミッション | デフォルト |
 |---|---|---|---|
 | `/boxadmin place <x> <y> <z> <rotation> <mirror> <no mobs>` | Place a structure at a location | `boxed.admin.place` | オペレーター |
 
-## アドオンコマンド
+## アドオンコマンド { #addon-commands }
 
 アドオンは`/boxed`および`/boxadmin`にサブコマンドを追加します。例えば[Level](../../addons/Level/index.md)の`/boxed level`または[Challenges](../../addons/Challenges/index.md)の`/boxed challenges`があります。各アドオンのページを参照してください。

@@ -1,4 +1,4 @@
-# BentoBox リリースノート
+# BentoBox リリースノート { #bentobox-release-notes }
 
 サーバー管理者向けの最近のBentoBoxリリースのハイライト。すべての変更については、[GitHubリリース](https://github.com/BentoBoxWorld/BentoBox/releases)を参照してください。ゲームモードとアドオンはそのページの下部で独自の変更をリストしています。
 

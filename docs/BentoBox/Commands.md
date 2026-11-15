@@ -1,8 +1,8 @@
-# コマンド
+# コマンド { #commands }
 
 すべてのBentoBoxおよびそのゲームモードのコマンドは、BentoBoxソースから生成されています。使用方法については、[管理者ガイド](About/Teams.md)と[プレイヤーガイド](Player-Guide.md)を参照してください。
 
-## ゲームモードコマンドの名付け方
+## ゲームモードコマンドの名付け方 { #how-game-mode-commands-are-named }
 
 各ゲームモードは独自のプレイヤーコマンドと管理者コマンドを持ちます。以下の表は、`/[player_command]`と`/[admin_command]`として記述します。権限はゲームモードのプレフィックスで始まり、`[gamemode].`として記述します：
 
@@ -19,7 +19,7 @@
 
 アドオンは例えば`/island level`または`/island challenges`のように、これらにサブコマンドを追加します。各[アドオンのページ](../addons/Bank/index.md)を参照してください。
 
-## BentoBoxコマンド
+## BentoBoxコマンド { #bentobox-commands }
 
 `/bentobox`コマンド（エイリアス`/bbox`）はBentoBox自体を管理します。
 
@@ -38,7 +38,7 @@
 | `/bentobox placeholders` | プレースホルダーブラウザを開く | `bentobox.admin.placeholders` |
 | `/bentobox dump-placeholders` | すべてのプレースホルダーをマークダウンファイルに書き込む | `bentobox.admin.dump-placeholders` |
 
-## プレイヤーコマンド
+## プレイヤーコマンド { #player-commands }
 
 | コマンド | 説明 | 権限 |
 |---|---|---|

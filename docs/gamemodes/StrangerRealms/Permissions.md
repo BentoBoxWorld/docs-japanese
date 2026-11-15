@@ -1,8 +1,8 @@
-# StrangerRealms パーミッション
+# StrangerRealms パーミッション { #strangerrealms-permissions }
 
 StrangerRealmsパーミッションは`strangerrealms.`で始まります。すべてのパーミッションは[パーミッションリファレンス](../../BentoBox/Permissions.md)に`strangerrealms`の代わりにリストされています。より大きなチーム、アイランド、より多くのホームなどのVIP特典については、[パーミッション&VIP特典](../../BentoBox/Permissions-Guide.md)を参照してください。
 
-## プレイヤーコマンド：デフォルトで誰が持っているか
+## プレイヤーコマンド：デフォルトで誰が持っているか { #player-commands-who-has-them-by-default }
 
 これらのデフォルトはStrangerRealmsの`addon.yml`から来ています。**全員**とは、除外しない限りすべてのプレイヤーが権限を持つことを意味します。**オペレーター**とは、パーミッションプラグインでプレイヤーに与える必要があることを意味します。コンソールで`/bentobox perms`を実行して、サーバーのデフォルトを確認してください。
 
@@ -35,7 +35,7 @@ StrangerRealmsパーミッションは`strangerrealms.`で始まります。す�
 | `strangerrealms.island.team.trust` | `team trust`, `team untrust` | 全員 |
 | `strangerrealms.island.team.coop` | `team coop`, `team uncoop` | 全員 |
 
-## StrangerRealmsのみのパーミッション
+## StrangerRealmsのみのパーミッション { #permissions-only-in-strangerrealms }
 
 | パーミッション | 許可 | デフォルト |
 |---|---|---|

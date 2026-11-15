@@ -1,4 +1,4 @@
-# 権限
+# 権限 { #permissions }
 
 すべてのBentoBox権限はBentoBoxソースから生成されています。使用方法（VIPランク、スタッフロール、一般的な誤り）については、[権限とVIPパーク](Permissions-Guide.md)を参照してください。
 
@@ -7,7 +7,7 @@
 !!! tip "サーバーのデフォルトを確認してください"
     デフォルト（全員、オペレーターのみ、または誰も不可）は各ゲームモードによって設定され、ゲームモード間で異なります。コンソールで`/bentobox perms`を実行して、サーバー上のすべてのコマンド権限とそのデフォルトを出力します。
 
-## BentoBox
+## BentoBox { #bentobox }
 
 | 権限 | デフォルト | 許可すること |
 |---|---|---|
@@ -24,7 +24,7 @@
 | `bentobox.admin.placeholders` | オペレーター | `/bentobox placeholders` |
 | `bentobox.admin.dump-placeholders` | オペレーター | `/bentobox dump-placeholders` |
 
-## ゲームモード：プレイヤーコマンド
+## ゲームモード：プレイヤーコマンド { #game-mode-player-commands }
 
 これらのほとんどはゲームモードによってすべてのユーザーに与えられます。`/bentobox perms`でチェックしてください。一部のゲームモードでは`island.homes`、`island.deletehome`、`island.renamehome`はデフォルトではオペレーターのみです。
 
@@ -58,7 +58,7 @@
 | `[gamemode].island.team.setowner` | `team setowner` |
 | `[gamemode].island.team.trust` | `team trust`、`team untrust` |
 
-## ゲームモード：管理者とモデレーターコマンド
+## ゲームモード：管理者とモデレーターコマンド { #game-mode-admin-and-moderator-commands }
 
 デフォルトではオペレーターのみです。
 
@@ -129,7 +129,7 @@
 | `[gamemode].mod.team.maxsize` | `team maxsize` |
 | `[gamemode].mod.team.setowner` | `team setowner` |
 
-## ゲームモード：制限とパーク
+## ゲームモード：制限とパーク { #game-mode-limits-and-perks }
 
 これらは数字で終わり、そのプレイヤーの設定値を置き換えます。プレイヤーが持つ最高の数字が優先されます。ルールについては[権限とVIPパーク](Permissions-Guide.md#perks-with-a-number)を参照してください。
 
@@ -148,7 +148,7 @@
 | `[gamemode].island.create.<bundle>` | 権限が必要なスターターアイランド（ブループリントバンドル）を選択 |
 | `[gamemode].island.name.format` | アイランド名のカラーコード |
 
-## ゲームモード：アイランド設定
+## ゲームモード：アイランド設定 { #game-mode-island-settings }
 
 | 権限 | 許可すること |
 |---|---|
@@ -160,7 +160,7 @@
 
 フラグIDについては[保護、フラグとランク](Island-Protection,-Flags-&-Ranks.md)を参照してください。
 
-## ゲームモード：モデレーターバイパス
+## ゲームモード：モデレーターバイパス { #game-mode-moderator-bypasses }
 
 | 権限 | 効果 |
 |---|---|

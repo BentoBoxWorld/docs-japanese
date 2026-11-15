@@ -1,8 +1,8 @@
-# Boxed パーミッション
+# Boxed パーミッション { #boxed-permissions }
 
 Boxedパーミッションは`boxed.`で始まります。すべてのパーミッションは[パーミッションリファレンス](../../BentoBox/Permissions.md)に`boxed`の代わりにリストされています。より大きなチーム、アイランド、より多くのホームなどのVIP特典については、[パーミッション&VIP特典](../../BentoBox/Permissions-Guide.md)を参照してください。
 
-## プレイヤーコマンド：デフォルトで誰が持っているか
+## プレイヤーコマンド：デフォルトで誰が持っているか { #player-commands-who-has-them-by-default }
 
 これらのデフォルトはBoxedの`addon.yml`から来ています。**全員**とは、除外しない限りすべてのプレイヤーが権限を持つことを意味します。**オペレーター**とは、パーミッションプラグインでプレイヤーに与える必要があることを意味します。コンソールで`/bentobox perms`を実行して、サーバーのデフォルトを確認してください。
 
@@ -36,7 +36,7 @@ Boxedパーミッションは`boxed.`で始まります。すべてのパーミ�
 | `boxed.island.team.trust` | `team trust`, `team untrust` | 全員 |
 | `boxed.island.team.coop` | `team coop`, `team uncoop` | 全員 |
 
-## Boxedのみのパーミッション
+## Boxedのみのパーミッション { #permissions-only-in-boxed }
 
 | パーミッション | 許可 | デフォルト |
 |---|---|---|

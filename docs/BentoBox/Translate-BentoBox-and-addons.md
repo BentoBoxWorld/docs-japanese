@@ -1,12 +1,12 @@
-# BentoBoxの翻訳
+# BentoBoxの翻訳 { #translating-bentobox }
 
 BentoBox、そのゲームモード、アドオンの翻訳を支援してください。サーバー上でメッセージを変更する代わりに、[言語とメッセージ](About/Multilingual.md)を参照。
 
-## 利用可能なロケール
+## 利用可能なロケール { #available-locales }
 
 {{ translations("BentoBox") }}
 
-## 手助けする方法
+## 手助けする方法 { #how-to-help }
 
 翻訳はAI支援で作成されるため、ほとんどの作業は完了しています。ただしAIは間違いを犯します。できることの最も有用なことは、それらを修正することです。
 
@@ -23,7 +23,7 @@ BentoBox、そのゲームモード、アドオンの翻訳を支援してくだ
 - **サーバーでテスト**。できる限り、テキストがメニューとタイトルに収まることを確認。
 - **広告、悪言、侮辱なし。** すべてのファイルを受け入れ前にチェック。
 
-## ゲームモード
+## ゲームモード { #game-modes }
 
 - [AcidIsland](../gamemodes/AcidIsland/index.md#translations)
 - [AOneBlock](../gamemodes/AOneBlock/index.md#translations)
@@ -36,7 +36,7 @@ BentoBox、そのゲームモード、アドオンの翻訳を支援してくだ
 - [Stranger Realms](../gamemodes/StrangerRealms/index.md#translations)
 - [TradeWinds](../gamemodes/TradeWinds/index.md#translations)
 
-## アドオン
+## アドオン { #addons }
 
 - [Bank](../addons/Bank/index.md#translations)
 - [Biomes](../addons/Biomes/index.md#translations)

@@ -1,8 +1,8 @@
-# BSkyBlock パーミッション
+# BSkyBlock パーミッション { #bskyblock-permissions }
 
 BSkyBlockパーミッションは`bskyblock.`で始まります。すべてのパーミッションは[パーミッションリファレンス](../../BentoBox/Permissions.md)に`bskyblock`の代わりにリストされています。より大きなチーム、アイランド、より多くのホームなどのVIP特典については、[パーミッション&VIP特典](../../BentoBox/Permissions-Guide.md)を参照してください。
 
-## プレイヤーコマンド：デフォルトで誰が持っているか
+## プレイヤーコマンド：デフォルトで誰が持っているか { #player-commands-who-has-them-by-default }
 
 これらのデフォルトはBSkyBlockの`addon.yml`から来ています。**全員**とは、除外しない限りすべてのプレイヤーが権限を持つことを意味します。**オペレーター**とは、パーミッションプラグインでプレイヤーに与える必要があることを意味します。コンソールで`/bentobox perms`を実行して、サーバーのデフォルトを確認してください。
 
