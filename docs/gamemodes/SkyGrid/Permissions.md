@@ -22,7 +22,7 @@ SkyGridパーミッションは`skygrid.`で始まります。すべてのパー
 | `skygrid.island.name` | `setname`, `resetname` | 全員 |
 | `skygrid.island.language` | `language` | 全員 |
 | `skygrid.island.settings` | `settings` | 全員 |
-| `skygrid.island.lock` | `lock` | Nobody |
+| `skygrid.island.lock` | `lock` | なし |
 | `skygrid.island.ban` | `ban`, `unban`, `banlist` | 全員 |
 | `skygrid.island.expel` | `expel` | 全員 |
 | `skygrid.island.team` | `team` | 全員 |

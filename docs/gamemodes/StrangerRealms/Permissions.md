@@ -17,7 +17,7 @@ StrangerRealmsパーミッションは`strangerrealms.`で始まります。す�
 | `strangerrealms.island.renamehome` | `renamehome` | 全員 |
 | `strangerrealms.island.info` | `info` | 全員 |
 | `strangerrealms.island.near` | `near` | 全員 |
-| `strangerrealms.island.reset` | `reset` | Nobody |
+| `strangerrealms.island.reset` | `reset` | なし |
 | `strangerrealms.island.name` | `setname`, `resetname` | 全員 |
 | `strangerrealms.island.language` | `language` | 全員 |
 | `strangerrealms.island.settings` | `settings` | 全員 |
