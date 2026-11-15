@@ -203,7 +203,7 @@ barrier-offset: 0
     - 管理者は管理範囲コマンドで特定のアイランドの範囲を設定できます。例: `/bsbadmin range set <player> <number>`。
     - 範囲は**アイランド間の距離の半分**を超えることはできません。この距離はワールド作成時に一度だけ設定され、その後は変更できません。
 
-    詳細は [Island Range and Spacing](../../BentoBox/About/IslandManagement.md#island-range-and-spacing) を参照してください。
+    詳細は [Island Range and Spacing](../../BentoBox/About/IslandManagement.md#island-size-protection-range) を参照してください。
 
 ??? question "ボーダーをアイランドの範囲より少し大きくすることはできますか？"
     はい！`config.yml` の `barrier-offset` 設定を使用してください。選択したブロック数分ボーダーを外向きにシフトするため、プレイヤーは壁に当たる前に保護範囲を少し超えて立つことができます。
