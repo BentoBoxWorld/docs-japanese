@@ -1,61 +1,27 @@
+# BentoBoxの翻訳
+
+BentoBox、そのゲームモード、アドオンの翻訳を支援してください。サーバー上でメッセージを変更する代わりに、[言語とメッセージ](About/Multilingual.md)を参照。
+
 ## 利用可能なロケール
 
 {{ translations("BentoBox") }}
 
-## MiniMessageフォーマット
+## 手助けする方法
 
-BentoBoxはすべてのロケール文字列に[MiniMessage](https://docs.advntr.dev/minimessage/format.html)を使用します。つまり、MiniMessageタグを翻訳に使用してリッチテキストフォーマットを適用できます。例えば：
+翻訳はAI支援で作成されるため、ほとんどの作業は完了しています。ただしAIは間違いを犯します。できることの最も有用なことは、それらを修正することです。
 
-```yaml
-my-message: "<green>Welcome to the island!</green>"
-my-message: "<bold><red>Warning!</red></bold> Something happened."
-my-message: "<gradient:gold:yellow>Island Name</gradient>"
-```
+1. プロジェクトのGitHubリポジトリでロケールファイルを見つけます。`src/main/resources/locales/`下（例えば`fr.yml`）。下のリンクは各プロジェクトの翻訳状況に移動。
+2. テキストを修正してプルリクエストを開く。新しい言語を追加するには、`en-US.yml`をコピー、言語コードに名前変更、翻訳。
+3. または[Discord](https://discord.bentobox.world)で誤りを報告。修正します。
 
-レガシーの`§`または`&`カラーコードは後方互換性のためまだサポートされており、ロード時にMiniMessageフォーマットに自動変換されます。
+[翻訳ツール](https://download.bentobox.world/translate.html)はブラウザで実行し、ファイル全体を支援できます。翻訳者は特別なコミュニティバッジを取得。
 
-## メッセージ配信タグ
+翻訳するとき。
 
-ロケール文字列では特別なインラインタグを使用してプレイヤーへのメッセージの配信方法を制御できます。配信タグがない場合、メッセージはチャットで送信されます（デフォルトの動作）。
-
-### `[actionbar]`
-
-メッセージを**アクションバー**メッセージとして送信します（ホットバーの上に表示されるテキスト）。
-
-```yaml
-island-go: "[actionbar]Teleporting..."
-```
-
-### `[title]`と`[subtitle]`
-
-メッセージを画面上の**タイトル**オーバーレイとして送信します。`[title]`は大きな見出しテキストを表示し、`[subtitle]`はその下に小さなテキストを表示します。`[subtitle]`はスタンドアロンの配信タイプではありません。`[title]`メッセージ内の区切り文字としてのみ機能します。`[title]`なしの場合は、チャットパスにフォールバックします。
-
-```yaml
-# タイトルとサブタイトル
-island-go: "[title]Teleporting...[subtitle]Wait a second."
-# タイトルのみ（空のタイトル、テキストはサブタイトルとして）
-scooping: "[title][subtitle]You scooped the lava!"
-```
-
-### `[sound:name:volume:pitch]`
-
-プレイヤーに**サウンド**を再生します。ボリュームとピッチはオプションです（デフォルト`1.0`）。Bukkit/Minecraftのサウンドリストのアンダースコア区切りのサウンド名を使用します（例：`entity_experience_orb_pickup`）。サウンドタグは任意の配信タイプタグと組み合わせられます。
-
-```yaml
-island-go: "[sound:entity_experience_orb_pickup:1:1][title]Teleporting...[subtitle]Wait a second."
-```
-
-!!! note
-    非プレイヤー送信者（コンソールなど）は、アクションバーまたはタイトルタグが使用されている場合、チャット出力にフォールバックします。
-
-## ガイドライン
-
-* [https://download.bentobox.world/translate.html](https://download.bentobox.world/translate.html)でファイルの翻訳を可能にするツールが利用できます。これはブラウザでローカルに実行され、翻訳に役立てられます。新しいファイルはGitHubでPRとして提出してください。
-* 翻訳者には特別なバッジが与えられます！
-* 角括弧内のテキストはプレースホルダーなので翻訳しないでください。例：[name]は英語のまま残してください
-* 翻訳をテストしてください — 提出前にできる限り確認してください
-* 翻訳に広告、悪言、侮辱的なコメントを含めないでください。PRを承認前に確認します。
-* 翻訳についての質問はDiscordで自由にどうぞ。
+- **角括弧内のもの何も翻訳しないでください。** `[name]`、`[number]`、`[prefix_island]`はBentoBoxで入力され、英語のまま必要。
+- **フォーマットタグを保持**。`<green>`、配信タグ`[actionbar]`など。[言語とメッセージ](About/Multilingual.md#colours-and-formatting)を参照。
+- **サーバーでテスト**。できる限り、テキストがメニューとタイトルに収まることを確認。
+- **広告、悪言、侮辱なし。** すべてのファイルを受け入れ前にチェック。
 
 ## ゲームモード
 
