@@ -17,12 +17,13 @@ hide:
     <a href="BentoBox/First-Steps" class="bb-btn bb-btn-primary">最初の 30 分 &rarr;</a>
     <a href="FAQ" class="bb-btn bb-btn-ghost">FAQ とトラブルシューティング</a>
     <a href="gamemodes/Comparison" class="bb-btn bb-btn-ghost">ゲームモードを選ぶ</a>
+    <a href="BentoBox/Player-Guide" class="bb-btn bb-btn-ghost">プレイヤーガイド</a>
     <a href="https://download.bentobox.world" class="bb-btn bb-btn-ghost">ビルドをダウンロード</a>
   </div>
 
   <div class="bb-stats">
     <div class="bb-stat">
-      <div class="bb-stat__n">1,400+</div>
+      <div class="bb-stat__n">1,600+</div>
       <div class="bb-stat__l">サーバー</div>
     </div>
     <div class="bb-stat">
@@ -73,6 +74,64 @@ hide:
       <p class="bb-step-title">最初の 30 分</p>
       <p class="bb-step-body">インストール直後からプレイヤーが楽しめるまで：設定・アドオン・デフォルト値。</p>
       <a href="BentoBox/First-Steps" class="bb-step-link">ガイドを読む &rarr;</a>
+    </div>
+  </div>
+</div>
+
+<!-- ── ADMIN GUIDES ───────────────────────────────────────────── -->
+<div class="bb-section">
+  <div class="bb-section-header">
+    <h2>管理者ガイド</h2>
+    <a href="BentoBox/Player-Guide" class="bb-section-link">プレイヤー向けガイド &rarr;</a>
+  </div>
+  <div class="bb-steps">
+    <div class="bb-step-card">
+      <div class="bb-step-header">
+        <span class="bb-step-num">保護</span>
+      </div>
+      <p class="bb-step-title">保護・フラグ・ランク</p>
+      <p class="bb-step-body">来客とチームメンバーがアイランドで何ができるか、また世界の他の部分のルール。</p>
+      <a href="BentoBox/Island-Protection,-Flags-&amp;-Ranks" class="bb-step-link">ガイドを読む &rarr;</a>
+    </div>
+    <div class="bb-step-card">
+      <div class="bb-step-header">
+        <span class="bb-step-num">チーム</span>
+      </div>
+      <p class="bb-step-title">チーム・ランク</p>
+      <p class="bb-step-body">チームサイズ、VIP向けの大規模チーム、信頼とクープ、プレイヤーが参加・脱退するときに何が起こるか。</p>
+      <a href="BentoBox/About/Teams" class="bb-step-link">ガイドを読む &rarr;</a>
+    </div>
+    <div class="bb-step-card">
+      <div class="bb-step-header">
+        <span class="bb-step-num">アイランド</span>
+      </div>
+      <p class="bb-step-title">アイランド</p>
+      <p class="bb-step-body">アイランドの作成・リセット・削除、ホーム、プレイヤーが複数のアイランドを所有する方法。</p>
+      <a href="BentoBox/About/IslandManagement" class="bb-step-link">ガイドを読む &rarr;</a>
+    </div>
+    <div class="bb-step-card">
+      <div class="bb-step-header">
+        <span class="bb-step-num">ブループリント</span>
+      </div>
+      <p class="bb-step-title">スターターアイランド</p>
+      <p class="bb-step-body">プレイヤーが最初にスポーンするアイランドを構築し、「アイランド作成」メニューで選択肢を提供します。</p>
+      <a href="BentoBox/Blueprints" class="bb-step-link">ガイドを読む &rarr;</a>
+    </div>
+    <div class="bb-step-card">
+      <div class="bb-step-header">
+        <span class="bb-step-num">メニュー</span>
+      </div>
+      <p class="bb-step-title">メニューのカスタマイズ</p>
+      <p class="bb-step-body">チーム・設定・ホーム等のメニューのタイトル・アイコン・レイアウト・サイズを変更します。</p>
+      <a href="Tutorials/generic/Customizable-GUI" class="bb-step-link">ガイドを読む &rarr;</a>
+    </div>
+    <div class="bb-step-card">
+      <div class="bb-step-header">
+        <span class="bb-step-num">リファレンス</span>
+      </div>
+      <p class="bb-step-title">コマンド・パーミッション</p>
+      <p class="bb-step-body">すべての BentoBox コマンドとパーミッション、フラグ・プレースホルダー。</p>
+      <a href="BentoBox/Commands" class="bb-step-link">リファレンスを開く &rarr;</a>
     </div>
   </div>
 </div>
@@ -178,7 +237,7 @@ hide:
     <div class="bb-sponsor-card">
       <p class="bb-card-eyebrow" style="color:oklch(0.78 0.13 220)">オープンソース</p>
       <p class="bb-card-title">BentoBox をスポンサーする</p>
-      <p class="bb-card-body">ご支援がゲームの継続と更新を支えています。無料・オープンソースで世界 1,400 以上のサーバーで使用中。</p>
+      <p class="bb-card-body">ご支援がゲームの継続と更新を支えています。無料・オープンソースで世界 1,600 以上のサーバーで使用中。</p>
       <div class="bb-btn-row">
         <a href="https://github.com/sponsors/tastybento" class="bb-btn bb-btn-sm bb-btn-ink">&#9829; GitHub スポンサー</a>
         <a href="https://www.paypal.me/BentoBoxWorld" class="bb-btn bb-btn-sm bb-btn-ghost">PayPal</a>
