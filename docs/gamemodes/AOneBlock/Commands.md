@@ -1,21 +1,41 @@
-# AOneBlock コマンド
+# AOneBlock コマンド { #aoneblock-commands }
 
-AOneBlockはBSkyBlockと同じコマンドが多くあります。以下はAOneBlock固有のコマンドです:
+| | コマンド | パーミッションプレフィックス |
+|---|---|---|
+| プレイヤー | `/ob`（/oneblockも可能） | `aoneblock.` |
+| 管理者 | `/obadmin`（/oneblockadmin, /obaも可能） | `aoneblock.` |
 
-**注意:** このリストはまだ完成していません。
+ゲームモードの`config.yml`内で両方のコマンドの名前を変更できます。
 
-## 管理者コマンド
+## 標準コマンド { #standard-commands }
 
-* `/obadmin setchest <phase> <rarity>` - 見ているチェストを指定したフェーズとレアリティで設定する
-* `/obadmin setcount <name> <count>`: プレイヤーの島のブロック数を設定する
-* `/obadmin sanity <phase>`: コンソールにフェーズの確率のサニティチェックを表示する
+AOneBlockはBentoBoxの標準プレイヤーおよび管理者コマンドを使用します。それらはすべてリストされており、パーミッション付きで[コマンドリファレンス](../../BentoBox/Commands.md)にあります。`/[player_command]`を`/ob`に、`/[admin_command]`を`/obadmin`に、`[gamemode]`を`aoneblock`に置き換えてください。例えば：
 
-チェストのレアリティにはCOMMON、UNCOMMON、RARE、EPICが使用できます。
+```
+/ob              アイランドに移動するか、新しく作成する
+/ob team invite <player>
+/ob settings
+/obadmin info <player>
+/obadmin why <player>
+```
 
-## プレイヤーコマンド
+詳細については、[プレイヤーガイド](../../BentoBox/Player-Guide.md)および管理者ガイド（[チーム&ランク](../../BentoBox/About/Teams.md)および[アイランド](../../BentoBox/About/IslandManagement.md)など）を参照してください。
 
-* `/ob count` - 島が現在いるフェーズとカウントを表示する
-* `/ob setcount <number>` - 採掘されたブロック数を変更する
-* `/ob phases` - フェーズのGUIを表示する
-* `/ob bossbar` - フェーズの進捗を表示するボスバーの表示/非表示を切り替える（1.21.2以降、configで`bossbar: true`が必要）
-* `/ob actionbar` - フェーズの進捗を表示するアクションバーの表示/非表示を切り替える（1.21.2以降、configで`actionbar: true`が必要）
+## AOneBlockのみのコマンド { #commands-only-in-aoneblock }
+
+| コマンド | 説明 | パーミッション | デフォルト |
+|---|---|---|---|
+| `/ob count` | ブロック数とフェーズを表示 | `aoneblock.count` | 全員 |
+| `/ob phases` | すべてのフェーズのリストを表示 | `aoneblock.phases` | オペレーター |
+| `/ob setCount <count>` | すでに到達した値にブロック数を設定する | `aoneblock.island.setcount` | オペレーター |
+| `/ob respawnBlock` | 魔法のブロックが消えた場合は復活させる（別名: check） | `aoneblock.respawn-block` | 全員 |
+| `/ob bossbar` | フェーズボスバーをオン/オフにする | `aoneblock.island.bossbar` | 全員 |
+| `/ob actionbar` | フェーズアクションバーをオン/オフにする | `aoneblock.island.actionbar` | 全員 |
+| `/obadmin setcount <name> <count> [lifetime]` | プレイヤーのブロック数を設定する | `aoneblock.admin.setcount` | オペレーター |
+| `/obadmin setchest <phase> <rarity>` | 見ているチェストをそのレアリティでフェーズに追加する | `aoneblock.admin.setchest` | オペレーター |
+| `/obadmin sanity <phase>` | フェーズのブロック確率チェックをコンソールに出力 | `aoneblock.admin.sanity` | オペレーター |
+| `/obadmin phases` | フェーズ順序エディターを開く | `aoneblock.admin.phases` | オペレーター |
+
+## アドオンコマンド { #addon-commands }
+
+アドオンは`/ob`および`/obadmin`にサブコマンドを追加します。例えば[Level](../../addons/Level/index.md)の`/ob level`または[Challenges](../../addons/Challenges/index.md)の`/ob challenges`があります。各アドオンのページを参照してください。

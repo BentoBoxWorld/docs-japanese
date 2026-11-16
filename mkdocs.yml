@@ -7,30 +7,56 @@ repo_name: BentoBoxWorld/BentoBox
 edit_uri: ""
 nav:
     - ホーム: index.md
-    - "BentoBoxとは？":
-        - アイランド管理: BentoBox/About/IslandManagement.md
-        - ゲームモード: BentoBox/About/GameModes.md
-        - アドオン: BentoBox/About/Addons.md
-        - チーム管理: BentoBox/About/Teams.md
-        - 保護機能: BentoBox/About/Protections.md
-        - ブループリント: BentoBox/About/BlueprintsSummary.md
-        - 多言語対応: BentoBox/About/Multilingual.md
-        - 管理ツール: BentoBox/About/AdminTools.md
-    - 用語集: Glossary.md
-    - FAQ: FAQ.md
-    - プライバシー: BentoBox/Privacy.md
-    - AIポリシー: BentoBox/AI-Policy.md
-    - 行動規範: BentoBox/CodeOfConduct.md
-    - 貢献ガイド: BentoBox/Contributing.md
-    - ゲームモード:
-        - ゲームモードの比較: gamemodes/Comparison.md
-        - AcidIsland: gamemodes/AcidIsland/index.md
+    - "はじめにお読みください":
+        - "インストール方法": BentoBox/Install-Bentobox.md
+        - "最初の30分": BentoBox/First-Steps.md
+        - "ゲームモードを選ぶ": gamemodes/Comparison.md
+        - "BentoBoxワールドをデフォルトに設定": BentoBox/Set-a-BentoBox-world-as-the-server-default-world.md
+        - 用語集: Glossary.md
+    - "プレイヤーガイド": BentoBox/Player-Guide.md
+    - "管理者ガイド":
+        - "保護、フラグとランク": "BentoBox/Island-Protection,-Flags-&-Ranks.md"
+        - "チームとランク": BentoBox/About/Teams.md
+        - "アイランド": BentoBox/About/IslandManagement.md
+        - "複数のアイランド": BentoBox/ConcurrentIslands.md
+        - "パーミッションと VIP パーク": BentoBox/Permissions-Guide.md
+        - "スターターアイランド（ブループリント）": BentoBox/Blueprints.md
+        - "メニューのカスタマイズ": Tutorials/generic/Customizable-GUI.md
+        - "アイランド作成メニューを大きくする": Tutorials/generic/Bigger-Create-Island-Menu.md
+        - "言語とメッセージ": BentoBox/About/Multilingual.md
+        - "BentoBox と アドオンの翻訳": BentoBox/Translate-BentoBox-and-addons.md
+        - "管理者ツール": BentoBox/About/AdminTools.md
+        - "データベースの変更": BentoBox/Database-transition.md
+        - "ASkyBlock からの変換": Converter/index.md
+    - "ゲームモード":
+        - "ゲームモードとは？": BentoBox/About/GameModes.md
+        - "ゲームモードを選ぶ": gamemodes/Comparison.md
+        - AcidIsland:
+            - 概要: gamemodes/AcidIsland/index.md
+            - コマンド: gamemodes/AcidIsland/Commands.md
+            - パーミッション: gamemodes/AcidIsland/Permissions.md
+            - プレースホルダー: gamemodes/AcidIsland/Placeholders.md
         - AOneBlock:
             - 概要: gamemodes/AOneBlock/index.md
             - フェーズのカスタマイズ: gamemodes/AOneBlock/Phases.md
-        - BSkyBlock: gamemodes/BSkyBlock/index.md
-        - Boxed: gamemodes/Boxed/index.md
-        - CaveBlock: gamemodes/CaveBlock/index.md
+            - コマンド: gamemodes/AOneBlock/Commands.md
+            - パーミッション: gamemodes/AOneBlock/Permissions.md
+            - プレースホルダー: gamemodes/AOneBlock/Placeholders.md
+        - BSkyBlock:
+            - 概要: gamemodes/BSkyBlock/index.md
+            - コマンド: gamemodes/BSkyBlock/Commands.md
+            - パーミッション: gamemodes/BSkyBlock/Permissions.md
+            - プレースホルダー: gamemodes/BSkyBlock/Placeholders.md
+        - Boxed:
+            - 概要: gamemodes/Boxed/index.md
+            - コマンド: gamemodes/Boxed/Commands.md
+            - パーミッション: gamemodes/Boxed/Permissions.md
+            - プレースホルダー: gamemodes/Boxed/Placeholders.md
+        - CaveBlock:
+            - 概要: gamemodes/CaveBlock/index.md
+            - コマンド: gamemodes/CaveBlock/Commands.md
+            - パーミッション: gamemodes/CaveBlock/Permissions.md
+            - プレースホルダー: gamemodes/CaveBlock/Placeholders.md
         - ChunkBlock:
             - 概要: gamemodes/ChunkBlock/index.md
             - チャンクの取得: gamemodes/ChunkBlock/Chunks.md
@@ -38,17 +64,28 @@ nav:
             - コマンド: gamemodes/ChunkBlock/Commands.md
             - パーミッション: gamemodes/ChunkBlock/Permissions.md
             - プレースホルダー: gamemodes/ChunkBlock/Placeholders.md
-        - Poseidon: gamemodes/Poseidon/index.md
-        - SkyGrid: gamemodes/SkyGrid/index.md
-        - Stranger Realms: gamemodes/StrangerRealms/index.md
+        - Poseidon:
+            - 概要: gamemodes/Poseidon/index.md
+            - コマンド: gamemodes/Poseidon/Commands.md
+            - パーミッション: gamemodes/Poseidon/Permissions.md
+            - プレースホルダー: gamemodes/Poseidon/Placeholders.md
+        - SkyGrid:
+            - 概要: gamemodes/SkyGrid/index.md
+            - コマンド: gamemodes/SkyGrid/Commands.md
+            - パーミッション: gamemodes/SkyGrid/Permissions.md
+            - プレースホルダー: gamemodes/SkyGrid/Placeholders.md
+        - Stranger Realms:
+            - 概要: gamemodes/StrangerRealms/index.md
+            - コマンド: gamemodes/StrangerRealms/Commands.md
+            - パーミッション: gamemodes/StrangerRealms/Permissions.md
         - TradeWinds:
             - 概要: gamemodes/TradeWinds/index.md
             - 船乗りのハンドブック: gamemodes/TradeWinds/Gameplay.md
             - コマンド: gamemodes/TradeWinds/Commands.md
             - パーミッション: gamemodes/TradeWinds/Permissions.md
             - プレースホルダー: gamemodes/TradeWinds/Placeholders.md
-
-    - アドオン:
+    - "アドオン":
+        - "アドオンとは？": BentoBox/About/Addons.md
         - Bank: addons/Bank/index.md
         - Biomes: addons/Biomes/index.md
         - Border: addons/Border/index.md
@@ -75,21 +112,31 @@ nav:
         - Visit: addons/Visit/index.md
         - VoidPortals: addons/VoidPortals/index.md
         - Warps: addons/Warps/index.md
-    - "チュートリアル – 一般":
-        - "最初の30分": BentoBox/First-Steps.md
-        - "インストール方法": BentoBox/Install-Bentobox.md
-        - "BentoBoxワールドをデフォルトに設定": BentoBox/Set-a-BentoBox-world-as-the-server-default-world.md
-        - "データベースの移行": BentoBox/Database-transition.md
-        - "カスタム GUI": Tutorials/generic/Customizable-GUI.md
-        - "アイランド作成メニューを大きくする": Tutorials/generic/Bigger-Create-Island-Menu.md
-    - "チュートリアル – API":
+    - "リファレンス":
+        - コマンド: BentoBox/Commands.md
+        - パーミッション: BentoBox/Permissions.md
+        - フラグ: BentoBox/Flags.md
+        - プレースホルダー: BentoBox/Placeholders.md
+        - "アイテムフォーマット": BentoBox/ItemParser.md
+        - "BentoBox フォルダ": BentoBox/List-of-BentoBox-directories.md
+        - "BentoBox リリースノート": BentoBox/Release-Notes.md
+    - FAQ: FAQ.md
+    - "開発者向け":
+        - "開発者向けドキュメント": BentoBox/Developer-Documentation.md
         - "アドオンの作成": Tutorials/api/Create-an-addon.md
+        - "addon.yml ファイル": BentoBox/How-to-fill-in-the-addon_yml-file.md
+        - "ゲームモードの作成": BentoBox/Creating-a-Game-Mode.md
         - "Config API": BentoBox/Config-API.md
         - "Database API": BentoBox/Database-API.md
         - "Metadata API": BentoBox/MetadataAPI.md
-        - "テンプレートパネルAPI": Tutorials/api/Templated-Panel.md
+        - "テンプレートパネル API": Tutorials/api/Templated-Panel.md
         - "ブループリントファイル形式": BentoBox/Blueprint-Format.md
         - "アドオンからデータを取得": BentoBox/Request-Handler-API---How-plugins-can-get-data-from-addons.md
+    - "プロジェクトについて":
+        - 貢献ガイド: BentoBox/Contributing.md
+        - "行動規範": BentoBox/CodeOfConduct.md
+        - "AI ポリシー": BentoBox/AI-Policy.md
+        - プライバシー: BentoBox/Privacy.md
 theme:
   name: material
   custom_dir: overrides

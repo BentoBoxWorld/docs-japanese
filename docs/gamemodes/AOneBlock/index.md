@@ -439,7 +439,7 @@ BentoBoxのカスタムGUIの仕組みについての詳細はこちら: [カス
 
 === "プレイヤーパーミッション"
     - `aoneblock.count` - プレイヤーが'/[player_command] count'コマンドを使用できるようにします。デフォルトで有効。
-    - `aoneblock.phases` - プレイヤーが'/[player_command] phases'コマンドを使用できるようにします。デフォルトで無効。
+    - `aoneblock.phases` - プレイヤーが'/[player_command] phases'コマンドを使用できるようにします。デフォルトOP。
     - `aoneblock.island.setcount` - プレイヤーが'/[player_command] setcount'コマンドを使用できるようにします。デフォルトで無効。
     - `aoneblock.respawn-block` - プレイヤーが'/[player_command] check'コマンドを使用できるようにします。デフォルトで有効。
     - `aoneblock.island.bossbar` - プレイヤーが'/[player_command] bossbar'コマンドを使用できるようにします。デフォルトで有効。（configで`bossbar: true`が必要）

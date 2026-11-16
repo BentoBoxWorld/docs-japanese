@@ -1,77 +1,140 @@
-# 多言語サポート
+# 言語とメッセージ { #languages-messages }
 
-BentoBoxとそのアドオンは、すぐに使える幅広い言語をサポートしています。プレイヤーが見るすべてのゲーム内メッセージ、GUIテキスト、アイテム名を自分の言語で表示できます。追加プラグインは不要です。
+BentoBoxとそのアドオンのすべてのメッセージ、メニュー、アイテム名は、**ロケールファイル**から来ます。言語ごとに1つのYAMLファイルです。プレイヤーは自分の言語を選択でき、テキスト、色、またはメッセージの表示方法（チャット、アクションバー、タイトル、サウンド）を変更できます。
 
-## サポートされている言語
+## 言語 { #languages }
 
-BentoBoxは現在、以下の言語の翻訳を同梱しています：
+BentoBoxは25の言語で出荷されます。
 
-| 言語 | コード |
-|---|---|
-| 英語（デフォルト） | `en-US` |
-| 中国語（簡体字） | `zh-CN` |
-| 中国語（繁体字、HK） | `zh-HK` |
-| 中国語（繁体字、TW） | `zh-TW` |
-| クロアチア語 | `hr` |
-| チェコ語 | `cs` |
-| オランダ語 | `nl` |
-| フランス語 | `fr` |
-| ドイツ語 | `de` |
-| ハンガリー語 | `hu` |
-| インドネシア語 | `id` |
-| イタリア語 | `it` |
-| 日本語 | `ja` |
-| 韓国語 | `ko` |
-| ラトビア語 | `lv` |
-| ポーランド語 | `pl` |
-| ポルトガル語 | `pt` |
-| ルーマニア語 | `ro` |
-| ロシア語 | `ru` |
-| スペイン語 | `es` |
-| トルコ語 | `tr` |
-| ウクライナ語 | `uk` |
-| ベトナム語 | `vi` |
+| 言語 | ファイル | 言語 | ファイル |
+|---|---|---|---|
+| 英語（デフォルト） | `en-US` | イタリア語 | `it` |
+| 中国語（簡体字） | `zh-CN` | 日本語 | `ja` |
+| 中国語（繁体字、香港） | `zh-HK` | 韓国語 | `ko` |
+| 中国語（繁体字、台湾） | `zh-TW` | ラトビア語 | `lv` |
+| クロアチア語 | `hr` | ポーランド語 | `pl` |
+| チェコ語 | `cs` | ポルトガル語 | `pt` |
+| オランダ語 | `nl` | ポルトガル語（ブラジル） | `pt-BR` |
+| フランス語 | `fr` | ルーマニア語 | `ro` |
+| ドイツ語 | `de` | ロシア語 | `ru` |
+| ハンガリー語 | `hu` | スペイン語 | `es` |
+| インドネシア語 | `id` | トルコ語 | `tr` |
+| | | ウクライナ語 | `uk` |
+| | | ベトナム語 | `vi` |
 
-個々のアドオンは異なる言語のサブセットをサポートする場合があります。各アドオンのページで翻訳状況を確認してください。
+アドオンはより少ない言語をサポート可能です。各[ゲームモード](../../gamemodes/Comparison.md)および[アドオン](Addons.md)ページは、各言語がどの程度完成しているかを示すテーブルを持っています。
 
-## デフォルト言語の設定
+### サーバーのデフォルト言語 { #the-servers-default-language }
 
-すべてのプレイヤーがデフォルトで見る言語を設定するには、BentoBoxの`config.yml`を編集してください：
+新しいプレイヤーはデフォルト言語を見ます。それを選ぶまで。BentoBoxの`config.yml`で設定します、テーブルからファイル名を使用。
 
 ```yaml
-# Default language for new players.
-# Refer to the /locale folder in the BentoBox plugin folder for available languages.
-default-language: en-US
+general:
+  default-language: en-US
 ```
 
-上の表の任意の言語コードに設定してください。変更後はサーバーをリロードするか`/bentobox reload`を実行してください。
+その後、再起動するか`/bentobox reload`を実行します。BentoBoxはプレイヤーのMinecraft言語を自動的に検出しません。
 
-## プレイヤーの言語選択
+### プレイヤーが言語を選択 { #players-choosing-a-language }
 
-有効にすると、プレイヤーは以下を使って自分の希望する言語に切り替えられます：
+プレイヤーは**`/island language`**（またはゲームモード独自のコマンド）で言語を変更します。インストール済みの言語のメニューが開きます。彼らの選択はBentoBoxおよびすべてのアドオンに適用されます。すべてのゲームモードで。
+
+プレイヤーの言語にメッセージが不足している場合、BentoBoxはサーバーのデフォルト言語を使用し、その後英語を使用します。
+
+## メッセージを変更 { #changing-messages }
+
+ロケールファイルは以下の場所にあります。
+
+| テキスト提供元 | フォルダー |
+|---|---|
+| BentoBox | `plugins/BentoBox/locales/BentoBox/` |
+| ゲームモードまたはアドオン | `plugins/BentoBox/locales/<AddonName>/`。例えば`locales/BSkyBlock/` |
+
+メッセージを変更するには。
+
+1. **見つけます**。言語ファイル（例えば`en-US.yml`）でプレイヤーが見るテキストを検索。
+2. **キーを変更せず、テキストを変更します**。キーと字下げを保持します。`[name]`、`[number]`、`[prefix_island]`のような角括弧内のもの、それらのまま。BentoBoxで入力するもの。（`[prefix_island]`はゲームモードの「アイランド」という言葉になります、「洞窟」または「ボックス」など。）
+3. `/bentobox reload locales`を実行。
+
+```yaml
+commands:
+  island:
+    create:
+      creating-island: "<green>Building your [prefix_island], hang tight...</green>"
 ```
-/bentobox locale
+
+すべての言語を変更してください。プレイヤーが使用するもの。他のものはまだ古いテキストを表示します。
+
+**更新時、あなたの変更が保持されます。** BentoBoxまたはアドオンが更新されるとき、新しいメッセージはサーバー上のファイルに追加されます。しかしすでに存在するメッセージは上書きされません。つまり、更新がメッセージのワーディングを改善する場合、その行（またはファイル全体）を削除してリロードするまで、それは表示されません。
+
+**メッセージを隠すには**。空の文字列に設定：`creating-island: ""`。空のメッセージは送信されません。
+
+**翻訳欠落をチェックするには**。`/bentobox locale`を実行。英語と各言語ファイルを比較します。BentoBoxとすべてのアドオン。翻訳不足を報告。
+
+## 色と書式 { #colours-and-formatting }
+
+メッセージは[MiniMessage](https://docs.advntr.dev/minimessage/format.html)タグを使用。
+
+```yaml
+example: "<green>Welcome to the island!</green>"
+example: "<bold><red>Warning!</red></bold> Something happened."
+example: "<gradient:gold:yellow>Island Name</gradient>"
 ```
 
-これはプレイヤーベースが複数の言語を話す国際的なサーバーで有用です。
+古いスタイルの色コード（`&a`、`&l`、`§c`）はまだ動作。
 
-## 翻訳はコミュニティ製
+## メッセージの表示方法 { #how-a-message-is-shown }
 
-BentoBoxとそのアドオンの翻訳はコミュニティによって提供されています。BentoBoxチームはすべての翻訳を深くレビューすることはできませんが、すべての貢献は承認前に品質が確認されます。
+デフォルトでメッセージはチャットに移動。別の場所に表示するにはタグで開始。
 
-!!! note "翻訳の品質"
-    翻訳はコミュニティによって提供されているため、品質にばらつきがあります。翻訳にエラーを見つけた場合は、ぜひ改善にご協力ください！
+| タグ | メッセージを表示 |
+|---|---|
+| `[actionbar]` | ホットバーの上 |
+| `[title]` | 画面中央の大きなタイトルとして。`[subtitle]`を追加して、小さな行の下にテキストを配置 |
+| `[sound:name:volume:pitch]` | サウンドも再生。ボリュームとピッチはオプション。アンダースコア付きのMinecraftサウンド名を使用。例えば`entity_experience_orb_pickup` |
 
-## 翻訳への貢献方法
+```yaml
+example: "[actionbar]Teleporting..."
+example: "[title]Teleporting...[subtitle]Wait a second."
+example: "[sound:entity_experience_orb_pickup:1:1][title]Teleporting...[subtitle]Wait a second."
+```
 
-ほとんどの翻訳はAIの助けを借りて生成されているため、作業の大部分は完了しています。しかし**AIは完璧ではありません**。コミュニティが最も貢献できるのは**エラーの報告**と**修正の提案**です。
+コンソールへのメッセージは常にコンソールログに移動。
 
-* **間違いを見つけた？** [bentobox.world](https://bentobox.world)の関連リポジトリにissueまたはPRを開くか、[Discord](https://discord.bentobox.world)でお知らせください。
-* **文字列を修正したい？** 関連リポジトリの`src/main/resources/locales/`にあるロケールファイルを編集してPRを開いてください。角括弧内のテキストは翻訳しないでください。例：`[name]`はそのまま残してください。
-* **全く新しい言語を追加したい？** 既存のものの隣に新しいロケールファイルを追加するPRを開くか、Discordで質問すれば開始をサポートします。
+### クリック可能なメッセージ { #clickable-messages }
 
-翻訳ヘルパーツールが
-[download.bentobox.world/translate.html](https://download.bentobox.world/translate.html)
-で利用できます。ブラウザ内で完全に動作します。翻訳者には特別なコミュニティバッジが与えられます！
+メッセージ内のどこかに追加してメッセージ全体をクリック可能にするか、ホバーでテキストを表示。
 
-アドオン翻訳ページの完全なリストは[BentoBoxとアドオンの翻訳](../Translate-BentoBox-and-addons.md)をご覧ください。
+| タグ | 効果 |
+|---|---|
+| `[run_command: /command]` | クリックするとコマンドを実行 |
+| `[suggest_command: /command]` | クリックするとチャットボックスにコマンドを配置 |
+| `[open_url: https://...]` | クリックするとリンクを開く |
+| `[copy_to_clipboard: text]` | クリックするとテキストをコピー |
+| `[hover: text]` | プレイヤーがメッセージにホバーするとテキストを表示 |
+
+```yaml
+example: "You're not on your island. Click to go home![run_command: /island go][hover: Teleport home]"
+```
+
+## メニュー テキスト { #menu-text }
+
+メニュータイトルとボタンテキストもロケールファイル内。メニューテンプレートから参照。[メニューのカスタマイズ](../../Tutorials/generic/Customizable-GUI.md#change-the-title-or-button-text)を参照。
+
+## 翻訳の修正または追加 { #fixing-or-adding-translations }
+
+翻訳はAI支援で作成され、コミュニティによって修正。誤りを見つけた場合は、プロジェクトのGitHubリポジトリのロケールファイルで修正してプルリクエストを開くか、[Discord](https://discord.bentobox.world)で教えてください。ガイドラインと各プロジェクトの翻訳状態については、[BentoBoxの翻訳](../Translate-BentoBox-and-addons.md)を参照。
+
+## トラブルシューティング { #troubleshooting }
+
+**自分の変更が表示されません。**
+`/bentobox reload locales`を実行。編集したプレイヤーの言語と右のフォルダーを確認（BentoBoxの独自メッセージは`locales/BentoBox/`。ゲームモード メッセージは`locales/<GameMode>/`）。
+
+**サーバーが`commands.island...`ではなくメッセージを表示。**
+キーがプレイヤーの言語、サーバーのデフォルト言語、英語で欠落。ファイルを削除してBentoBoxに新しいコピーを書かせるか、キーを追加してください。
+
+**更新後、メッセージにまだ古いワーディングがあります。**
+ファイルは古いテキストを保持。その行またはファイル全体を削除して`/bentobox reload locales`を実行。
+
+**編集後、YAMLファイルが読み込まれません。**
+通常、引用符がないか、インデント が間違い。`:` または `#` を含むメッセージを引用符で囲み、コンソールで行番号をチェック。

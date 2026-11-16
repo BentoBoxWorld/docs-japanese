@@ -116,7 +116,7 @@ BentoBoxのゲームモード単体でも機能しますが、プレイヤーは
 3. `/[admin_command] blueprint copy`を使用してから`save myisland`で保存する
 4. `/[admin_command] blueprint`を開いてバンドルを管理する
 
-完全なウォークスルーは[ブループリント](About/BlueprintsSummary.md)をご覧ください。
+完全なウォークスルーは[スターターアイランド（ブループリント）](Blueprints.md)をご覧ください。
 
 ---
 
