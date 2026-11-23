@@ -23,7 +23,7 @@ BentoBoxはあらゆるパーミッションプラグインで動作します（
 コンソールで**`/bentobox perms`** を実行してください。すべてのBentoBoxとゲームモードコマンドのパーミッションがそのデフォルト（`TRUE`はみんな、`OP`はオペレーター、`FALSE`は誰も）と共に表示され、パーミッションプラグインに貼り付けられる形式になっています。
 
 !!! warning "一部のプレイヤーコマンドはデフォルトでオペレーターのみ"
-    BSkyBlock、AOneBlock、AcidIslandでは、`island.deletehome`と`island.renamehome`はデフォルトでオペレーターのみです。AOneBlockとAcidIslandでは`island.homes`もそうです。プレイヤーに複数のホームを与える場合は、これらも与えてください：
+    BSkyBlockとAcidIslandでは、`island.deletehome`と`island.renamehome`はデフォルトでオペレーターのみです。AcidIslandでは`island.homes`もそうです。プレイヤーに複数のホームを与える場合は、これらも与えてください：
 
     ```
     /lp group default permission set bskyblock.island.homes true

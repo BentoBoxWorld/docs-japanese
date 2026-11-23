@@ -96,3 +96,61 @@ new DialogBuilder()
     コアと同じように、`Dialogs.isSupported()` をチェックし、古いサーバー向けに従来のチャットまたはパネルの動作を残しておいてください。ボタンのクリックハンドラーはメインスレッドで実行されるため、Bukkit API を直接呼び出せます。
 
 [Release 3.21.0](https://github.com/BentoBoxWorld/BentoBox/releases/tag/3.21.0) を参照してください。
+
+## ダイアログフォーム { #dialog-forms }
+
+*BentoBox 3.24.0で追加されました。*
+
+ダイアログには入力フィールドを置くことができます。`DialogBuilder.input(DialogField)`で追加し、プレイヤーが入力した内容は、送信ボタンに渡される`DialogResponse`から読み取ります。
+
+| クラス | 目的 |
+| --- | --- |
+| `DialogField` | フィールド：`DialogField.text(...)`、`number(...)`、`toggle(...)`、`choice(...)`のいずれか。各フィールドはキーを持ちます。キーには英字、数字、アンダースコアのみを使用でき、ダイアログ内で一意である必要があります |
+| `DialogButton.submit(...)` | ハンドラーが`BiConsumer<User, DialogResponse>`であるボタン |
+| `DialogResponse` | フィールドキーごとの値：`getText`、`getNumber`、`getInt`、`getBoolean`、`getChoice`。いずれも`Optional`を返し、該当するフィールドが無いか、値が別の型の場合は空になります |
+
+```java
+new DialogBuilder()
+    .title(user, "myaddon.edit.title")
+    .input(DialogField.text(user, "name", "myaddon.edit.name", current.getName()).maxLength(32))
+    .input(DialogField.number(user, "chance", "myaddon.edit.chance", 0, 100, current.getChance()).step(0.5f))
+    .input(DialogField.toggle(user, "enabled", "myaddon.edit.enabled", current.isEnabled()))
+    .button(DialogButton.submit(user, "general.buttons.save", (u, response) -> {
+        current.setName(response.getText("name").orElse(""));
+        current.setChance(response.getNumber("chance").orElse(0f));
+        current.setEnabled(response.getBoolean("enabled").orElse(false));
+    }))
+    .build()
+    .show(user);
+```
+
+`DialogBuilder`には、本文にアイテムを表示する`body(ItemStack, Component)`、ボタンが1つだけのメッセージを表示する`notice(DialogButton)`、クリック後にクライアントが行う動作を選ぶ`afterAction(AfterAction)`も追加されました。既存のダイアログAPIは変更されていません。
+
+# ページ付きパネルと値ピッカー { #paged-panels-and-value-pickers }
+
+*BentoBox 3.24.0で追加されました。*
+
+1つのインベントリに収まらないリストのために、Panels API（`world.bentobox.bentobox.api.panels`）に2つの機能が追加されました。
+
+**`PagedPanelBuilder`**は`PagedPanel`を構築します。これは任意の長さのリストを1ページずつ表示するパネルです。最下行はコントロール行です。その最初と最後のスロットには、移動先のページがある場合に前ページ・次ページのボタンが置かれ、間の7つのスロットには「戻る」や「追加」など独自の固定コントロールを置けます。ページをめくると、開いているインベントリがその場で更新されます。
+
+```java
+PagedPanelBuilder b = new PagedPanelBuilder().user(user).name(user.getTranslation("myaddon.list.title"));
+things.forEach(t -> b.item(toPanelItem(t)));
+b.control(4, backButton).build();
+```
+
+**`PickerPanel<T>`**は、値を1つ選ぶためのページ付きパネルです。`PickerPanel.materials(user)`、`entities(user)`、`biomes(user)`は既製のもので、`PickerPanel.of(...)`には任意のコレクションを渡せます。ピッカーには検索ボタンを付けられます。検索ボタンはダイアログでテキストの入力を求めるもので、ダイアログに対応していないサーバーでは非表示になります。また、プレイヤーが自分のインベントリ内のアイテムをクリックして選択できるようにすることもできます。ピッカーのテキストはBentoBoxのロケールファイルの`panels.picker`にあります。
+
+```java
+PickerPanel.materials(user)
+    .title(user.getTranslation("myaddon.pick-block"))
+    .filter(Material::isBlock)
+    .onPick(m -> { recipe.setIcon(m); openEditor(user); })
+    .onCancel(() -> openEditor(user))
+    .open();
+```
+
+テンプレートを使ったパネルは、コードを書かなくても`COMMAND`と`CLOSE`の2つのボタンタイプを扱えます。[コマンドボタンと閉じるボタン](../Tutorials/generic/Customizable-GUI.md#command-and-close-buttons)を参照してください。同じ名前のタイプを独自に登録しているパネルでは、そのパネル独自の動作が維持されます。
+
+[Release 3.24.0](https://github.com/BentoBoxWorld/BentoBox/releases/tag/3.24.0) を参照してください。

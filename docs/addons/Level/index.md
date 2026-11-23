@@ -66,6 +66,20 @@ Level アドオンには 3 つの一般的な設定があります:
 
     デフォルト: `true`
 
+??? note "zero-disabled-game-modes"
+    アイランドレベルのゼロ化を行わないゲームモードのリストです。Level 2.31.0 以降。
+
+    ゼロ化は、最初に存在するブロックがスターターアイランドだけのボイドワールドに適しています。CaveBlock のように地形が生成されるワールドでは、[`blockconfig.yml`](#blockconfigyml) でそのワールドの自然のブロックに値 0 を設定し、ここにゲームモードを追加してください。
+
+    ここに指定したゲームモードのアイランドは、作成時やリセット時にゼロ化されず、既に保存されている初期カウントも無視されます（削除はされません）。アイランドの初期レベルを設定する管理者コマンドは、これらのゲームモードでは登録されません。`zero-new-island-levels` が `false` の場合は効果がありません。
+
+    ```yaml
+    zero-disabled-game-modes:
+    - CaveBlock
+    ```
+
+    デフォルト: `[]`
+
 ??? note "donations-only"
     true の場合、島のブロックスキャンは完全にスキップされ、島のレベルは `/island donate` で寄付されたブロックのみから計算されます。これにより、再計算ごとの島スキャンの CPU コストがなくなります。
 
@@ -223,6 +237,8 @@ Level アドオンには 3 つの一般的な設定があります:
     ```
 
     この例では、AcidIsland は砂、砂岩、氷を除く全てのブロックで BSkyBlock と同じ価値を使用します。
+
+    Level 2.31.0 以降、デフォルトのファイルでは、`caveblock-world` の自然の地形、鉱石、洞窟の装飾、黒曜石、自然生成されたスポナーの値が 0 に、`acidisland_world` の黒曜石の値が 0 になっています。Level は既存の `blockconfig.yml` を上書きしないため、アップグレードしたサーバーでは、これらのセクションを[デフォルトのファイル](https://github.com/BentoBoxWorld/Level/blob/master/src/main/resources/blockconfig.yml)から自分でコピーする必要があります。[v2.31.0 の新機能](#changelog)を参照してください。
 
 ### カスタマイズ可能な GUI
 
@@ -455,7 +471,7 @@ BentoBox カスタム GUI の詳細はこちらを参照してください: [カ
 
 
 
-## 変更履歴
+## 変更履歴 { #changelog }
 
 ??? note "v2.23.0 の新機能"
     **リリース日:** 2026-02-21
@@ -578,6 +594,30 @@ BentoBox カスタム GUI の詳細はこちらを参照してください: [カ
     - Paper 26.3 でビルド・テストされています。Minecraft 26.2 と 26.3 がサポート対象として記載されています。
 
     [Release v2.30.0](https://github.com/BentoBoxWorld/Level/releases/tag/2.30.0)
+
+!!! warning "v2.31.0 の新機能 — CaveBlock サーバーは blockconfig.yml の編集が必要"
+    **リリース:** 2026-11-22
+
+    互換性：BentoBox API 3.16.0（deaths コマンドには 3.23.3 以降が必要）、Minecraft 1.21.x および 26.1.x – 26.3、Java 21。
+
+    - ⚡ **レベルスキャンでチャンクが生成されなくなりました。** スキャンは一度も生成されていないチャンクをスキップします。これまでは、新しい CaveBlock アイランドの最初のスキャンが 2000 × 2000 ブロックの範囲全体を生成しようとして、5 分の `calculation-timeout` を超過し、他のすべてのアイランドのスキャンを止めていました。[#464](https://github.com/BentoBoxWorld/Level/pull/464)
+    - ⚡ **チャンクを並列で読み込むようになりました**（一度に 100 個）。テストサーバーでは、生成済みチャンク 2,927 個のスキャンが 1 分以上から約 10 秒に短縮されました。[#465](https://github.com/BentoBoxWorld/Level/pull/465)
+    - ⚙️ **新しい設定 `zero-disabled-game-modes`**（デフォルトは空）で、指定したゲームモードのゼロ化をオフにできます。[config.yml](#configyml) を参照してください。
+    - 🔺 **新しいデフォルトのブロック値。** `caveblock-world` では、自然の地形、すべての鉱石、洞窟の装飾、泡の柱、自然生成されたスポナー、黒曜石の値が 0 になりました。`acidisland_world` では黒曜石の値が 0 になりました。廃坑など生成された構造物のブロックは値を保ちます。これらの値は**新しい** `blockconfig.yml` にのみ書き込まれます。
+    - 🐛 クールダウン中にプレイヤーが自分のレベルを確認しようとした場合、コマンドの実行前に拒否されるようになったため、引数エラーとして数えられなくなりました。
+
+    🔺 **CaveBlock を運用している場合は、プレイヤーが `/cb level` を実行する前に `plugins/BentoBox/addons/Level/blockconfig.yml` を編集してください：**
+
+    1. `worlds:` の下の `caveblock-world` セクションを、[デフォルトの blockconfig.yml](https://github.com/BentoBoxWorld/Level/blob/master/src/main/resources/blockconfig.yml) のものに置き換えます。デフォルトの保護範囲 1000 では、このリリースより前はスキャンが完了できなかったため、アイランドはレベル 0 と表示されていました。現在はスキャンが完了するため、古い値のままだと洞窟内の自然の地形がすべて数えられてしまいます。
+    2. `config.yml` の `zero-disabled-game-modes` に `CaveBlock` を追加します。古い値でゼロ化されたアイランドの初期カウントには自然の地形が含まれているため、その地形の価値が 0 になると、レベルが低く抑えられてしまいます。
+
+    いずれにしても、CaveBlock のレベルとトップテンは変わります。CaveBlock では、深層岩、鉱石、黒曜石などリストに挙げたブロックは、プレイヤーが置いたものも含めて何も得点になりません。ゼロ化をオフにすると、洞窟内に既にある生成された構造物のブロック（レール、板材、フェンス、チェスト）が数えられるようになります。
+
+    **AcidIsland（任意）：** `acidisland_world` の下に `obsidian: 0` を追加します。アイランドは、その上にある黒曜石ブロック 1 個につき 10 ポイントを失います。
+
+    その他のゲームモードは影響を受けません。
+
+    [Release v2.31.0](https://github.com/BentoBoxWorld/Level/releases/tag/2.31.0)
 
 ## 翻訳
 

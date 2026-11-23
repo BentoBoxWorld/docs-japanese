@@ -65,6 +65,7 @@
 | `/[player_command] team coop <player>` | プレイヤーをアイランドのcoop権限にする | `[gamemode].island.team.coop` |
 | `/[player_command] team demote <player>` | プレイヤーを1ランク下げる（メンバー以下にはなりません） | `[gamemode].island.team.promote` |
 | `/[player_command] team invite <player>` | プレイヤーをアイランドに招待 | `[gamemode].island.team.invite` |
+| `/[player_command] team uninvite <player>` | 保留中のチーム、信頼、coopの招待を取り下げる（BentoBox 3.24.0+） | `[gamemode].island.team.invite` |
 | `/[player_command] team kick <player>` | メンバーをアイランドから削除 | `[gamemode].island.team.kick` |
 | `/[player_command] team leave` | アイランドを脱退 | `[gamemode].island.team.leave` |
 | `/[player_command] team promote <player>` | プレイヤーをアイランドでランク上げ | `[gamemode].island.team.promote` |
