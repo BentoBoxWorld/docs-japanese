@@ -526,7 +526,7 @@ use-own-generator: false
 
 まず、ペースト速度がサーバーにとって速すぎる可能性があります。
 それを下げてみてください。
-BentoBoxの`config.yml`でこの設定を探してください：
+BentoBoxの`config.yml`で次の設定を探してください。BentoBox 3.24.0以降では、まず`paste-time-budget`を下げてください：
 
 ```yaml
 # Number of blocks to paste per tick when pasting blueprints.
@@ -534,6 +534,11 @@ BentoBoxの`config.yml`でこの設定を探してください：
 # On the contrary, greater values will make pasting take less time, but this benefit is quickly severely impacted by the
 # resulting amount of chunks that must be loaded to fulfill the process, which often causes the server to hang out.
 paste-speed: 64
+# ブループリントのペーストとコピーに使用できる1ティックあたりのミリ秒数。この時間を使い切るまで、
+# ブロックはpaste-speed個ずつまとめてペーストされるため、サーバーに余裕があれば大きなアイランドもずっと速くペーストされます。
+# 1ティックは50ミリ秒です。アイランドの作成でラグが発生する場合は値を下げてください。0にすると1ティックに1バッチだけペーストします（従来の動作）。
+# 3.24.0で追加。
+paste-time-budget: 10
 ```
 
 タイミングを実行している場合、`BlueprintPaster`タスクは長い時間がかかっているが、ティック時間の低いパーセンテージを取っているのが理想的です。

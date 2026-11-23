@@ -10,4 +10,6 @@
 | [gamemode].greenhouses.admin.tp     | グリーンハウスへのテレポートを許可します（1.10.0 以降）                                                                                               | op             |
 | [gamemode].greenhouses.admin.verify | グリーンハウスをレシピと照合して再チェックすることを許可します（1.10.0 以降）                                                                         | op             |
 | [gamemode].greenhouses.admin.reload | biomes.yml とグリーンハウスデータベースのリロードを許可します（1.10.0 以降）                                                                          | op             |
+| [gamemode].greenhouses.admin.build | テストグリーンハウスの構築を許可します（1.11.0 以降）                                                                                                 | op             |
+| [gamemode].greenhouses.admin.edit  | ゲーム内でグリーンハウスレシピを編集することを許可します（1.11.0 以降）                                                                               | op             |
 | greenhouses.biome.nether            | ネザーバイオームへのアクセスを付与します。バイオームごとの権限は `biomes.yml` で設定します — [Greenhouses ページ](index.md#permissions)を参照してください。 | true           |

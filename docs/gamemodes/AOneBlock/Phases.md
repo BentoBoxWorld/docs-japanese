@@ -264,6 +264,7 @@ gotoAtEnd: 0
   end-commands: [ ... ]
   end-commands-first-time: [ ... ]
   requirements: { ... }
+  finale: { ... }             # フェーズを終わらせるボス（オプション、1.29.0+）
 ```
 
 === "name"
@@ -297,7 +298,7 @@ gotoAtEnd: 0
 
 ---
 
-## フェーズ変更時のコマンド
+## フェーズ変更時のコマンド { #commands-on-phase-change }
 
 コマンドは**コンソール**として実行されます。ただし、`[SUDO]`というプレフィックスが付いている場合は、トリガーされたプレイヤーとして実行されます。
 
@@ -327,6 +328,122 @@ start-commands:
 end-commands-first-time:
 - 'broadcast &c&l[!] &b[player] &fhas completed the &d&n[phase]&f phase for the first time.'
 ```
+
+---
+
+## フェーズフィナーレ — フェーズを終わらせるボス { #phase-finales-the-boss-that-ends-a-phase }
+
+*AOneBlock 1.29.0 で追加されました。*
+
+`finale:` セクションのあるフェーズは、ボス戦で終わります。フェーズの最後のブロックを掘ると、魔法ブロックが封印され、その上にボスが出現します。ボスを倒すまでフェーズは変わりません。`finale:` セクションのないフェーズは、これまでどおりに終わります。
+
+```yaml
+  finale:
+    boss: GIANT
+    name: '<dark_green>The Colossus'
+    health: 100
+    scale: 0.5
+    damage: 4
+    speed: 0.25
+    minions:
+      ZOMBIE: 2
+    drops:
+      IRON_INGOT: 8
+      BREAD: 8
+```
+
+### 戦いの流れ
+
+- **予兆。** フェーズの最後の20ブロックの間、心臓の鼓動音が鳴り、音程が上がっていきます。残り5ブロックで鐘が鳴ります。ボスが待ち構えると、フェーズバーにボスの名前が表示されます。
+- **戦闘。** ボスは襲撃の角笛と稲妻とともに魔法ブロックの上に出現します。ボスを倒すまで魔法ブロックは掘れず、フェーズバーはボスの体力バーに置き換わります。
+- **アイランドを守る仕組み。** ボスにダメージを与えられるのはプレイヤーだけです（近接攻撃、飛び道具、ペット）。ボスとその手下はブロックを壊したり、燃やしたり、爆破したりできません。ボスがアイランドの外に出ると引き戻されます。
+- **落下。** プレイヤーは突き落とされることがあります。奈落に落とされたボスは、`void-respawn` が `false` でない限り魔法ブロックに戻ってきます。
+- **敗北。** 全員が死ぬか立ち去ると、ボスは約10秒後に退却します。魔法ブロックを叩くと再び呼び出せます。戦いに負けるたびに次の挑戦が10%やさしくなり、体力は最小で半分まで下がります。
+- **チーム。** アイランドにいるプレイヤーが1人増えるごとにボスの体力が50%増えます（4人まで）。
+- **報酬。** ボスは `drops` を落とします。その後、勝つたびに `commands` が実行され、そのアイランドが初めて倒したときだけ `first-time-commands` が実行されます。
+
+難易度がピースフルの場合、ボスが出現できないためフィナーレはスキップされます。
+
+### オプション
+
+| オプション | 内容 | デフォルト |
+|---|---|---|
+| `boss` | ボスの `EntityType`。`GIANT` はバニラでは AI を持ちませんが、AOneBlock が AI を与えます（Paper が必要）。`mythic-boss` を使う場合は、オプションの代替になります | 必須（`mythic-boss` を設定した場合を除く） |
+| `mythic-boss` | 代わりにボスとして使う [MythicMobs](#mythicmobs-bosses-and-minions) のモブタイプ（1.30.0+） | なし |
+| `mythic-level` | MythicMobs のボスと `mythic-minions` のレベル（1.30.0+） | `1` |
+| `name` | 表示名。MiniMessage またはレガシーの `&` コード。`mythic-boss` にも設定してください。設定しないとボスバーにタイプ ID が表示されます | モブの名前 |
+| `health` | 基本の最大体力。`0` にするとモブ本来の体力のままになります（1.30.0+）。`spigot.yml` の `settings.attribute.maxHealth` を上げない限り、サーバーの上限は 1024 です | `100`（`mythic-boss` の場合は `0`） |
+| `scale` | 大きさの倍率。`1` が通常サイズ | `1`（`mythic-boss` の場合はモブ本来の大きさ） |
+| `damage` | 攻撃ダメージ。省略するか `0` にするとモブ本来の値 | モブ本来の値 |
+| `speed` | 移動速度。省略するか `0` にするとモブ本来の値 | モブ本来の値 |
+| `void-respawn` | `true`：奈落に落とされたボスが魔法ブロックに戻ります。`false`：奈落でボスが死に、勝利として扱われます | `true` |
+| `warning` | フェーズ終了の何ブロック前から予兆を始めるか。`0` で予兆なし | `20` |
+| `minions` | ボスと一緒に出現するモブ。`TYPE: count` の形式 | なし |
+| `mythic-minions` | ボスと一緒に出現する MythicMobs のモブ。`type: count` の形式。`mythic-level` が使われます（1.30.0+） | なし |
+| `drops` | ボスが死んだときに落とすアイテム。`MATERIAL: amount` の形式 | なし |
+| `commands` | ボスを倒すたびに実行されるコマンド。プレフィックスとプレースホルダーは [`end-commands`](#commands-on-phase-change) と同じです | なし |
+| `first-time-commands` | そのアイランドが初めてボスを倒したときだけ実行されるコマンド | なし |
+
+同梱の [`0_plains.yml`](https://github.com/BentoBoxWorld/AOneBlock/blob/master/src/main/resources/phases/0_plains.yml) には、すべてのオプションの説明がコメントとして書かれています。サーバー上のコピーは作成時のコメントのままなので、後のバージョンで追加されたオプションは同梱のファイルで確認してください。
+
+### MythicMobs のボスと手下 { #mythicmobs-bosses-and-minions }
+
+*AOneBlock 1.30.0 で追加されました。*
+
+MythicMobs プラグインがインストールされていれば、フィナーレのボスに自分の MythicMobs のモブを使い、手下にも MythicMobs のモブを使えます。BentoBox が自動的に MythicMobs と連携するので、有効にする設定はありません。
+
+```yaml
+  finale:
+    mythic-boss: SkeletonKing      # MythicMobs のモブタイプ
+    mythic-level: 3                # オプション、デフォルトは 1
+    boss: WITHER_SKELETON          # MythicMob が出現できない場合の代替（オプション）
+    name: '<gold>The Skeleton King'
+    mythic-minions:                # MythicMobs のタイプ: 数
+      SkeletalMinion: 3
+    minions:                       # バニラの手下も引き続き使えます
+      ZOMBIE: 2
+    drops:
+      DIAMOND: 4
+```
+
+- **戦いのルールは同じです。** MythicMobs のボスもアイランドの外に出られず、ボスバーが表示され、プレイヤーからのダメージだけを受けます。プレイヤーが増えると体力が増え、戦いに負けると体力が減ります。MythicMobs のスキル、AI、ドロップはそのまま動作します。フィナーレの `drops` とコマンドも追加で与えられます。
+- **体力と大きさ。** フェーズファイルで `health` や `scale` を設定しない限り、ボスは MythicMobs の設定どおりの体力と大きさになります。
+- **手下。** `mythic-minions` は、バニラのボスでも MythicMobs のボスでも使えます。バニラの手下と同じく、ブロックを変更できず、戦いが終わると削除されます。現在のところ、名前にはタイプ ID が表示されます。
+- **代替。** MythicMobs がインストールされていない場合や、そのモブが見つからない場合は、`boss` のタイプが使われます。`boss` がなければ、戦いなしでフェーズが進みます。不明な手下のタイプはログに記録され、スキップされます。
+
+### フィナーレのオン・オフ { #turning-finales-on-and-off }
+
+- **すべてのフィナーレ：** AOneBlock の `config.yml` で `island.phase-finales: false` を設定します。
+- **1つのフェーズだけ：** そのフェーズのファイルから `finale:` セクションを削除します。
+
+!!! warning "1.29.0 より前からアップグレードしたサーバーにはボスがいません"
+    アップグレードで `plugins/BentoBox/addons/AOneBlock/phases/` のフェーズファイルが上書きされることはないため、それらのファイルには `finale:` セクションがありません。[同梱の各フェーズファイル](https://github.com/BentoBoxWorld/AOneBlock/tree/master/src/main/resources/phases)から `finale:` セクションを自分のファイルにコピーして、再起動してください。新規インストールでは最初から入っています。
+
+### 同梱のボス
+
+| フェーズ | ボス | モブ |
+|---|---|---|
+| Plains | The Colossus | ジャイアント |
+| Underground | The Broodmother | クモ |
+| Winter | The Frostbitten | ストレイ |
+| Ocean | The Drowned King | ドラウンド |
+| Jungle | The Temple Guardian | アイアンゴーレム |
+| Swamp | The Bog Witch | ウィッチ |
+| Dungeon | The Jailer | ウィザースケルトン |
+| Desert | The Pharaoh | ハスク |
+| The Nether | The Warlord | ピグリンブルート |
+| Plenty | The Harvest Beast | ラヴェジャー |
+| Desolation | The Last Titan | ジャイアント |
+| Deep Dark | The Warden | ウォーデン |
+| The End | The Void Walker | エンダーマン |
+| Lush Caves | The Mossback | ボグド |
+| Dripstone Caves | The Burrower | シルバーフィッシュ |
+| Mangrove Swamp | The Mire Lurker | 洞窟グモ |
+| Meadow | The Summoner | エヴォーカー |
+| Cherry Grove | The Petal Phantom | イリュージョナー |
+| Jagged Peaks | The Gale | ブリーズ |
+| Sulfur Caves | Brimstone | ブレイズ |
+| Dappled Forest | The Woodcutter | ヴィンディケーター |
 
 ---
 
@@ -369,9 +486,27 @@ custom-blocks:
     mob: ZOMBIE
     underlying-block: STONE
     probability: 5
+  - type: mob-data
+    data: breeze{Glowing:1b,attributes:[{id:scale,base:2f}]}
+    underlying-block: STONE
+    probability: 15
   - type: itemsadder
     id: mypack:ruby_ore
     probability: 10
+  - type: mythic-mob
+    mob: SkeletalKnight      # MythicMob のタイプ ID（必須）
+    level: 3                 # オプション、デフォルトは 1
+    power: 1.0               # オプション、デフォルトは 0
+    display-name: "Boss"     # オプション
+    stance: ""               # オプション
+    underlying-block: STONE  # オプション
+    probability: 5
+  - type: nexo
+    id: custom_block
+    probability: 10
+  - type: craftengine
+    id: craftengine:custom_block
+    probability: 25
 ```
 
 | `type` | 実行すること | 要件 |
@@ -463,6 +598,7 @@ mobs:
 | `Phase name trying to be set to X but already set to Y. Duplicate phase file?` | 2つのファイルが同じトップレベルセクションキーを使用しています |
 | フェーズが表示されない | `phases_index.yml`で`enabled: false`です、またはその`requiredMinecraftVersion`がサーバーより新しい |
 | チェストが空で出現する | チェストファイルのトップレベルキーはフェーズファイルのキーと一致しません。またはそのアイテムはロードに失敗しました — `/[admin_command] sanity`を実行してください |
+| フェーズがボスなしで終わる | フェーズファイルに `finale:` セクションがない（1.29.0 より前からアップグレードしたサーバーは[追加する](#turning-finales-on-and-off)必要があります）、`island.phase-finales` が `false`、またはワールドの難易度がピースフルです。`mythic-boss` を使っていて代替の `boss` がない場合は、MythicMobs がインストールされていないか、そのモブタイプが見つかりません |
 | 編集が機能しない | アドオンがリロードされていません。またはjarの`src/main/resources`内のファイルを編集しました。`plugins/BentoBox/addons/AOneBlock/phases/`内ではなく |
 
 サーバーログを起動時に注意してください。読み込まれたすべてのフェーズファイルはログに記録されます。また、拒否されたすべてのブロック、モブ、アイテム、および索引整合器が行った変更もログに記録されます（`Phase index:`で始まる行）。

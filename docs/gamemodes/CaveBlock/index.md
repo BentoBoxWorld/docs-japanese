@@ -160,6 +160,9 @@ BentoBox GameModeアドオンには[標準のプレースホルダーセット](
     [こちら](https://github.com/BentoBoxWorld/CaveBlock/issues)のリストに追加してください。
 
 
+??? question "アイランドレベルが0になる、異常に大きくなる、またはプレイヤーが探索するにつれて上がるのはなぜですか？"
+    CaveBlockは全体がブロックで埋まったワールドなので、[Level](../../addons/Level/index.md)アドオンでは自然の地形の価値を0にする必要があります。Level 2.31.0以降を使用し、そのデフォルトの`blockconfig.yml`から`caveblock-world`セクションをコピーして、Levelの`config.yml`の`zero-disabled-game-modes`に`CaveBlock`を追加してください。Levelを新規インストールした場合は、ブロックの値が最初から設定されています。[Level 2.31.0の新機能](../../addons/Level/index.md#changelog)を参照してください。
+
 ## 変更履歴
 
 ??? note "v1.23.2の新機能"

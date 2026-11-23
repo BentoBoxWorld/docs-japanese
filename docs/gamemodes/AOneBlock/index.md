@@ -38,6 +38,28 @@
 
     デフォルト: `10`（古いハードコードされた 50 を置き換え）。既存の設定は自動的にデフォルトを取得します。
 
+!!! new "AOneBlock 1.29.0 以降 — `island.phase-finales`"
+    フェーズをボス戦で終わらせるかどうかを設定します。ファイルに `finale:` セクションがあるフェーズはボス戦で終わり、そのボスを倒すまで魔法ブロックは次のフェーズに進みません。`false` に設定すると、すべてのフィナーレがオフになります。[フェーズフィナーレ](Phases.md#phase-finales-the-boss-that-ends-a-phase)を参照してください。
+
+    デフォルト: `true`。既存の設定にも自動的に追加されます。
+
+!!! new "AOneBlock 1.30.0 以降 — `island.teams-disabled`"
+    AOneBlock ワールドのチームシステムをオフにします。プレイヤーは招待、招待の承諾、キック、脱退、昇格、降格、アイランド所有者の変更ができなくなります。信頼と coop は引き続き使えます。オンにした後、`/obadmin team disbandall` を一度実行して既存のチームメンバーを削除してください。
+
+    デフォルト: `false`。既存の設定にも自動的に追加されます。
+
+!!! new "AOneBlock 1.30.0 以降 — `world.structure-settings`"
+    AOneBlock ワールドで個々のバニラ構造物をオン/オフにします。この設定は、BentoBox の `config.yml` にあるグローバルな `world.disabled-structures` リストより優先されます。キーはバニラの構造物 ID で、`false` で無効化、`true` で強制的に有効化します。指定しなかった構造物は BentoBox の設定に従います。AOneBlock 独自のボイドジェネレーターは構造物を配置しないため、この設定は `use-own-generator: true` の場合にのみ意味があります。
+
+    ```yaml
+    world:
+      structure-settings:
+        monument: false
+        trial_chambers: false
+    ```
+
+    デフォルト: `{}`。既存の設定にも自動的に追加されます。
+
 ### フェーズインデックス — `phases_index.yml`
 
 !!! new "AOneBlock 1.26.0 で追加"
@@ -504,7 +526,7 @@ AOneBlockアドオンには独自のプレースホルダーがあります。�
 ??? question "どんなフェーズがありますか？"
     同梱されているフェーズは21個で、順番は次のとおりです: 平原、地下、冬、海洋、ジャングル、沼地、ダンジョン、砂漠、ネザー、豊穣、荒廃、深層の闇、エンド、繁茂の洞窟、鍾乳洞、マングローブの沼地、草原、桜の林、尖った山頂、硫黄の洞窟、霞の森。
 
-    各フェーズにはその舞台に適したブロック、アイテム、モブのセットが含まれています。
+    各フェーズにはその舞台に適したブロック、アイテム、モブのセットが含まれています。1.29.0 以降は、同梱の各フェーズの最後にそれぞれ専用のボスも登場します。[フェーズフィナーレ](Phases.md#phase-finales-the-boss-that-ends-a-phase)を参照してください。
 
     硫黄の洞窟にはMinecraft 26.2以降が必要で、霞の森にはMinecraft 26.3以降が必要です。それより古いサーバーではスキップされ、ブロックを消費しないため、前のフェーズはループ地点までの実行を続けます。`/[admin_command] phases`でフェーズを自分で並べ替え、無効化し、長さを変更できるほか、`phases`フォルダに独自のフェーズファイルを追加することもできます。
 
@@ -547,6 +569,11 @@ AOneBlockアドオンには独自のプレースホルダーがあります。�
     ただし、BentoBoxはカスタマイズ可能で、AOneBlockの設定ファイルでネザー島とエンドワールドを有効にできます。
 
     魔法のブロックはオーバーワールドにのみ存在することに注意してください。
+
+??? question "フェーズの終わりには何が起こりますか？"
+    AOneBlock 1.29.0 以降では、フェーズの最後のブロックを掘ると魔法ブロックが封印され、その上にボスが出現します。ボスを倒すまで次のフェーズは始まりません。全員が死ぬか立ち去るとボスは退却し、魔法ブロックを叩くと再び呼び出せます。
+
+    古いバージョンからアップグレードしたサーバーでは、管理者がフェーズファイルに `finale:` セクションを追加するまでボスは登場しません。[フェーズフィナーレ](Phases.md#phase-finales-the-boss-that-ends-a-phase)を参照してください。
 
 ??? question "最終的なゴールは何ですか？"
     あなたが望むものがゴールです！
@@ -646,7 +673,7 @@ AOneBlockアドオンは別のデータベーステーブルにデータを保�
         }
         ```
 
-### イベント
+### イベント { #events }
 
 AOneBlockにはAOneBlock専用のカスタムイベントがあります。ただし、BentoBox GameModeのイベントはAOneBlockでも引き続きトリガーされます。
 
@@ -751,6 +778,55 @@ AOneBlockにはAOneBlock専用のカスタムイベントがあります。た�
             Island island = event.getIsland();
             UUID playerUUID = event.getPlayerUUID();
             Block block = event.getBlock();
+        }
+        ```
+
+=== "PhaseFinaleStartEvent"
+    !!! summary "説明"
+        AOneBlock 1.29.0 で追加。このイベントは、[フェーズフィナーレ](Phases.md#phase-finales-the-boss-that-ends-a-phase)が始まる直前、ボスがスポーンする前にトリガーされます。キャンセル可能で、キャンセルすると戦いがスキップされ、ボスはスポーンせずに島は次のフェーズに進みます。
+
+        クラスへのリンク: [PhaseFinaleStartEvent](https://github.com/BentoBoxWorld/AOneBlock/blob/develop/src/main/java/world/bentobox/aoneblock/events/PhaseFinaleStartEvent.java)
+
+    !!! question "変数"
+        - `String phase` - 終了するフェーズの名前。
+        - `PhaseFinale finale` - フェーズファイルに書かれたフィナーレの定義。
+        - `@NonNull Island island` - フィナーレが行われる島。
+        - `@Nullable UUID playerUUID` - フィナーレをトリガーしたプレイヤー。Nullの可能性あり。
+        - `@NonNull Block block` - 魔法ブロック。
+
+    !!! example "コード例"
+        ```java
+        @EventHandler(priority = EventPriority.NORMAL, ignoreCancelled = true)
+        public void onFinaleStart(PhaseFinaleStartEvent event) {
+            if (event.getPhase().equals("Plains")) {
+                // Plains の終わりにはボスを出さない
+                event.setCancelled(true);
+            }
+        }
+        ```
+
+=== "PhaseFinaleEndEvent"
+    !!! summary "説明"
+        AOneBlock 1.29.0 で追加。このイベントは、フェーズフィナーレが終わったときにトリガーされます。ボスが倒された場合と、ボスがいなくなった場合（全員が死ぬか立ち去った場合、またはボスが削除された場合）のどちらでも発生します。
+
+        クラスへのリンク: [PhaseFinaleEndEvent](https://github.com/BentoBoxWorld/AOneBlock/blob/develop/src/main/java/world/bentobox/aoneblock/events/PhaseFinaleEndEvent.java)
+
+    !!! question "変数"
+        - `String phase` - 終了するフェーズの名前。
+        - `boolean defeated` - ボスが倒された場合は true、戦いが放棄された場合は false。
+        - `boolean firstTime` - その島がこのボスを倒したのが初めての場合は true。
+        - `@NonNull Island island` - フィナーレが行われた島。
+        - `@Nullable UUID playerUUID` - ボスを倒したプレイヤー。Nullの可能性あり。
+        - `@NonNull Block block` - 魔法ブロック。
+
+    !!! example "コード例"
+        ```java
+        @EventHandler(priority = EventPriority.MONITOR)
+        public void onFinaleEnd(PhaseFinaleEndEvent event) {
+            if (event.isDefeated() && event.isFirstTime()) {
+                String phase = event.getPhase();
+                Island island = event.getIsland();
+            }
         }
         ```
 
@@ -920,3 +996,41 @@ AOneBlockにはAOneBlock専用のカスタムイベントがあります。た�
     🔺 **霞の森はフェーズオーダーに初回起動時に追加されます**（ログ：`Phase index: added new phase Dappled Forest`）でき、そのファイルが `phases/` にコピーされます。既存のオーダー、長さ、有効フラグは変更されません。不要の場合は、`/[admin_command] phases` で無効にしてください。
 
     [Release v1.28.0](https://github.com/BentoBoxWorld/AOneBlock/releases/tag/1.28.0)
+
+!!! warning "v1.29.0 の新機能 — フェーズフィナーレ（既存のサーバーでは手動での追加が必要）"
+    **リリース:** 2026-11-14
+
+    互換性：BentoBox API 3.22.0+ · Minecraft 26.x または 1.21.5+（硫黄の洞窟には 26.2+、霞の森には 26.3+ が必要）· Java 25。
+
+    - ⚔️ **フェーズフィナーレ。** 同梱のすべてのフェーズがボス戦で終わるようになりました。フェーズの最後のブロックを掘ると魔法ブロックが封印され、その上にボスが出現します。ボスを倒すまで次のフェーズは始まりません。同梱の 21 のフェーズにはそれぞれ専用のボスがいて、平原の最後の The Colossus（ジャイアント）から深層の闇の最後のウォーデンまでさまざまです。ルールとすべてのオプションについては[フェーズフィナーレ](Phases.md#phase-finales-the-boss-that-ends-a-phase)を参照してください。
+    - ⚙️ **新しい設定オプション `island.phase-finales`**（デフォルト `true`）。`false` に設定すると、すべてのフィナーレがオフになります。`config.yml` に自動的に追加されます。
+    - 🛠️ **開発者向け：** 各戦いの前後に `PhaseFinaleStartEvent`（キャンセル可能。キャンセルすると戦いをスキップします）と `PhaseFinaleEndEvent` が発火します。[イベント](#events)を参照してください。
+
+    🔺 **既存のサーバーには自動的にボスが追加されません。** フェーズファイルはサーバー側のものであり、アップグレードで上書きされることはないため、`finale:` セクションがありません。ボスを追加するには、[同梱の各フェーズファイル](https://github.com/BentoBoxWorld/AOneBlock/tree/master/src/main/resources/phases)から `finale:` セクションを `plugins/BentoBox/addons/AOneBlock/phases/` にある自分のファイルにコピーし、サーバーを再起動してください。新規インストールでは最初からボスが含まれています。
+
+    🔡 `en-US.yml` の `aoneblock.finale` の下に**新しいメッセージが 5 つ**追加されました。`plugins/BentoBox/locales/AOneBlock/en-US.yml` を削除して再生成するか、カスタマイズしている場合は手動でキーを追加してください。他の言語はまだ翻訳されておらず、英語のテキストが表示されます。
+
+    難易度がピースフルの場合、ボスが出現できないためフィナーレはスキップされます。ボスの体力、ダメージ、報酬は最初の設定値であり、実際のプレイに合わせて調整される予定です。
+
+    [Release v1.29.0](https://github.com/BentoBoxWorld/AOneBlock/releases/tag/1.29.0)
+
+!!! warning "v1.30.0 の新機能 — MythicMobs のボス、BentoBox 3.23.0 が必要"
+    **リリース:** 2026-11-22
+
+    互換性：BentoBox API 3.23.0+ · Minecraft 26.x または 1.21.5+（硫黄の洞窟には 26.2+、霞の森には 26.3+ が必要）· Java 25 · MythicMobs は任意。
+
+    - 💀 **MythicMobs のフィナーレボスと手下。** フェーズの `finale:` セクションでは、`mythic-boss:` で MythicMobs のモブを指定し、`mythic-minions:` で手下を追加できます。レベルは `mythic-level:` で指定します。通常の戦いのルールが適用され、モブ自身のスキル、AI、ドロップもそのまま動作します。`boss:` は任意の代替になり、`health: 0` は「モブ本来の体力」を意味するようになりました。既存のフェーズには何の変更もありません。[MythicMobs のボスと手下](Phases.md#mythicmobs-bosses-and-minions)を参照してください。
+    - ⚙️ **新しい設定オプション `island.teams-disabled`**（デフォルト `false`）で、AOneBlock ワールドのチームシステムをオフにできます。信頼と coop は引き続き使えます。
+    - ⚙️ **新しい設定オプション `world.structure-settings`**（デフォルト `{}`）で、個々のバニラ構造物をオン/オフにできます。この設定は BentoBox のグローバルなリストより優先されます。どちらについても [config.yml](#configyml) を参照してください。
+    - 🏠 **全員がホームを使えるように。** `aoneblock.island.homes`、`aoneblock.island.renamehome`、`aoneblock.island.deletehome` のデフォルトが、オペレーターのみから全プレイヤーに変わりました。名前の変更と削除は引き続きアイランドのランクで制限されます。オペレーターのみに限定したい場合は、権限プラグインでこれらの権限を否定（false に設定）してください。
+    - **オペレーターが `/ob phases` を使えるように。** `aoneblock.phases` はデフォルトで誰にも与えられていなかったため、オペレーターでも権限の付与が必要でした。現在はデフォルトでオペレーターに与えられます。
+    - ⚙️ **新規インストール向けの新しいデフォルト設定。** 危険に関わる 8 つの設定がプレイヤーから非表示になりました（`TNT_DAMAGE`、`BLOCK_EXPLODE_DAMAGE`、`FIRE_BURNING`、`FIRE_IGNITE`、`FIRE_SPREAD`、`LEAF_DECAY`、`ENDERMAN_TELEPORT`、`SHULKER_TELEPORT`）。無害な 10 個の操作がアイランドの外で許可されます（`ITEM_DROP`、`ITEM_PICKUP`、`EXPERIENCE_PICKUP`、`HURT_MONSTERS`、`FISHING`、`BOAT`、`RIDING`、`ELYTRA`、`ENDER_PEARL`、`EXPERIENCE_BOTTLE_THROWING`）。アイランド上の `EXPERIENCE_PICKUP` はメンバーから訪問者に変更され、`PISTON_PUSH` がオンになったため、ピストンでアイランドの外にブロックを押し出せなくなりました。
+    - 🐛 **AOneBlock のフラグが AOneBlock でのみ表示されるように。** 魔法ブロック保護などのフラグが、すべてのゲームモードの設定パネルに表示されていましたが、そこでは何の効果もありませんでした。
+
+    🔺 **先に BentoBox を 3.23.0 以降に更新してください。** このバージョンは古い BentoBox では読み込まれません。また、サーバーで Java 25 を実行する必要があります。
+
+    ⚙️ **新しいデフォルト設定は既存のサーバーには反映されません。** `config.yml` は上書きされません。新しいデフォルトを使うには、[同梱の config.yml](https://github.com/BentoBoxWorld/AOneBlock/blob/master/src/main/resources/config.yml) から `world.flags`、`world.default-island-flags`、`world.hidden-flags` のエントリを自分のファイルにコピーするか、管理者設定パネルで変更してください。2 つの新しい設定オプションは、何も変えないデフォルト値で自動的に追加されます。
+
+    ロケールの変更はありません。
+
+    [Release v1.30.0](https://github.com/BentoBoxWorld/AOneBlock/releases/tag/1.30.0)
